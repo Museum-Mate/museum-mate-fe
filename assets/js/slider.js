@@ -6,7 +6,7 @@
     speed: 600,
     loop: true,
     autoplay: {
-      delay: 5000,
+      delay: 2000, // 자동으로 넘어가는 시간
       disableOnInteraction: false
     },
     slidesPerView: 'auto',
@@ -22,8 +22,8 @@
       },
 
       1200: {
-        slidesPerView: 3,
-        spaceBetween: 20
+        slidesPerView: 4,
+        spaceBetween: 16
       }
     }
   });
