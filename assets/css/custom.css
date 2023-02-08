@@ -5,4 +5,25 @@ https://templatemo.com/tm-561-purple-buzz
 
 */
 
+#full-width {
+  width: 100%;
+}
 
+#test-pixel {
+  width: 1000px;
+  margin: 0 auto;
+}
+
+#test-layout {
+  display : flex;
+  flex-direction: row;
+}
+
+#container-test {
+  display: grid;
+  grid-auto-rows: minmax(100px, auto);
+}
+
+#semi-title-margin {
+  margin-top: 30px ;
+}
