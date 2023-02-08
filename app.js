@@ -20,6 +20,23 @@ app.get("/pricing", (req, res) => {
     res.sendFile(__dirname + "/pricing.html");
 });
 
+app.get("/login", (req, res) => {
+    res.sendFile(__dirname + "/login.html");
+});
+
+app.get("/security", (req, res) => {
+    res.sendFile(__dirname + "/security.html");
+});
+
+//enrollList
+app.get("/enroll-list", (req, res) => {
+    res.sendFile(__dirname + "/enroll-list.html");
+});
+
+app.get("/exhibitions", (req, res) => {
+    res.sendFile(__dirname + "/exhibitions.html");
+});
+
 app.use((req, res) => {
     res.sendFile(__dirname + "/error.html");
 });
