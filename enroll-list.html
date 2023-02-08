@@ -23,8 +23,10 @@
   
 	<script src = "assets/js/custom.js"></script>
 	<script>
+    var parent_val = opener.document.getElementById('gatheringId').value;
+    console.log(parent_val) 
 		window.addEventListener('DOMContentLoaded', function () {
-			  renderEnrolls(16);
+			  renderEnrolls(parent_val);
 		});
 	</script>
 </body>
