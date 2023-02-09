@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Museum Mate | Show more Exhibitions!</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="apple-touch-icon" href="assets/img/apple-icon.png" />
+		<link
+			rel="shortcut icon"
+			type="image/x-icon"
+			href="assets/img/favicon.ico" />
+		<!-- Load Require CSS -->
+		<link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link
+			rel="stylesheet"
+			href="https://assets.ubuntu.com/v1/vanilla-framework-version-3.11.0.min.css" />
+
+		<!-- Font CSS -->
+		<link href="assets/css/boxicon.min.css" rel="stylesheet" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap"
+			rel="stylesheet" />
+		<!-- Load Tempalte CSS -->
+		<link rel="stylesheet" href="assets/css/templatemo.css" />
+		<!-- Custom CSS -->
+		<link rel="stylesheet" href="assets/css/custom.css" />
+
+		<!--
+    
+TemplateMo 561 Purple Buzz
+
+https://templatemo.com/tm-561-purple-buzz
+
+-->
+	</head>
+
+	<body>
+		<!-- Header -->
+		<header></header>
+
+		<!-- Start Banner Hero -->
+		<section class="bg-light">
+			<div class="container py-4">
+				<!-- <div class="row align-items-center justify-content-between"> -->
+				<h1 class="h2 pb-3 text-primary">전시회 정보 등록</h1>
+				<h3 class="h4 regular-400">소개하고 싶은 전시가 있으신가요?</h3>
+				<p>
+					뮤메는 전국 모든 전시 정보를 서비스하기 위해 노력하고 있습니다.
+					<br />
+					그럼에도 누락된 전시가 있다면, 뮤메에게 알려주세요!
+				</p>
+
+				<!-- 이미지 축소, 가운데 정렬 -->
+				<div class="u-align--center">
+					<img src="./assets/img/write-exhibition-pink.svg" />
+				</div>
+			</div>
+		</section>
+		<!-- End Banner Hero -->
+
+		<!-- Start Contact -->
+		<section id="write-exhibition" class="container py-5">
+			<h3 class="col-12 col-xl-8 text-left text-primary pt-3">✶ NOTICE ✶</h3>
+			<p class="col-12 col-xl-8 text-left text-muted pb-5 light-300">
+				(안내) 부정확한 정보가 입력될 경우 웹사이트에 게재되지 않을 수 있으니
+				참고 바랍니다.
+			</p>
+
+			<!-- all screens float -->
+
+			<!-- <div class="row pb-4"> -->
+			<!-- 전시회 정보 등록 form 시작 -->
+			<!-- <div class="row p-divider"> -->
+			<form>
+				<p class="p-heading--2">✔️ 전시회 기본 정보</p>
+				<fieldset>
+					<!-- exhibition.name -->
+					<div class="mb-4">
+						<div class="mb-5">
+							<p class="p-heading--4">전시회 제목</p>
+							<input
+								type="text"
+								id="exhibitionName"
+								name="exampleTextInput"
+								placeholder="작성 예시: 앙드레 브라질리에 특별전" />
+							<p class="p-form-help-text" id="exampleInputHelpMessage">
+								전시의 부제목이 있다면, 함께 작성해주세요.
+							</p>
+						</div>
+					</div>
+
+					<div class="mb-4">
+						<div class="mb-5">
+							<p class="p-heading--4">대표 이미지</p>
+							<label for="Image" class="form-label">📎 파일 첨부</label>
+							<input
+								class="form-control"
+								type="file"
+								id="MainImgformFile"
+								name="imgFile"
+								onchange="previewMainImg()" />
+							<button onclick="clearMainImage()" class="btn btn-primary mt-3" type="button">
+								delete
+							</button>
+						</div>
+						<img id="MainImgframe" src="" class="img-fluid" />
+					</div>
+				</fieldset>
+
+				<!-- <div class="col-lg-6 mb-4">
+                        <div class="form-floating">
+                            <input type="text" class="form-control form-control-lg light-300" id="floatingemail" name="inputemail" placeholder="Email">
+                            <label for="floatingemail light-300">세부 정보</label>
+                        </div>
+                    </div>End Input Email -->
+
+				<!-- daum kakao map 도로명주소 찾기 api 적용하기 -->
+				<p class="p-heading--2">✔️ 전시회 장소</p>
+				<fieldset>
+					<div class="mb-4">
+						<p class="p-heading--4">전시장 주소</p>
+						<input
+							type="text"
+							class="form-control form-control-lg light-300"
+							id="gallery_address"
+							name="inputname"
+							placeholder="주소"
+							onclick="findAddr()" />
+						<input
+							type="text"
+							class="form-control form-control-lg light-300"
+							id="gallery_address_detail"
+							name="inputname"
+							placeholder="상세 주소" />
+					</div>
+
+					<div class="mb-4">
+						<p class="p-heading--4">전시장 이름</p>
+						<input
+							type="text"
+							class="form-control form-control-lg light-300"
+							id="gallery_name"
+							name="inputname"
+							placeholder="작성 예시) 국립현대미술관" />
+						<p class="p-form-help-text" id="exampleInputHelpMessage">
+							가능한 한 상세히 입력해주세요.
+						</p>
+					</div>
+				</fieldset>
+
+				<!-- exhibition.start_at -->
+				<p class="p-heading--2">✔️ 전시 일정</p>
+				<fieldset>
+					<div class="mb-4">
+						<p class="p-heading--4">시작 날짜</p>
+						<input
+							type="date"
+							class="form-control form-control-lg light-300"
+							id="current-date"
+							name="meeting-time"
+							value="" />
+					</div>
+
+					<!-- exhibition.end_at -->
+					<div class="mb-4">
+						<p class="p-heading--4">종료 날짜</p>
+						<input
+							type="date"
+							class="form-control form-control-lg light-300"
+							id="end-date"
+							name="meeting-time"
+							value="" />
+					</div>
+				</fieldset>
+
+				<!-- exhibition.price -->
+				<!-- 가격 폼 넣기 -->
+				<div class="mb-4">
+					<p class="p-heading--2">✔️ 전시 티켓 가격</p>
+					<!-- <span class="currency-code">원</span> -->
+					<input
+						type="text"
+						id="exhibitionTicketPrice"
+						class="form-control form-control-lg light-300"
+						placeholder="무료 전시의 경우 0을 입력해주세요." />
+					<p class="p-form-help-text" id="exampleInputHelpMessage">
+						티켓은 성인 기준 가격으로 입력해주세요.
+					</p>
+				</div>
+
+				<!-- exhibition.age_limit -->
+				<!-- 나이 제한 폼 넣기 -->
+				<div class="mb-4">
+					<p class="p-heading--2">✔️ 관람연령</p>
+					<div>
+						<select name="exampleSelect" id="ageLimit">
+							<option value="" value="" disabled="disabled" selected="">
+								옵션을 선택하세요.
+							</option>
+							<option value="전체 관람가">전체 관람가</option>
+							<optgroup label="연령 제한">
+								<option value="청소년 관람불가">청소년 관람불가</option>
+								<option value="아동, 청소년">아동, 청소년</option>
+							</optgroup>
+						</select>
+						<p class="p-form-help-text" id="exampleInputHelpMessage">
+							전시 관람 연령을 선택해주세요.
+						</p>
+					</div>
+				</div>
+
+				<p class="p-heading--2">✔️ 상세정보</p>
+				<fieldset>
+					<!-- exhibition.detail_info -->
+					<!-- 입력 정보 설명 글 넣기 -->
+					<div class="mb-4">
+						<textarea
+							id="exhibitionDetailInfo"
+							name="textarea"
+							rows="5"
+							placeholder="세부 정보를 입력해주세요."></textarea>
+						<p class="p-form-help-text" id="exampleInputHelpMessage">
+							위 항목 외, 전시에 관하여 추가해야 할 정보를 입력 바랍니다.
+						</p>
+					</div>
+					<!-- End Textarea Message -->
+
+					<!-- 파일 첨부 시작 -->
+					<div class="mb-4">
+						<div class="mb-5">
+							<p class="p-heading--4">📎 파일 첨부</p>
+							<!-- <label for="Image" class="form-label">Bootstrap 5 image Upload with Preview</label> -->
+							<input
+								class="form-control"
+								type="file"
+								id="DetailInfoImgformFile"
+								name="imgFile"
+								onchange="previewDetailInfoImg()" />
+							<button
+								onclick="clearDetailInfoImage()"
+								class="btn btn-primary mt-3"
+								type="button">
+								delete
+							</button>
+						</div>
+						<img id="DetailInfoImgframe" src="" class="img-fluid" />
+					</div>
+					<!-- 파일 첨부 끝 -->
+				</fieldset>
+
+				<p class="p-heading--2">✔️ 안내사항</p>
+				<fieldset>
+					<!-- exhibition.notice -->
+					<!-- 공지사항 텍스트 등록 폼 -->
+					<!-- 입력 정보 설명 글 넣기 -->
+					<div class="mb-4">
+						<textarea
+							id="exhibitionNotice"
+							name="textarea"
+							rows="5"
+							placeholder="공지사항을 입력해주세요."></textarea>
+						<p class="p-form-help-text" id="exampleInputHelpMessage">
+							관람객이 숙지해야 할 정보를 입력 바랍니다.
+						</p>
+					</div>
+					<!-- End Textarea Message -->
+					<div class="mb-4">
+						<div class="mb-5">
+							<p class="p-heading--4">📎 파일 첨부</p>
+							<!-- <label for="Image" class="form-label">Bootstrap 5 image Upload with Preview</label> -->
+							<input
+								class="form-control"
+								type="file"
+								id="NoticeImgformFile"
+								name="imgFile"
+								onchange="previewNoticeImg()" />
+							<button onclick="clearNoticeImage()" class="btn btn-primary mt-3" type="button">
+								delete
+							</button>
+						</div>
+						<img id="NoticeImgframe" src="" class="img-fluid" />
+					</div>
+				</fieldset>
+
+				<!-- 제출 버튼 시작 -->
+				<div class="col-md-12 col-12 m-auto text-end">
+					<button
+						type="submit"
+						class="btn btn-secondary rounded-pill px-md-5 px-4 py-2 radius-0 text-light light-300">
+						등록하기
+					</button>
+				</div>
+				<!-- 제출 버튼 끝 -->
+			</form>
+			<!-- 전시회 정보 등록 form 끝 -->
+		</section>
+		<!-- End Contact -->
+
+		<!--  Footer -->
+		<!-- <footer></footer> -->
+
+		<!-- Bootstrap -->
+		<script src="assets/js/bootstrap.bundle.min.js"></script>
+		<!-- Templatemo -->
+		<script src="assets/js/templatemo.js"></script>
+		<!-- Custom -->
+		<script src="assets/js/custom.js"></script>
+	</body>
+
+	<script>
+		var form = document.getElementById("write-exhibition");
+		form.addEventListener("submit", function (e) {
+			// auto submission of te form
+			e.preventDefault();
+
+			let name = document.getElementById("exhibitionName").value;
+			let galleryLocation =
+				document.getElementById("gallery_address").value +
+				document.getElementById("gallery_address_detail").value;
+			let galleryName = document.getElementById("gallery_name").value;
+			let startDate = document.getElementById("current-date").value;
+			let endDate = document.getElementById("end-date").value;
+			let price = document.getElementById("exhibitionTicketPrice").value;
+			let ageLimit = document.getElementById("ageLimit").value;
+			let exhibitionDetailInfo = document.getElementById("exhibitionDetailInfo").value;
+			let exhibitionNotice = document.getElementById("exhibitionNotice").value;
+
+			// image Data
+			// const formData = new FormData();
+			let files = document.getElementsByTagName('imgFile');
+			// console.log(files);
+			// formData.append('mainImgUrl', files[0]);
+			// formData.append('detailInfoImgUrl', files[1]);
+			// formData.append('noticeImgUrl', files[2]);
+			// console.log(formData);
+
+			const mainImgUrl = document.getElementById('MainImgframe').getAttribute('src');
+			const detailInfoImgUrl = document.getElementById('DetailInfoImgframe').getAttribute('src');
+			const noticeImgUrl = document.getElementById('NoticeImgframe').getAttribute('src');
+			console.log(mainImgUrl);
+			console.log(detailInfoImgUrl);
+			console.log(noticeImgUrl);
+			// fetch post request
+
+			fetch("http://localhost:8080/api/v1/exhibitions/new", {
+				method: "POST",
+				body: JSON.stringify({
+					name: name,
+					startAt: startDate,
+					endAt: endDate,
+					price: price,
+					ageLimit: ageLimit,
+					detailInfo: exhibitionDetailInfo,
+					notice: exhibitionNotice,
+					gallerName: galleryName,
+					galleryLocation: galleryLocation,
+					mainImgUrl: mainImgUrl, 
+					noticeImgUrl: noticeImgUrl,
+					detailInfoImgUrl: detailInfoImgUrl,
+				}),
+				headers: {
+					Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRhbmdsZWQ2NjQ4QGdtYWlsLmNvbSIsImlhdCI6MTY3NTk2Njg4OSwiZXhwIjoxNjc1OTY4Njg5fQ.yl_Ktahbiuv9Jqcgpf2sxAipUIQ4p8AdFLDKlWXHi58",
+					"Content-Type" : "application/json; charset=UTF-8",
+				}
+			})
+			.then(function(response) {
+				return response.json();
+			})
+			.then(function(data){
+				console.log(data);
+			})
+			.then(
+				success => console.log(success)
+			).catch(
+				error => console.log(error)
+			)
+			
+			;
+		}, true);
+	</script>
+
+	<!-- 카카오 주소 찾기 API -->
+	<script>
+		function findAddr() {
+			new daum.Postcode({
+				oncomplete: function (data) {
+					// console.log(data);
+
+					// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+					// 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+					// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+					var roadAddr = data.roadAddress; // 도로명 주소 변수
+					var jibunAddr = data.jibunAddress; // 지번 주소 변수
+
+					// 우편번호와 주소 정보를 해당 필드에 넣는다.
+					// document.getElementById('gallery_address').value = data.zonecode;
+					if (roadAddr !== "") {
+						document.getElementById("gallery_address").value = roadAddr;
+					} else if (jibunAddr !== "") {
+						document.getElementById("gallery_address").value = jibunAddr;
+					}
+				},
+			}).open();
+		}
+	</script>
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+	<!-- 파일 첨부 미리보기 -->
+	<script>
+		function previewMainImg() {
+			MainImgframe.src = URL.createObjectURL(event.target.files[0]);
+		}
+		function clearMainImage() {
+			document.getElementById("MainImgformFile").value = null;
+			MainImgframe.src = "";
+		}
+
+		function previewDetailInfoImg() {
+			DetailInfoImgframe.src = URL.createObjectURL(event.target.files[0]);
+		}
+		function clearDetailInfoImage() {
+			document.getElementById("DetailInfoImgformFile").value = null;
+			DetailInfoImgframe.src = "";
+		}
+
+		function previewNoticeImg() {
+			NoticeImgframe.src = URL.createObjectURL(event.target.files[0]);
+		}
+		function clearNoticeImage() {
+			document.getElementById("NoticeImgformFile").value = null;
+			NoticeImgframe.src = "";
+		}
+	</script>
+
+	<!-- date는 현재 날짜로 표시 -->
+	<script>
+		var date = new Date();
+
+		var day = date.getDate(),
+			month = date.getMonth() + 1,
+			year = date.getFullYear();
+
+		month = (month < 10 ? "0" : "") + month;
+		day = (day < 10 ? "0" : "") + day;
+
+		var today = year + "-" + month + "-" + day;
+
+		document.getElementById("current-date").value = today;
+		document.getElementById("end-date").value = today;
+	</script>
+</html>
