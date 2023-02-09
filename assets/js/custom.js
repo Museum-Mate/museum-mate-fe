@@ -85,26 +85,39 @@ async function renderGatheringsById() {
     exhibition.forEach(element => {
         let htmlSegment = 
         `<div class="swiper-slide">
-        <div class="pricing-horizontal row col-11 m-auto d-flex shadow rounded overflow-hidden bg-white">
-            <div class="pricing-horizontal-icon col-md-3 text-center bg-secondary text-light py-4">
-                <img src=${element.exhibitionMainUrl} class="together-img" alt="">
-            </div>
-            <div
-                class="pricing-horizontal-body offset-lg-1 col-md-6 col-lg-4 d-flex align-items-center pl-5 pt-lg-0 pt-4">
-                <ul class="text-left px-4 list-unstyled mb-0 light-300">
-                    <h2>${element.title}</h2>
-                    <p><i class="bx bx-map"></i>${element.meetLocation}</p><br>
-                    <h5>${element.content}</h5>
-                </ul>
-            </div>
-            <div class="pricing-horizontal-tag col-md-2 text-center pt-3 d-flex align-items-center">
-                <div class="w-100 light-300">
-                    <p><i class="bx bx-group">${element.currentPeople}/${element.maxPeople}</i></p>
-                    <a href="#" class="btn rounded-pill px-4 btn-outline-primary mb-3">참여하기</a>
+            <div class="pricing-horizontal row col-10 m-auto d-flex shadow-sm rounded overflow-hidden my-5 bg-white">
+                <div class="pricing-horizontal-icon col-md-3 text-center bg-secondary text-light py-4">
+                    <img src = "${element.exhibitionMainUrl}" class = "exhibition_poster_image g-2 img-thumbnail"/>
+                    <h5 class="h5 semi-bold-600 card-footer g-2 pb-4 light-300"> ${element.exhibitionName}</h5> 
                 </div>
-            </div>
-        </div>
-    </div>`;
+
+                <!-- 파티 정보 넣기 -->
+                <div class="pricing-horizontal-body offset-lg-1 col-auto col-md-5 col-lg-4 d-flex align-items-center pl-5 pt-lg-0 pt-4">
+                    <ul class="text-left px-4 list-unstyled mb-0 light-300">
+                        <h5 class = "p"> 🗣 ${element.title} </h5>
+                        <li><i class="bx bxs-circle me-2"></i> 이 때 만나요: ${element.meetDateTime} </li>
+                        <li><i class="bx bxs-circle me-2"></i> 여기서 만나요: ${element.meetLocation} </li>
+                        <li><i class="bx bxs-circle me-2"></i> 모임장: ${element.userName} </li>
+                    </ul>
+                    <div>
+                        
+                    </div>   
+                </div>
+
+                <!-- 파티 참석 인원 동그라미 넣기 -->
+                <div class="pricing-horizontal-tag col-md-4 text-center pt-3 d-flex align-items-center">
+                    <div class="w-100 light-300">
+                        <!-- 현재 참석 인원 -->
+                        <h6>  현재 참석자 수: ${element.currentPeople} / 최대인원: ${element.maxPeople}</h6>
+                        <!-- 버튼 -->
+                        <div class = "">
+                            <a href="#" class="btn rounded-pill px-4 btn-outline-primary mb-3"> 더 알아보기 </a>
+                            <a href="#" class="btn rounded-pill px-4 btn-outline-primary mb-3"> 신청하기!🎉 </a>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div>`;
 
         html += htmlSegment;
     });
