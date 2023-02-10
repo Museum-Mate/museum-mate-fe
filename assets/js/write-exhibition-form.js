@@ -47,7 +47,7 @@ function postExhibitionInfo() {
 				}),
 				headers: {
 					Authorization:
-						"Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRhbmdsZWQ2NjQ4QGdtYWlsLmNvbSIsImlhdCI6MTY3NTk5NjgzOSwiZXhwIjoxNjc1OTk4NjM5fQ.AnGC9nHIpiHA-Zxw1obU2z0CbWSuJgKKlh5GRa6h-og",
+						"Bearer ",
 					"Content-Type": "application/json; charset=UTF-8",
 				},
 				redirect: 'follow'
