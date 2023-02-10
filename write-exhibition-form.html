@@ -39,7 +39,7 @@ https://templatemo.com/tm-561-purple-buzz
 		<header></header>
 
 		<!-- Start Banner Hero -->
-		<section class="bg-light">
+		<section class="bg-light" id="exhibitionForm">
 			<div class="container py-4">
 				<!-- <div class="row align-items-center justify-content-between"> -->
 				<h1 class="h2 pb-3 text-primary">전시회 정보 등록</h1>
@@ -67,10 +67,7 @@ https://templatemo.com/tm-561-purple-buzz
 			</p>
 
 			<!-- all screens float -->
-
-			<!-- <div class="row pb-4"> -->
 			<!-- 전시회 정보 등록 form 시작 -->
-			<!-- <div class="row p-divider"> -->
 			<form>
 				<p class="p-heading--2">✔️ 전시회 기본 정보</p>
 				<fieldset>
@@ -82,13 +79,14 @@ https://templatemo.com/tm-561-purple-buzz
 								type="text"
 								id="exhibitionName"
 								name="exampleTextInput"
-								placeholder="작성 예시: 앙드레 브라질리에 특별전" />
+								placeholder="작성 예시: 작가 이뮤메 데뷔전 " />
 							<p class="p-form-help-text" id="exampleInputHelpMessage">
 								전시의 부제목이 있다면, 함께 작성해주세요.
 							</p>
 						</div>
 					</div>
 
+					<!-- mainImgUrl -->
 					<div class="mb-4">
 						<div class="mb-5">
 							<p class="p-heading--4">대표 이미지</p>
@@ -107,17 +105,11 @@ https://templatemo.com/tm-561-purple-buzz
 					</div>
 				</fieldset>
 
-				<!-- <div class="col-lg-6 mb-4">
-                        <div class="form-floating">
-                            <input type="text" class="form-control form-control-lg light-300" id="floatingemail" name="inputemail" placeholder="Email">
-                            <label for="floatingemail light-300">세부 정보</label>
-                        </div>
-                    </div>End Input Email -->
-
-				<!-- daum kakao map 도로명주소 찾기 api 적용하기 -->
+				<!-- Gallery -->
 				<p class="p-heading--2">✔️ 전시회 장소</p>
 				<fieldset>
 					<div class="mb-4">
+						<!-- Gallery Location -->
 						<p class="p-heading--4">전시장 주소</p>
 						<input
 							type="text"
@@ -135,6 +127,7 @@ https://templatemo.com/tm-561-purple-buzz
 					</div>
 
 					<div class="mb-4">
+						<!-- Gallery Name -->
 						<p class="p-heading--4">전시장 이름</p>
 						<input
 							type="text"
@@ -204,7 +197,7 @@ https://templatemo.com/tm-561-purple-buzz
 							</optgroup>
 						</select>
 						<p class="p-form-help-text" id="exampleInputHelpMessage">
-							전시 관람 연령을 선택해주세요.
+							관람연령을 선택해주세요.
 						</p>
 					</div>
 				</div>
@@ -212,13 +205,12 @@ https://templatemo.com/tm-561-purple-buzz
 				<p class="p-heading--2">✔️ 상세정보</p>
 				<fieldset>
 					<!-- exhibition.detail_info -->
-					<!-- 입력 정보 설명 글 넣기 -->
 					<div class="mb-4">
 						<textarea
 							id="exhibitionDetailInfo"
 							name="textarea"
 							rows="5"
-							placeholder="세부 정보를 입력해주세요."></textarea>
+							placeholder="상세정보를 입력해주세요."></textarea>
 						<p class="p-form-help-text" id="exampleInputHelpMessage">
 							위 항목 외, 전시에 관하여 추가해야 할 정보를 입력 바랍니다.
 						</p>
@@ -229,7 +221,6 @@ https://templatemo.com/tm-561-purple-buzz
 					<div class="mb-4">
 						<div class="mb-5">
 							<p class="p-heading--4">📎 파일 첨부</p>
-							<!-- <label for="Image" class="form-label">Bootstrap 5 image Upload with Preview</label> -->
 							<input
 								class="form-control"
 								type="file"
@@ -251,14 +242,12 @@ https://templatemo.com/tm-561-purple-buzz
 				<p class="p-heading--2">✔️ 안내사항</p>
 				<fieldset>
 					<!-- exhibition.notice -->
-					<!-- 공지사항 텍스트 등록 폼 -->
-					<!-- 입력 정보 설명 글 넣기 -->
 					<div class="mb-4">
 						<textarea
 							id="exhibitionNotice"
 							name="textarea"
 							rows="5"
-							placeholder="공지사항을 입력해주세요."></textarea>
+							placeholder="안내사항을 입력해주세요."></textarea>
 						<p class="p-form-help-text" id="exampleInputHelpMessage">
 							관람객이 숙지해야 할 정보를 입력 바랍니다.
 						</p>
@@ -285,6 +274,7 @@ https://templatemo.com/tm-561-purple-buzz
 				<!-- 제출 버튼 시작 -->
 				<div class="col-md-12 col-12 m-auto text-end">
 					<button
+						it=" submitButton"
 						type="submit"
 						class="btn btn-secondary rounded-pill px-md-5 px-4 py-2 radius-0 text-light light-300">
 						등록하기
@@ -305,147 +295,15 @@ https://templatemo.com/tm-561-purple-buzz
 		<script src="assets/js/templatemo.js"></script>
 		<!-- Custom -->
 		<script src="assets/js/custom.js"></script>
+		<!-- kakao map api -->
+		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+		<script src = "assets/js/write-exhibition-form.js"></script>
+
+		<script>
+			window.addEventListener('DOMContentLoaded', function () {
+					postExhibitionInfo();
+        });
+		</script>
 	</body>
 
-	<script>
-		var form = document.getElementById("write-exhibition");
-		form.addEventListener("submit", function (e) {
-			// auto submission of te form
-			e.preventDefault();
-
-			let name = document.getElementById("exhibitionName").value;
-			let galleryLocation =
-				document.getElementById("gallery_address").value +
-				document.getElementById("gallery_address_detail").value;
-			let galleryName = document.getElementById("gallery_name").value;
-			let startDate = document.getElementById("current-date").value;
-			let endDate = document.getElementById("end-date").value;
-			let price = document.getElementById("exhibitionTicketPrice").value;
-			let ageLimit = document.getElementById("ageLimit").value;
-			let exhibitionDetailInfo = document.getElementById("exhibitionDetailInfo").value;
-			let exhibitionNotice = document.getElementById("exhibitionNotice").value;
-
-			// image Data
-			// const formData = new FormData();
-			let files = document.getElementsByTagName('imgFile');
-			// console.log(files);
-			// formData.append('mainImgUrl', files[0]);
-			// formData.append('detailInfoImgUrl', files[1]);
-			// formData.append('noticeImgUrl', files[2]);
-			// console.log(formData);
-
-			const mainImgUrl = document.getElementById('MainImgframe').getAttribute('src');
-			const detailInfoImgUrl = document.getElementById('DetailInfoImgframe').getAttribute('src');
-			const noticeImgUrl = document.getElementById('NoticeImgframe').getAttribute('src');
-			console.log(mainImgUrl);
-			console.log(detailInfoImgUrl);
-			console.log(noticeImgUrl);
-			// fetch post request
-
-			fetch("http://localhost:8080/api/v1/exhibitions/new", {
-				method: "POST",
-				body: JSON.stringify({
-					name: name,
-					startAt: startDate,
-					endAt: endDate,
-					price: price,
-					ageLimit: ageLimit,
-					detailInfo: exhibitionDetailInfo,
-					notice: exhibitionNotice,
-					gallerName: galleryName,
-					galleryLocation: galleryLocation,
-					mainImgUrl: mainImgUrl, 
-					noticeImgUrl: noticeImgUrl,
-					detailInfoImgUrl: detailInfoImgUrl,
-				}),
-				headers: {
-					Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRhbmdsZWQ2NjQ4QGdtYWlsLmNvbSIsImlhdCI6MTY3NTk2Njg4OSwiZXhwIjoxNjc1OTY4Njg5fQ.yl_Ktahbiuv9Jqcgpf2sxAipUIQ4p8AdFLDKlWXHi58",
-					"Content-Type" : "application/json; charset=UTF-8",
-				}
-			})
-			.then(function(response) {
-				return response.json();
-			})
-			.then(function(data){
-				console.log(data);
-			})
-			.then(
-				success => console.log(success)
-			).catch(
-				error => console.log(error)
-			)
-			
-			;
-		}, true);
-	</script>
-
-	<!-- 카카오 주소 찾기 API -->
-	<script>
-		function findAddr() {
-			new daum.Postcode({
-				oncomplete: function (data) {
-					// console.log(data);
-
-					// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-					// 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
-					// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-					var roadAddr = data.roadAddress; // 도로명 주소 변수
-					var jibunAddr = data.jibunAddress; // 지번 주소 변수
-
-					// 우편번호와 주소 정보를 해당 필드에 넣는다.
-					// document.getElementById('gallery_address').value = data.zonecode;
-					if (roadAddr !== "") {
-						document.getElementById("gallery_address").value = roadAddr;
-					} else if (jibunAddr !== "") {
-						document.getElementById("gallery_address").value = jibunAddr;
-					}
-				},
-			}).open();
-		}
-	</script>
-	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-
-	<!-- 파일 첨부 미리보기 -->
-	<script>
-		function previewMainImg() {
-			MainImgframe.src = URL.createObjectURL(event.target.files[0]);
-		}
-		function clearMainImage() {
-			document.getElementById("MainImgformFile").value = null;
-			MainImgframe.src = "";
-		}
-
-		function previewDetailInfoImg() {
-			DetailInfoImgframe.src = URL.createObjectURL(event.target.files[0]);
-		}
-		function clearDetailInfoImage() {
-			document.getElementById("DetailInfoImgformFile").value = null;
-			DetailInfoImgframe.src = "";
-		}
-
-		function previewNoticeImg() {
-			NoticeImgframe.src = URL.createObjectURL(event.target.files[0]);
-		}
-		function clearNoticeImage() {
-			document.getElementById("NoticeImgformFile").value = null;
-			NoticeImgframe.src = "";
-		}
-	</script>
-
-	<!-- date는 현재 날짜로 표시 -->
-	<script>
-		var date = new Date();
-
-		var day = date.getDate(),
-			month = date.getMonth() + 1,
-			year = date.getFullYear();
-
-		month = (month < 10 ? "0" : "") + month;
-		day = (day < 10 ? "0" : "") + day;
-
-		var today = year + "-" + month + "-" + day;
-
-		document.getElementById("current-date").value = today;
-		document.getElementById("end-date").value = today;
-	</script>
 </html>
