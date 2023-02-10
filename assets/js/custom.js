@@ -1,3 +1,17 @@
+// header
+const header = document.querySelector('header');
+
+fetch('/header.html')
+.then(res => res.text())
+.then(data => header.innerHTML = data);
+
+// footer
+const footer = document.querySelector('footer');
+
+fetch('/footer.html')
+.then(res => res.text())
+.then(data => footer.innerHTML = data);
+
 // exhibitions.html
 async function getExhibitionsById() {
     let url = 'http://localhost:8080/api/v1/exhibitions?size=10&sort=id';
@@ -125,5 +139,3 @@ async function renderGatheringsById() {
     let container = document.querySelector('#swiper-wrapper3');
     container.innerHTML = html;
 }
-
-
