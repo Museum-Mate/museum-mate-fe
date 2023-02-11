@@ -1,23 +1,34 @@
-const express = require("express");
+const express = require('express');
 const app = express();
 
 app.use(express.static(__dirname));
 
-app.get("/", (req, res) => {
-
-    res.sendFile(__dirname + "/index.html");
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/index.html');
 });
 
-app.get("/about", (req, res) => {
-    res.sendFile(__dirname + "/about.html");
+app.get('/about', (req, res) => {
+    res.sendFile(__dirname + '/about.html');
 });
 
-app.get("/contact", (req, res) => {
-    res.sendFile(__dirname + "/contact.html");
+app.get('/contact', (req, res) => {
+    res.sendFile(__dirname + '/contact.html');
 });
 
 app.get("/pricing", (req, res) => {
     res.sendFile(__dirname + "/pricing.html");
+});
+
+app.get("/write-exhibition", (req, res) => {
+    res.sendFile(__dirname + "/write-exhibition-form.html");
+});
+
+app.get('/gathering', (req, res) => {
+    res.sendFile(__dirname + '/gathering.html');
+});
+
+app.get("/gathering-new", (req, res) => {
+    res.redirect(__dirname + "/work.html");
 });
 
 app.use((req, res) => {
