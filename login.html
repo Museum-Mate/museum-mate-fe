@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Login</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="apple-touch-icon" href="assets/img/apple-icon.png" />
+        <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico" />
+        <!-- Font -->
+        <link href="assets/css/boxicon.min.css" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
+        <!-- Load Require CSS -->
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+        <!-- Font CSS -->
+        <link href="assets/css/boxicon.min.css" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css" />
+        <script src="https://kit.fontawesome.com/6d10db4e8e.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+        <!-- Load Tempalte CSS -->
+        <link rel="stylesheet" href="assets/css/templatemo.css" />
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="assets/css/custom.css" />
+        <link rel="stylesheet" href="assets/css/login.css" />
+        <!-- config -->
+        <script defer src="assets/js/config.js"></script>
+    </head>
+
+    <body>
+        <header></header>
+
+        <div id="wrapper">
+            <section class="login-section">
+                <img class="main-img"></img>
+                <!-- Heading -->
+                <div class="body__title">
+                    <h4>반갑읍미다<br />여러분의 무지엄메이또임니다 🥸</h4>
+                </div>
+
+                <!-- Links -->
+                <ul class="links">
+                    <li>
+                        <a href="#" id="signin">로그인</a>
+                    </li>
+                    <li>
+                        <a href="#" id="signup">회원 가입</a>
+                    </li>
+                    <li>
+                        <a href="#" id="reset">RESET</a>
+                    </li>
+                </ul>
+                <div class="form_wrap_line">
+                    <!-- email input -->
+                    <div class="first-input input__block first-input__block">
+                        <input type="email" placeholder="Email" class="input" id="email" />
+                    </div>
+
+                    <!-- password input -->
+                    <div class="input__block">
+                        <input type="password" placeholder="Password" class="input" id="password" />
+                    </div>
+                </div>
+                <!-- repeat password input -->
+                <div class="input__block">
+                    <input type="password" placeholder="Repeat password" class="input repeat__password" id="repeat__password" />
+                </div>
+
+                <!-- sign in button -->
+                <button class="signin__btn" onclick=login()>
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                    Sign in
+                </button>
+
+                <!-- separator -->
+                <div class="separator">
+                    <p>OR</p>
+                </div>
+
+                <div class="social-login">
+                    <!-- google button -->
+                    <button class="google__btn" href="">
+                        <i class="fa-brands fa-google"></i>
+                        Sign in with Google
+                    </button>
+                    <!-- naver button -->
+                    <button class="naver__btn">
+                        <i class="fa fa-naver"></i>
+                        Sign in with Naver
+                    </button>
+                </div>
+            </section>
+        </div>
+
+        <!-- footer -->
+        <footer></footer>
+
+        <!-- Bootstrap -->
+        <script src="assets/js/bootstrap.bundle.min.js"></script>
+        <!-- Load jQuery require for isotope -->
+        <script src="assets/js/jquery.min.js"></script>
+        <!-- Isotope -->
+        <script src="assets/js/isotope.pkgd.js"></script>
+        <!-- Page Script -->
+        <script>
+            $(window).load(function () {
+                // init Isotope
+                var $projects = $('.projects').isotope({
+                    itemSelector: '.project',
+                    layoutMode: 'fitRows',
+                });
+                $('.filter-btn').click(function () {
+                    var data_filter = $(this).attr('data-filter');
+                    $projects.isotope({
+                        filter: data_filter,
+                    });
+                    $('.filter-btn').removeClass('active');
+                    $('.filter-btn').removeClass('shadow');
+                    $(this).addClass('active');
+                    $(this).addClass('shadow');
+                    return false;
+                });
+            });
+        </script>
+        <!-- Templatemo -->
+        <script src="assets/js/templatemo.js"></script>
+        <!-- Custom -->
+        <script defer src="assets/js/custom.js"></script>
+        <!-- login.js -->
+        <script defer src="assets/js/authorization/login.js"></script>
+        <!-- <script defer src="assets/js/authorization/cookieutils.js"></script> -->
+    </body>
+</html>
