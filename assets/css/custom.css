@@ -185,3 +185,25 @@ img, figure {
   z-index: 3;
 }
 
+#container-test {
+  display: grid;
+  grid-auto-rows: minmax(100px, auto);
+}
+
+#semi-title-margin {
+  margin-top: 30px ;
+}
+
+#full-width {
+  width: 100%;
+}
+
+#test-pixel {
+  width: 1000px;
+  margin: 0 auto;
+}
+
+#test-layout {
+  display : flex;
+  flex-direction: row;
+}

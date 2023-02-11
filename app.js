@@ -23,6 +23,11 @@ app.get("/pricing", (req, res) => {
     res.sendFile(__dirname + "/pricing.html");
 });
 
+// '전시 함께 가요'기능 전체 리스트 조회 페이지
+app.get("/gathering", (req, res) => {
+    res.sendFile(__dirname + "/gathering.html");
+});
+
 app.use((req, res) => {
     res.sendFile(__dirname + "/error.html");
 });
