@@ -15,8 +15,12 @@ app.get('/contact', (req, res) => {
     res.sendFile(__dirname + '/contact.html');
 });
 
-app.get('/pricing', (req, res) => {
-    res.sendFile(__dirname + '/pricing.html');
+app.get("/pricing", (req, res) => {
+    res.sendFile(__dirname + "/pricing.html");
+});
+
+app.get("/write-exhibition", (req, res) => {
+    res.sendFile(__dirname + "/write-exhibition-form.html");
 });
 
 app.get('/gathering', (req, res) => {
