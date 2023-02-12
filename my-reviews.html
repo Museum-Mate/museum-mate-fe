@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Purple Buzz HTML Template with Bootstrap 5 Beta 1</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <!-- Load Require CSS -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font CSS -->
+    <link href="assets/css/boxicon.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Load Tempalte CSS -->
+    <link rel="stylesheet" href="assets/css/templatemo.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/custom.css">
+    <!--
+    
+TemplateMo 561 Purple Buzz
+
+https://templatemo.com/tm-561-purple-buzz
+
+-->
+</head>
+
+<body>
+    <!-- Header -->
+    <header></header>
+
+    <!--main content-->
+    <div class="main-content">
+        <div class="container">
+            <div class="row">
+                <!--sidebar-->
+                <div class="content col-lg-3 col-md-4 col-sm-12 col-xs-12">
+                    <!--  -->
+                    <div class="section-block side-block">
+                        <h2 class="section-title text-secondary">마이페이지</h2>
+                        <!--reward blocks-->
+                        <a href="/myinfo" style="text-decoration: none">
+                            <div class="reward-block">
+                                <h2>회원정보</h2>
+                            </div>
+                        </a>
+                        <a href="/mycalendar" style="text-decoration: none">
+                            <div class="reward-block">
+                                <h2>마이 캘린더</h2>
+                            </div>
+                        </a>
+                        <a href="#" style="text-decoration: none">
+                            <div class="reward-block active">
+                                <h2>내가 작성한 리뷰</h2>
+                            </div>
+                        </a>
+                        <a href="/mygatherings" style="text-decoration: none">
+                            <div class="reward-block">
+                                <h2>내가 작성한 모집글</h2>
+                            </div>
+                        </a>
+                        <a href="/myparticipations" style="text-decoration: none">
+                            <div class="reward-block">
+                                <h2>내가 참가한 모집</h2>
+                            </div>
+                        </a>
+                        <!--/reward blocks-->
+                    </div>
+                </div>
+                <!--/sidebar-->
+
+                <div class="content col-lg-9 col-md-8 col-sm-12 col-xs-12">
+
+                    <!--tab panes-->
+                    <div class="section-block" id="main-block">
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="reviews">
+                                <div class="update-information">
+                                    <h1 class="section-title text-secondary">REVIEWS</h1>
+                                    <!--reviews-->
+                                    <div class="my-reviews">
+                                        <div class="update-post">
+                                            <div class="row">
+                                                <div
+                                                    class="col-lg-2 col-md-4 col-sm-4 col-xs-4 align-items-center review-image">
+                                                    <img src="http://ticketimage.interpark.com/Play/image/large/22/22015433_p.gif"
+                                                        class="review-image img-thumbnail" />
+                                                </div>
+                                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
+                                                    <div id="star">
+                                                        <i class='bx bx-star star-rate'></i>
+                                                        <i class='bx bx-star star-rate'></i>
+                                                        <i class='bx bx-star'></i>
+                                                        <i class='bx bx-star'></i>
+                                                        <i class='bx bx-star'></i>
+                                                        <span class="ps-1 star-int" >2</span>
+                                                    </div>
+                                                    <span class="update-date">합스부르크 600년 어쩌구, <span
+                                                            id="review-visited-at">2023.02.09</span> 방문</span>
+                                                    <h5 class="update-title" id="review-title">합스부르크 관람 후기입니다!</h5>
+                                                    <p id="review-content">2월 9일에 방문했는데 사람이 많았습니다 그래도 유명한 전시라 그런지 역시
+                                                        볼거리가 많네요! 즐겁게 관람했습니다~</p>
+                                                </div>
+                                                <div class="col-lg-2 col-md-12 col-sm-12 col-xs-2 pt-2">
+                                                    <p class="update-date text-end">작성일: 2023.02.15</p>
+                                                    <div class="text-end">
+                                                        <a href="" class="text-decoration-none text-primary ">
+                                                            수정
+                                                        </a>
+                                                        <a href="" class="text-decoration-none text-primary ">
+                                                            삭제
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="update-post">
+                                            <div class="row">
+                                                <div
+                                                    class="col-lg-2 col-md-4 col-sm-4 col-xs-4 align-items-center review-image">
+                                                    <img src="http://ticketimage.interpark.com/Play/image/large/22/22015433_p.gif"
+                                                        class="review-image img-thumbnail" />
+                                                </div>
+                                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
+                                                    <div id="star">
+                                                        <div class="review-form mb-2" style="width:135px">
+                                                            <div id="star-icon">
+                                                                <input type="radio" name="rating" value="5" id="rate5" onclick="getRate(event)"><label for="rate5"><i class='bx bx-star'></i></label>
+                                                                <input type="radio" name="rating" value="4" id="rate4" onclick="getRate(event)"><label for="rate4"><i class='bx bx-star'></i></label>
+                                                                <input type="radio" name="rating" value="3" id="rate3" onclick="getRate(event)"><label for="rate3"><i class='bx bx-star'></i></label>
+                                                                <input type="radio" name="rating" value="2" id="rate2" onclick="getRate(event)"><label for="rate2"><i class='bx bx-star'></i></label>
+                                                                <input type="radio" name="rating" value="1" id="rate1" onclick="getRate(event)"><label for="rate1"><i class='bx bx-star'></i></label>
+                                                            </div>
+                                                            <span class="ps-1 star-int" id="rate-number"></span>
+                                                        </div>
+                                                    </div>
+                                                    <span class="update-date">합스부르크 600년 어쩌구, <span
+                                                            id="review-visited-at"><input class="review-form mx-1"
+                                                                type="date"
+                                                                style="width: 100px; font-size: 12px; height:20px"
+                                                                placeholder="yy-mm-dd" value="2023-01-31"></span>
+                                                        방문</span>
+                                                    <h5 class="update-title" id="review-title"><input
+                                                            class="review-form mt-1" type="text"
+                                                            style="width: 100%; height:30px" value="합스부르크 관람 후기입니다.">
+                                                    </h5>
+                                                    <p id="review-content"><textarea class="review-form mt-1" type="text"
+                                                            style="width: 100%; height:150px">2월 9일에 방문했는데 사람이 많았습니다 그래도 유명한 전시라 그런지 역시 볼거리가 많네요! 즐겁게 관람했습니다~</textarea>
+                                                    </p>
+                                                </div>
+                                                <div class="col-lg-2 col-md-12 col-sm-12 col-xs-2 pt-2">
+                                                    <p class="update-date text-end">작성일: 2023.02.15</p>
+                                                    <div class="text-end">
+                                                        <a href="" class="text-decoration-none text-primary">
+                                                            저장
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--reviews-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/tabs-->
+            <!--/main content-->
+
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <footer></footer>
+
+
+    <!-- Bootstrap -->
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <!-- Load jQuery require for isotope -->
+    <script src="assets/js/jquery.min.js"></script>
+    <!-- Isotope -->
+    <script src="assets/js/isotope.pkgd.js"></script>
+    <!-- Page Script -->
+    <script>
+        $(window).load(function () {
+            // init Isotope
+            var $projects = $('.projects').isotope({
+                itemSelector: '.project',
+                layoutMode: 'fitRows'
+            });
+            $(".filter-btn").click(function () {
+                var data_filter = $(this).attr("data-filter");
+                $projects.isotope({
+                    filter: data_filter
+                });
+                $(".filter-btn").removeClass("active");
+                $(".filter-btn").removeClass("shadow");
+                $(this).addClass("active");
+                $(this).addClass("shadow");
+                return false;
+            });
+        });
+    </script>
+    <!-- Templatemo -->
+    <script src="assets/js/templatemo.js"></script>
+    <!-- Custom -->
+    <script src="assets/js/custom.js"></script>
+    <script src="assets/js/sidebar.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            renderMyReviews();
+            
+        });
+    </script>
+</body>
+
+</html>
