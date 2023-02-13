@@ -17,7 +17,6 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-
       - name: Docker Build
         run: |
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/museum-mate-frontend:latest .
@@ -36,7 +35,7 @@ jobs:
           username: ubuntu
           script: |
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/museum-mate-frontend:latest
-            docker stop museum-mate-frontend
-            docker rm museum-mate-frontend
+            docker stop frontend
+            docker rm frontend
             docker-compose -f /home/ubuntu/docker/museum-mate/nginx/compose/docker-compose.yml up -d
             docker image prune -f
