@@ -38,14 +38,34 @@ async function getWithAuth(detail_url) {
     }
 }
 
+async function getWithAuthPage(detail_url, page) {
+    let url = base_url + detail_url + `?page=${page}`;
+    try {
+        let res = await fetch(url, {
+            headers: {
+                "Authorization": 'Bearer '+ token
+            }
+        });
+        if(res.status == 401){
+            alert("로그인을 해주세요.")
+            window.location.href="/myinfo";
+        }
+        return await res.json();
+    } catch (error) {
+        console.log(error);
+        alert("Request Error!");
+    }
+}
+
+
 /* GET - 인증 불필요 */
 async function get(detail_url) {
     let url = base_url + detail_url;
     try {
         let res = await fetch(url);
-        if(res.status == 401){
-            alert("로그인을 해주세요.")
-            window.location.href="/myinfo";
+        if(res.status != 200){
+            alert("서버와의 통신에 실패했습니다.")
+            window.location.href="/#"
         }
         return await res.json();
     } catch (error) {
@@ -170,14 +190,27 @@ async function renderMyInfo() {
     container.innerHTML = html;
 }
 
+function parseAddress(address){
+    return address.replace("[","").split("] ");
+}
+
 /* 수정하기 버튼 눌렀을 때 */
 async function renderMyInfoModify() {
     /* 해당 칸에 있는 정보 불러오기 */
-    var myUserNameValue = document.getElementById("my-username-detail").innerText;
-    var myPhoneNumberValue = document.getElementById("my-phone-number-detail").innerText;
-    var myAddressValue = document.getElementById("my-address-detail").innerText;
+    let myUserNameValue = document.getElementById("my-username-detail").innerText;
+    let myPhoneNumberValue = document.getElementById("my-phone-number-detail").innerText;
+    let myAddressValue = document.getElementById("my-address-detail").innerText;
 
-
+    let addressDetail = parseAddress(myAddressValue);
+    
+    if(addressDetail.length < 2){
+        var postcode = "";
+        var address = addressDetail[0];
+    }else{
+        postcode = addressDetail[0];
+        address = addressDetail[1];
+    }
+    
     /* 해당 블록에 다음의 html로 바꿔서 뿌리기 */
     let myUserName = document.querySelector('#my-username')
     myUserName.innerHTML = `<p class="form_list_input ps-3"><input type="text" id="my-username-detail" style="width: 130px" value="${myUserNameValue}"></p>`;
@@ -186,17 +219,21 @@ async function renderMyInfoModify() {
     myPhoneNum.innerHTML = `<p class="form_list_input ps-3"><input type="text" id="my-phone-number-detail" pattern="\d*" required style="width: 130px" value="${myPhoneNumberValue}"></p>`;
 
     let myAddress = document.querySelector("#my-address")
-    myAddress.innerHTML = `<p class="form_list_input ps-3"><input type="text" id="my-address-detail" style="width: 80%" value="${myAddressValue}"></p>`;
+    myAddress.innerHTML = `<p class="form_list_input ps-3">
+    <input type="text" id="my-postcode-detail" class="mb-3 me-2" style="width: 150px" value="${postcode}">
+    <input type="button" onclick="sample6_execDaumPostcode()" class="mb-3" value="우편번호 찾기"><br>
+    <input type="text" id="my-address-detail" style="width: 95%" value="${address}">
+    </p>`;
 
     let submitButton = document.querySelector('#my-button')
     submitButton.innerHTML = 
         `<button type="button" onclick="renderMyInfo()" class="btn btn-secondary rounded-pill px-md-2 px-2 py-2 me-2 radius-0 text-light ">취소</button>
-        <button type="button" onclick="checkUserName()" class="btn btn-secondary rounded-pill px-md-2 px-2 py-2 me-2 radius-0 text-light ">수정 완료</button>`;
+        <button type="button" onclick="modifyMyInfo()" class="btn btn-secondary rounded-pill px-md-2 px-2 py-2 me-2 radius-0 text-light ">수정 완료</button>`;
 }
 
 /* 수정 제출 했을 때 먼저 이름 중복 체크 */
 async function checkUserName(){
-    var myUserNameValue = document.getElementById("my-username-detail").value;
+    let myUserNameValue = document.getElementById("my-username-detail").value;
 
     let jsonData = JSON.stringify({
         userName: myUserNameValue
@@ -211,13 +248,16 @@ async function checkUserName(){
 /* 이름 중복 체크 후 수정(PUT) */
 async function modifyMyInfo(){
     /* 해당 칸에 있는 정보 불러오기 */
-    var myUserNameValue = document.getElementById("my-username-detail").value;
-    var myPhoneNumberValue = document.getElementById("my-phone-number-detail").value;
-    var myAddressValue = document.getElementById("my-address-detail").value;
+    let myUserNameValue = document.getElementById("my-username-detail").value;
+    let myPhoneNumberValue = document.getElementById("my-phone-number-detail").value;
+    let myPostCodeValue = document.getElementById("my-postcode-detail").value;
+    let myAddressValue = document.getElementById("my-address-detail").value;
+
+    let finalMyAddressValue = '['+ myPostCodeValue + '] ' + myAddressValue;
 
     let jsonData = JSON.stringify({
         phoneNumber: myPhoneNumberValue,
-        address: myAddressValue,
+        address: finalMyAddressValue,
         userName: myUserNameValue
     })
 
@@ -226,6 +266,50 @@ async function modifyMyInfo(){
     
     /*다시 렌더링*/
     renderMyInfo();
+}
+
+/* 주소 API */
+function sample6_execDaumPostcode() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+            // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+            var addr = ''; // 주소 변수
+            var extraAddr = ''; // 참고항목 변수
+
+            //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                addr = data.roadAddress;
+            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                addr = data.jibunAddress;
+            }
+
+            // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+            if(data.userSelectedType === 'R'){
+                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                    extraAddr += data.bname;
+                }
+                // 건물명이 있고, 공동주택일 경우 추가한다.
+                if(data.buildingName !== '' && data.apartment === 'Y'){
+                    extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                if(extraAddr !== ''){
+                    extraAddr = ' (' + extraAddr + ')';
+                }
+                // 조합된 참고항목을 해당 필드에 넣는다.
+                addr += extraAddr
+            } 
+
+            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+            document.getElementById('my-postcode-detail').value = data.zonecode;
+            document.getElementById("my-address-detail").value = addr;
+        }
+    }).open();
 }
 
 /* ******************** MY-CALENDAR ******************** */
@@ -259,28 +343,25 @@ async function parseMyCalendar() {
 
 /* Date 파싱 */
 function getDate(dateTime){
-    return dateTime.split('T')[0]
+    return dateTime.split('T')[0];
 }
 
 /* 마이 리뷰 페이지 렌더링*/
-async function renderMyReviews() {
-    let reviews = await getWithAuth("/my/reviews");
+async function renderMyReviews(page) {
+    let reviews = await getWithAuthPage("/my/reviews", page);
     let review = reviews.result.content;
     
     let html = '';
+
     review.forEach(element => {
+
         let createdAt = getDate(element.createdAt);
         let vistedDate = getDate(element.visitedDate);
         let htmlSegment = 
         `
         <div class="update-post" id="review-${element.id}">
             <div class="row">
-                <div
-                    class="col-lg-2 col-md-4 col-sm-4 col-xs-4 align-items-center review-image">
-                    <img src="http://ticketimage.interpark.com/Play/image/large/22/22015433_p.gif"
-                        class="review-image img-thumbnail" />
-                </div>
-                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
+                <div class="col-lg-10 col-md-12 col-sm-12 col-xs-10 ps-4">
                     <div id="star-${element.id}">`
         let rate = element.star;
         for(let i=0; i < rate; i++){
@@ -289,6 +370,7 @@ async function renderMyReviews() {
         for(let j=0; j < 5-rate; j++){
             htmlSegment+=`<i class='bx bx-star'></i>`
         }
+        console.log("OK");
         htmlSegment += `
                         <span class="ps-1 star-int" id="rate-number-${element.id}">${element.star}</span>
                     </div>
@@ -317,6 +399,30 @@ async function renderMyReviews() {
 
     let container = document.querySelector('.my-reviews');
     container.innerHTML = html;
+
+    let previous = "";
+    if(reviews.result.pageable.pageNumber == 0){
+        previous = "disabled";
+    }
+    
+    let next = "";
+    if(reviews.result.last == true){
+        next = "disabled"
+    }
+
+    let pageContainer = document.querySelector('.my-reviews-pagination')
+    let pageHtml = 
+    `
+    <ul class="pagination">
+        <li class="page-item ${previous}">
+        <a class="page-link" href="#" onclick="renderMyReviews(${reviews.result.pageable.pageNumber - 1})">Previous</a>
+        </li>
+        <li class="page-item ${next}">
+        <a class="page-link" href="#" onclick="renderMyReviews(${reviews.result.pageable.pageNumber + 1})">Next</a>
+        </li>
+    </ul>
+    `;
+    pageContainer.innerHTML = pageHtml;
 }
 
 /* 리뷰 수정 - 별점 값 가져오는 함수*/
@@ -352,8 +458,7 @@ async function renderReviewModify(id){
     reviewVisitedAt.innerHTML = `
         <input class="review-form mx-1"
             type="date"
-            style="width: 100px; font-size: 12px; height:20px" id="review-visited-at-value-${id}" 
-            placeholder="yy-mm-dd" value="${reviewVisitedAtValue}">`;
+            style="width: 100px; font-size: 12px; height:20px" id="review-visited-at-value-${id}" value="${reviewVisitedAtValue}">`;
     
     let reviewTitle = document.querySelector(`#review-title-${id}`)
     reviewTitle.innerHTML = `<input
@@ -372,8 +477,8 @@ async function renderReviewModify(id){
 
 /* 리뷰 수정 내용 PUT */
 async function modifyAReview(id){
-    var modifiedRateNumber = document.getElementById(`rate-number-${id}`).value;
-    var modifiedVistedDate = document.getElementById(`review-visited-at-value-${id}`).value;
+    var modifiedRateNumber = document.getElementById(`rate-number-${id}`).innerText;
+    var modifiedVisitedDate = document.getElementById(`review-visited-at-value-${id}`).value;
     var modifiedReviewTitle = document.getElementById(`review-title-value-${id}`).value;
     var modifiedReviewContent = document.getElementById(`review-content-value-${id}`).value;
 
@@ -382,7 +487,7 @@ async function modifyAReview(id){
         newTitle: modifiedReviewTitle,
         newContent: modifiedReviewContent,
         newStar: modifiedRateNumber,
-        newVistedDate: modifiedVistedDate
+        newVisitedDate: modifiedVisitedDate
     })
 
     /* 수정 요청 보내기*/
@@ -402,12 +507,7 @@ async function renderAReview(id){
         let htmlSegment = 
         `
             <div class="row">
-                <div
-                    class="col-lg-2 col-md-4 col-sm-4 col-xs-4 align-items-center review-image">
-                    <img src="http://ticketimage.interpark.com/Play/image/large/22/22015433_p.gif"
-                        class="review-image img-thumbnail" />
-                </div>
-                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
+                <div class="col-lg-10 col-md-12 col-sm-12 col-xs-10 ps-4">
                     <div id="star-${review.id}">`
         let rate = review.star;
         for(let i=0; i < rate; i++){
@@ -452,8 +552,8 @@ async function deleteAReview(id){
 /* ******************** MY-GATHERINGS ******************** */
 
 /* 마이 모집글 */
-async function renderMyGatherings() {
-    let gatherings = await getWithAuth("/my/gatherings");
+async function renderMyGatherings(page) {
+    let gatherings = await getWithAuthPage("/my/gatherings",page);
     let gathering = gatherings.result.content;
     let html = '';
     gathering.forEach(element => {
@@ -487,15 +587,39 @@ async function renderMyGatherings() {
 
     let container = document.querySelector('.my-gatherings');
     container.innerHTML = html;
+
+    let previous = "";
+    if(gatherings.result.pageable.pageNumber == 0){
+        previous = "disabled";
+    }
+    
+    let next = "";
+    if(gatherings.result.last == true){
+        next = "disabled"
+    }
+
+    let pageContainer = document.querySelector('.my-gatherings-pagination')
+    let pageHtml = 
+    `
+    <ul class="pagination">
+        <li class="page-item ${previous}">
+        <a class="page-link" href="#" onclick="renderMyGatherings(${gatherings.result.pageable.pageNumber - 1})">Previous</a>
+        </li>
+        <li class="page-item ${next}">
+        <a class="page-link" href="#" onclick="renderMyGatherings(${gatherings.result.pageable.pageNumber + 1})">Next</a>
+        </li>
+    </ul>
+    `;
+    pageContainer.innerHTML = pageHtml;
 }
 
 
 /* 마이 참여 신청한 모집글 */
-async function renderMyParticipations() {
-    let participations = await getWithAuth("/my/gatherings/enrolls");
-    participations = participations.result.content;
+async function renderMyParticipations(page) {
+    let participations = await getWithAuthPage("/my/gatherings/enrolls",page);
+    let participation = participations.result.content;
     let html = '';
-    gathering.forEach(element => {
+    participation.forEach(element => {
         let createdAt = getDate(element.createdAt);
         let htmlSegment = 
         `
@@ -530,4 +654,28 @@ async function renderMyParticipations() {
 
     let container = document.querySelector('.my-participations');
     container.innerHTML = html;
+
+    let previous = "";
+    if(participations.result.pageable.pageNumber == 0){
+        previous = "disabled";
+    }
+    
+    let next = "";
+    if(participations.result.last == true){
+        next = "disabled"
+    }
+
+    let pageContainer = document.querySelector('.my-participations-pagination')
+    let pageHtml = 
+    `
+    <ul class="pagination">
+        <li class="page-item ${previous}">
+        <a class="page-link" href="#" onclick="renderMyParticipations(${participations.result.pageable.pageNumber - 1})">Previous</a>
+        </li>
+        <li class="page-item ${next}">
+        <a class="page-link" href="#" onclick="renderMyParticipations(${participations.result.pageable.pageNumber + 1})">Next</a>
+        </li>
+    </ul>
+    `;
+    pageContainer.innerHTML = pageHtml;
 }
