@@ -1,12 +1,12 @@
-// header
-const header = document.querySelector('header');
+/* header */
+var header = document.querySelector('header');
 
 fetch('/header.html')
   .then((res) => res.text())
   .then((data) => (header.innerHTML = data));
 
 // footer
-const footer = document.querySelector('footer');
+var footer = document.querySelector('footer');
 
 fetch('/footer.html')
   .then((res) => res.text())
@@ -17,7 +17,9 @@ fetch('/footer.html')
 async function getExhibitionsById() {
   let url = `${BASE_URL}/api/v1/exhibitions?size=10&sort=id`;
   try {
-    let res = await fetch(url);
+    let res = await fetch(url,{
+        credentials: 'include'
+    });
     return await res.json();
   } catch (error) {
     console.log(error);
@@ -52,7 +54,9 @@ async function renderExhibitionsById() {
 async function getExhibitionsByEndAt() {
   let url = `${BASE_URL}/api/v1/exhibitions?size=10&sort=endAt`;
   try {
-    let res = await fetch(url);
+    let res = await fetch(url,{
+        credentials: 'include'
+    });
     return await res.json();
   } catch (error) {
     console.log(error);
@@ -86,10 +90,12 @@ async function renderExhibitionsByEndAt() {
 async function getGatheringsById() {
   let url = `${BASE_URL}/api/v1/gatherings?size=10`;
   try {
-    let res = await fetch(url);
+    let res = await fetch(url,{
+        credentials: 'include'
+    });
     return await res.json();
   } catch (error) {
-    console.log(error);
+    console.log(error)
     alert('Request Error!');
     location.href="#";
   }
