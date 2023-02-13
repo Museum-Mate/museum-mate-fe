@@ -83,14 +83,12 @@ p, a {font-weight: 400;}
 #div_img{
   width: 50%;
   height: auto;
-  background: color #878787;
   text-align: left;
 }
 
 #div_spec{
   width: 50%;
   height: auto;
-  background-color:#819FF7;
 }
 
 .service-wrapper .service-footer {
