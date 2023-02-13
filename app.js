@@ -26,7 +26,7 @@ app.get('/pricing', (req, res) => {
 });
 
 app.get('/write-exhibition', (req, res) => {
-  res.sendFile(__dirname + '/write-exhibition.html');
+  res.sendFile(__dirname + '/write-exhibition-form.html');
 });
 
 app.get('/gathering', (req, res) => {
@@ -39,9 +39,14 @@ app.get('/gathering-single', (req, res) => {
 
 app.get('/gathering-new', (req, res) => {
     res.sendFile(__dirname + '/gathering-new.html');
+});
 
-app.get("/exhibitions", (req, res) => {
+app.get("/exhibition", (req, res) => {
   res.sendFile(__dirname + "/exhibition.html");
+});
+
+app.get("/exhibition-single", (req, res) => {
+  res.sendFile(__dirname + "/exhibition-single.html");
 });
 
 app.get("/myinfo", (req, res) => {
@@ -64,19 +69,13 @@ app.get("/myparticipations", (req, res) => {
     res.sendFile(__dirname + "/my-participations.html");
 });
 
-
-app.use((req, res) => {
-  res.sendFile(__dirname + '/error.html');
-});
-
 app.get('/login', (req, res) => {
   res.sendFile(__dirname + '/login.html');
 });
 
-// app.get('/gathering-single', (req, res) => {
-//     console.log(req.query);
-//     res.sendFile(__dirname + '/gathering-single.html');
-// });
+app.use((req, res) => {
+  res.sendFile(__dirname + '/error.html');
+});
 
 app.listen(3000, (err) => {
   if (err) return console.log(err);
