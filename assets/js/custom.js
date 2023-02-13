@@ -815,10 +815,9 @@ function postGathering(payload) {
   fetch(`${BASE_URL}/api/v1/gatherings/posts`, {
     method: 'POST',
     headers: {
-      Authorization:
-        'Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImRqbTA0MjEyQGdtYWlsLmNvbSIsImlhdCI6MTY3NTk1NzU5OCwiZXhwIjoxNjc1OTU3ODk4fQ.TbtnLwef3bMHPW98khLcuRPx0pdp4Mp-C07ulqcq2dU',
       'Content-Type': 'application/json; charset=utf-8',
     },
+    credentials: 'include',
     body: JSON.stringify(data),
   }).then((response) => console.log(response));
 }
@@ -847,9 +846,7 @@ async function getEnrolls(gatheringId) {
     let url = 'http://localhost:8080/api/v1/gatherings/%27+gatheringId+%27/enroll/list';
     try {
         let res = await fetch(url,{
-            headers: {
-                "Authorization": 'Bearer '+ getCookie("accessToken")
-            }
+            credentials:'include'
         });
         return await res.json();
     } catch (error) {
@@ -917,9 +914,7 @@ async function getAlarms() {
   }
   try {
       let res = await fetch(url,{
-          headers: {
-              "Authorization": 'Bearer '+ getCookie("accessToken")
-          }
+          credentials:'include'
       });
       return await res.json();
   } catch (error) {
