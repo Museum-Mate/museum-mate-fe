@@ -15,13 +15,14 @@ fetch('/footer.html')
 // exhibitions.html ---------------------------------------------------------------------------------------------------------
 
 async function getExhibitionsById() {
-  let url = 'BASE/api/v1/exhibitions?size=10&sort=id';
+  let url = `${BASE_URL}/api/v1/exhibitions?size=10&sort=id`;
   try {
     let res = await fetch(url);
     return await res.json();
   } catch (error) {
     console.log(error);
     alert('Request Error!');
+    location.href="#";
   }
 }
 
@@ -56,6 +57,7 @@ async function getExhibitionsByEndAt() {
   } catch (error) {
     console.log(error);
     alert('Request Error!');
+    location.href="#";
   }
 }
 
@@ -89,6 +91,7 @@ async function getGatheringsById() {
   } catch (error) {
     console.log(error);
     alert('Request Error!');
+    location.href="#";
   }
 }
 
