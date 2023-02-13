@@ -3,9 +3,7 @@ $(document).ready(function () {
   let signin = $('.links').find('li').find('#signin');
   let reset = $('.links').find('li').find('#reset');
   let first_input = $('section').find('.first-input');
-  let hidden_input = $('section')
-    .find('.input__block')
-    .find('#repeat__password');
+  let hidden_input = $('section').find('.input__block').find('#repeat__password');
   let signin_btn = $('section').find('.signin__btn');
 
   //----------- sign up ---------------------
@@ -14,9 +12,7 @@ $(document).ready(function () {
     $(this).parent().parent().siblings('h1').text('SIGN UP');
     $(this).parent().css('opacity', '1');
     $(this).parent().siblings().css('opacity', '.6');
-    first_input
-      .removeClass('first-input__block')
-      .addClass('signup-input__block');
+    first_input.removeClass('first-input__block').addClass('signup-input__block');
     hidden_input.css({
       opacity: '1',
       display: 'block',
@@ -30,9 +26,7 @@ $(document).ready(function () {
     $(this).parent().parent().siblings('h1').text('SIGN IN');
     $(this).parent().css('opacity', '1');
     $(this).parent().siblings().css('opacity', '.6');
-    first_input
-      .addClass('first-input__block')
-      .removeClass('signup-input__block');
+    first_input.addClass('first-input__block').removeClass('signup-input__block');
     hidden_input.css({
       opacity: '0',
       display: 'none',
@@ -43,22 +37,14 @@ $(document).ready(function () {
   //----------- reset ---------------------
   reset.on('click', function (e) {
     e.preventDefault();
-    $(this)
-      .parent()
-      .parent()
-      .siblings('section')
-      .find('.input__block')
-      .find('.input')
-      .val('');
+    $(this).parent().parent().siblings('section').find('.input__block').find('.input').val('');
   });
 });
 
 // -------------------  Login  ---------------------------------------------------------------------------------------------------------
 
-async function login() {
-  const url =
-    `${BASE_URL}/api/v1/users/login` ||
-    'http://localhost:8080/api/v1/users/login';
+function login() {
+  const url = `${BASE_URL}/api/v1/users/login`;
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
 
@@ -95,24 +81,20 @@ async function login() {
       email: email,
       password: password,
     }),
+    credentials: 'include',
   })
     .then((res) => res.json())
     .then((res) => {
       if (res.resultCode === 'SUCCESS') {
         console.log(res);
-        Swal.fire('환영합니다 🥳', '다시 만나서 반가워요 🫰🏻 !!!', 'success');
-        // accessToken = getCookie('accessToken');
-        // refreshToken = getCookie('refreshToken');
-        // console.log('accessToken:', accessToken);
-        // console.log('refreshToken:', refreshToken);
-        window.location.href = '/index.html';
+        Swal.fire('환영합니다 🥳', '다시 만나서 반가워요 🫰🏻 !!!', 'success').then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = '/index.html';
+          }
+        });
       } else if (res.resultCode === 'ERROR') {
         console.log(res.json());
-        Swal.fire(
-          '로그인 실패 😭',
-          '이메일 또는 비밀번호를 다시 한 번 확인해주세요...ㅠ',
-          'error',
-        );
+        Swal.fire('로그인 실패 😭', '이메일 또는 비밀번호를 다시 한 번 확인해주세요...ㅠ', 'error');
       }
     });
 }

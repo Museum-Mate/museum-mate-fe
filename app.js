@@ -6,39 +6,43 @@ const app = express();
 app.use(express.static(__dirname));
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(__dirname + '/index.html');
 });
 
 app.get('/about', (req, res) => {
-  res.sendFile(path.join(__dirname, 'about.html'));
+  res.sendFile(__dirname + '/about.html');
 });
 
 app.get('/contact', (req, res) => {
-  res.sendFile(path.join(__dirname, 'contact.html'));
+  res.sendFile(__dirname + '/contact.html');
 });
 
 app.get('/pricing', (req, res) => {
-  res.sendFile(path.join(__dirname, 'pricing.html'));
+  res.sendFile(__dirname + '/pricing.html');
 });
 
 app.get('/write-exhibition', (req, res) => {
-  res.sendFile(path.join(__dirname, 'write-exhibition.html'));
+  res.sendFile(__dirname + '/write-exhibition.html');
 });
 
 app.get('/gathering', (req, res) => {
-  res.sendFile(path.join(__dirname, 'gathering.html'));
+  res.sendFile(__dirname + '/gathering.html');
+});
+
+app.get("/exhibitions", (req, res) => {
+  res.sendFile(__dirname + "/exhibition.html");
 });
 
 app.get('/gathering-new', (req, res) => {
-  res.redirect(path.join(__dirname, '/work.html'));
+  res.sendFile(__dirname + '/gathering-new.html');
 });
 
 app.use((req, res) => {
-  res.sendFile(path.join(__dirname, 'error.html'));
+  res.sendFile(__dirname + '/error.html');
 });
 
 app.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname, 'login.html'));
+  res.sendFile(__dirname + '/login.html');
 });
 
 app.listen(3000, (err) => {
