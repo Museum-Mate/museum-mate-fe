@@ -415,9 +415,34 @@
             })
         }
         loadComments();
-    </script>
 
 
+    function deleteReview(id){
+        try {                
+            let res = fetch(`http://localhost:8080/api/v1/reviews/`+id, {
+                method: 'DELETE',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RAdGVzdC50ZXN0IiwiaWF0IjoxNjc2MzA0MzY2LCJleHAiOjE2NzYzMDc5NjZ9.dYqvluGd6iHmmIrOkYJ9E4HD2bofU8YjYfJq8iQAg_w`
+                }
+            })
+            .then((response) => response.text())
+            .then((response) => {
+                if(response.status == 401) {
+                    alert("내가 쓴 글이 아니에요!")
+                } else {
+                    loadComments();
+                }
+                })
+            }
+        catch (error) {
+            console.log(error);
+            alert("Request Error!");
+        }
+    }
+
+</script>
    
 <script>
     async function postWithAuth() {
