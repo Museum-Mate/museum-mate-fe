@@ -4432,9 +4432,9 @@ fieldset:disabled .btn {
 }
 
 /* line 4, src/assets/scss/_transitions.scss */
-.fade:not(.show) {
+/* .fade:not(.show) {
   opacity: 0;
-}
+} */
 
 /* line 10, src/assets/scss/_transitions.scss */
 .collapse:not(.show) {
