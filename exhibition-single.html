@@ -349,18 +349,18 @@
                 const div = document.getElementById('exhibition-container')
                 div.innerHTML = html;
 
-                const token = window.localStorage.getItem('token')
+                // const token = window.localStorage.getItem('token')
                 const queryString1 = window.location.href.split('?')[1]
                 const id1 = queryString.split('=')[1]
                 const btn = document.getElementById('bookmarkBtn')
-                console.log(token)
+                // console.log(token)
                 btn.addEventListener('click', function() {
                     fetch(`http://localhost:8080/api/v1/exhibitions/${id1}/bookmarks`, {
                         method: 'POST',
                         mode: 'cors',
                         headers: {
                             'Content-Type': 'application/json',
-                            "Authorization": `Bearer ${token}`
+                            "Authorization": `Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RAdGVzdC50ZXN0IiwiaWF0IjoxNjc2Mjg5NDUwLCJleHAiOjE2NzYyOTMwNTB9.PN48bk5y-4AbupCvktmxWi7fCh83r-jh6P60nAFS5Tc`
                         },
                     }).then((res) => res.json())
                     .then((res) => {
@@ -372,6 +372,7 @@
                 })
             })
 
+    function loadComments(){
         const queryString1 = window.location.href.split('?')[1]
         const id1 = queryString.split('=')[1]
         fetch(`http://localhost:8080/api/v1/reviews/${id1}/reviews`)
@@ -412,6 +413,8 @@
                 const div = document.getElementById('comment-container')
                 div.innerHTML = html;
             })
+        }
+        loadComments();
     </script>
 
 
@@ -446,6 +449,8 @@
         });
         if(res.status!=200){
             alert(await res.json())
+        }else{
+            loadComments();
         }
         return await res.status;
     } catch (error) {
