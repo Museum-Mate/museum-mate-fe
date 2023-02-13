@@ -37,10 +37,10 @@ p, a {font-weight: 400;}
 .typo-space-line::after,
 .typo-space-line-center::after {
   content: "";
-  width: 150px;
+  width: 300px;
   display:block;
   position: absolute;
-  border-bottom:  5px solid #6266ea;
+  border-bottom:  4px solid #6266ea;
   padding-top: .5em;
 }
 .typo-space-line-center::after {
@@ -51,7 +51,7 @@ p, a {font-weight: 400;}
 #main_nav .nav-item .nav-link:hover {color: #fff;}
 /* Home */
 #index_banner {
-  background-image: url('./../img/banner-bg-01.jpg');
+  background-image: url('/assets/img/d641942b085402b7.jpg');
   background-position: center center; background-size: cover;
   height: 100%;
   min-height: 60vh;
@@ -122,7 +122,7 @@ p, a {font-weight: 400;}
 }
 /* About */
 #work_banner {
-  background-image: url('./../img/banner-bg-02.jpg');
+  background-image: url('/assets/img/banner-bg-02.jpg');
   background-position: center center; background-size: cover;
   height: 100%;
   width: 100%;
@@ -159,7 +159,7 @@ p, a {font-weight: 400;}
 /* Work */
 /* Singel Work */
 #work_single_banner {
-  background-image: url('./../img/banner-bg-02.jpg');
+  background-image: url('/assets/img/banner-bg-02.jpg');
   background-position: center center;
   background-size: cover;
   height: 100%;
