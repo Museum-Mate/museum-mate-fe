@@ -268,8 +268,8 @@
             mode: 'cors',
             headers: {
                 'Content-Type': 'application/json',
-                "Authorization": `Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RAdGVzdC50ZXN0IiwiaWF0IjoxNjc2MjYxOTU5LCJleHAiOjE2NzYyNjU1NTl9.LIQeXAnDflDBDkAmb9KpbAHQCy-kMsAnwqvc95dOo_Q`
             },
+            credentials: 'include',
             body: JSON.stringify({
                 title: textArea1.value,
                 content: textArea.value,
