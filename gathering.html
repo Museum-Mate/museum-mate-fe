@@ -160,6 +160,7 @@
                 
                 var tag = "";
                 for(let i = 0; i < data.length; i++) {
+                    let id = data[i].id;
                     let postImgUrl = data[i].exhibitionMainUrl;
                     let exhibitionName = data[i].exhibitionName;
                     let dateAndTime = data[i].meetDateTime;
@@ -198,7 +199,7 @@
             <h6>  현재 참석자 수: ${gatheredPeopleNum} / 최대인원: ${maxGatheringNum}</h6>
             <!-- 버튼 -->
             <div class = "">
-                <a href="#" class="btn rounded-pill px-4 btn-outline-primary mb-3"> 더 알아보기 </a>
+                <a onclick="submitSinglePage(this, '${id}')" class="btn rounded-pill px-4 btn-outline-primary mb-3"> 더 알아보기 </a>
                 <a href="#" class="btn rounded-pill px-4 btn-outline-primary mb-3"> 신청하기!🎉 </a>
             </div>
         </div>
