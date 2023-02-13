@@ -1,12 +1,12 @@
-// header
-const header = document.querySelector('header');
+/* header */
+var header = document.querySelector('header');
 
 fetch('/header.html')
   .then((res) => res.text())
   .then((data) => (header.innerHTML = data));
 
 // footer
-const footer = document.querySelector('footer');
+var footer = document.querySelector('footer');
 
 fetch('/footer.html')
   .then((res) => res.text())
@@ -15,13 +15,16 @@ fetch('/footer.html')
 // exhibitions.html ---------------------------------------------------------------------------------------------------------
 
 async function getExhibitionsById() {
-  let url = 'BASE/api/v1/exhibitions?size=10&sort=id';
+  let url = `${BASE_URL}/api/v1/exhibitions?size=10&sort=id`;
   try {
-    let res = await fetch(url);
+    let res = await fetch(url,{
+        credentials: 'include'
+    });
     return await res.json();
   } catch (error) {
     console.log(error);
     alert('Request Error!');
+    location.href="#";
   }
 }
 
@@ -51,11 +54,14 @@ async function renderExhibitionsById() {
 async function getExhibitionsByEndAt() {
   let url = `${BASE_URL}/api/v1/exhibitions?size=10&sort=endAt`;
   try {
-    let res = await fetch(url);
+    let res = await fetch(url,{
+        credentials: 'include'
+    });
     return await res.json();
   } catch (error) {
     console.log(error);
     alert('Request Error!');
+    location.href="#";
   }
 }
 
@@ -84,11 +90,14 @@ async function renderExhibitionsByEndAt() {
 async function getGatheringsById() {
   let url = `${BASE_URL}/api/v1/gatherings?size=10`;
   try {
-    let res = await fetch(url);
+    let res = await fetch(url,{
+        credentials: 'include'
+    });
     return await res.json();
   } catch (error) {
-    console.log(error);
+    console.log(error)
     alert('Request Error!');
+    location.href="#";
   }
 }
 
@@ -124,7 +133,7 @@ async function renderGatheringsById() {
                         <h6>  현재 참석자 수: ${element.currentPeople} / 최대인원: ${element.maxPeople}</h6>
                         <!-- 버튼 -->
                         <div class = "">
-                            <a href="#" class="btn rounded-pill px-4 btn-outline-primary mb-3"> 더 알아보기 </a>
+                            <a onclick="submitSinglePage(this, '${element.id}')" class="btn rounded-pill px-4 btn-outline-primary mb-3"> 더 알아보기 </a>
                             <a href="#" class="btn rounded-pill px-4 btn-outline-primary mb-3"> 신청하기!🎉 </a>
                         </div>
                     </div>
@@ -154,6 +163,41 @@ function postGathering(payload) {
     },
     body: JSON.stringify(data),
   }).then((response) => console.log(response));
+}
+
+// 함께가요 전체조회 -> 함께가요 상세조회 이동 --------------------------------------------------------------------------------------------
+function submitSinglePage(e, id) {
+    console.log(e);
+    
+    var form = document.createElement("form");
+    form.setAttribute("charset", "UTF-8");
+    form.setAttribute("method", "GET");
+    form.setAttribute("action", "/gathering-single");
+
+    var hiddenField = document.createElement("input");
+    hiddenField.setAttribute("type", "hidden");
+    hiddenField.setAttribute("name", "id");
+    hiddenField.setAttribute("value", id);
+    form.appendChild(hiddenField);
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
+// 
+async function getEnrolls(gatheringId) {
+    let url = 'http://localhost:8080/api/v1/gatherings/%27+gatheringId+%27/enroll/list';
+    try {
+        let res = await fetch(url,{
+            headers: {
+                "Authorization": 'Bearer '+ getCookie("accessToken")
+            }
+        });
+        return await res.json();
+    } catch (error) {
+        console.log(error);
+        alert("Request Error!");
+    }
 }
 
 // ---------------------------------------------------------------------------------------------------------
@@ -205,4 +249,70 @@ async function renderExhibisionForwork() {
       searchResult.innerHTML = "";
     }
   }
+
+  //알람 기능
+async function getAlarms() {
+  let url = 'http://127.0.0.1:8080/api/v1/my/alarms';
+  var cookie = getCookie("accessToken")
+  if( !cookie ){
+      console.log("쿠키가 비어 있음")
+  }
+  try {
+      let res = await fetch(url,{
+          headers: {
+              "Authorization": 'Bearer '+ getCookie("accessToken")
+          }
+      });
+      return await res.json();
+  } catch (error) {
+      console.log(error);
+      alert("Request Error!");
+  }
+}
+async function renderAlarms() {
+  let alarms = await getAlarms();
+  let alarm = alarms.result.content;
+
+  if(alarms.resultCode=="ERROR"){
+      console.log(alarms.result.message);
+      alert(alarms.result.message);
+  }
+  let html = '';
+  
+  Array.from(alarm).forEach(element => {
+      let htmlSegment = `
+      <li><a class="dropdown-item" ><b>
+      ${element.exhibitionName}<br>${element.alarmMessage}</b></a></li>`;
+      html += htmlSegment;
+  });
+
+  let container = document.querySelector('.alarmscontainer');
+  container.innerHTML = html;
+}
+
+function clickAlarm() {
+  let click = document.querySelector(".click");
+  click.addEventListener('click', function() {
+      renderAlarms();
+  })
+}
+
+// 헤더 로그인 로그아웃
+function setCookie(name, value, exp) {
+  var date = new Date();
+  date.setTime(date.getTime() + exp*24*60*60*1000);
+  document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
+  location.reload(true);
+};
+
+function getCookie(name) {
+  var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+  return value? value[2] : null;
+};
+
+function deleteCookie(name) {
+  document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
+  location.reload(true);
+  alert("로그아웃 완료");
+}
 
