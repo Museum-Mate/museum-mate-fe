@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="assets/css/templatemo.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/css/custom.css">
+    <script defer src="assets/js/config.js"></script>
+
 <!--
     
 TemplateMo 561 Purple Buzz
@@ -114,7 +116,7 @@ https://templatemo.com/tm-561-purple-buzz
     <script src="assets/js/custom.js"></script>
     <script>
 		window.addEventListener('DOMContentLoaded', function () {
-      fetch('http://localhost:8080/api/v1/exhibitions?sort=id')
+      fetch(`${BASE_URL}/api/v1/exhibitions?sort=id`)
       .then((res) => res.json())
       .then((contents) => {
         let html = '';
@@ -191,7 +193,7 @@ https://templatemo.com/tm-561-purple-buzz
                 window.history.replaceState('', '', window.location.origin + '/exhibition.html?price=무료');
                 p = "price=무료"
             }
-            fetch(`http://localhost:8080/api/v1/exhibitions?sort=id&${p}`)
+            fetch(`${BASE_URL}/api/v1/exhibitions?sort=id&${p}`)
       .then((res) => res.json())
       .then((contents) => {
         console.log(contents.result.content)
@@ -261,7 +263,7 @@ https://templatemo.com/tm-561-purple-buzz
             const url = new URLSearchParams(window.location.href.split('?')[1])
             const price = url.get('price')
 
-            fetch(`http://localhost:8080/api/v1/exhibitions?sort=id&page=${page}&price=${price}`)
+            fetch(`${BASE_URL}/api/v1/exhibitions?sort=id&page=${page}&price=${price}`)
       .then((res) => res.json())
       .then((contents) => {
         let html = '';
