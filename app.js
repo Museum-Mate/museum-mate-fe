@@ -44,6 +44,27 @@ app.get("/exhibitions", (req, res) => {
   res.sendFile(__dirname + "/exhibition.html");
 });
 
+app.get("/myinfo", (req, res) => {
+    res.sendFile(__dirname + "/my-info.html");
+});
+
+app.get("/mycalendar", (req, res) => {
+    res.sendFile(__dirname + "/my-calendar.html");
+});
+
+app.get("/myreviews", (req, res) => {
+    res.sendFile(__dirname + "/my-reviews.html");
+});
+
+app.get("/mygatherings", (req, res) => {
+    res.sendFile(__dirname + "/my-gatherings.html");
+});
+
+app.get("/myparticipations", (req, res) => {
+    res.sendFile(__dirname + "/my-participations.html");
+});
+
+
 app.use((req, res) => {
   res.sendFile(__dirname + '/error.html');
 });
