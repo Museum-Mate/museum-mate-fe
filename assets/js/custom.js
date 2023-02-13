@@ -126,7 +126,7 @@ async function renderGatheringsById() {
                         <h6>  현재 참석자 수: ${element.currentPeople} / 최대인원: ${element.maxPeople}</h6>
                         <!-- 버튼 -->
                         <div class = "">
-                            <a href="#" class="btn rounded-pill px-4 btn-outline-primary mb-3"> 더 알아보기 </a>
+                            <a onclick="submitSinglePage(this, '${element.id}')" class="btn rounded-pill px-4 btn-outline-primary mb-3"> 더 알아보기 </a>
                             <a href="#" class="btn rounded-pill px-4 btn-outline-primary mb-3"> 신청하기!🎉 </a>
                         </div>
                     </div>
@@ -157,4 +157,38 @@ function postGathering(payload) {
     }).then((response) => console.log(response));
 }
 
-// ---------------------------------------------------------------------------------------------------------
+// 함께가요 전체조회 -> 함께가요 상세조회 이동 --------------------------------------------------------------------------------------------
+function submitSinglePage(e, id) {
+    console.log(e);
+    
+    var form = document.createElement("form");
+    form.setAttribute("charset", "UTF-8");
+    form.setAttribute("method", "GET");
+    form.setAttribute("action", "/gathering-single");
+
+    var hiddenField = document.createElement("input");
+    hiddenField.setAttribute("type", "hidden");
+    hiddenField.setAttribute("name", "id");
+    hiddenField.setAttribute("value", id);
+    form.appendChild(hiddenField);
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
+// 
+async function getEnrolls(gatheringId) {
+    let url = 'http://localhost:8080/api/v1/gatherings/%27+gatheringId+%27/enroll/list';
+    try {
+        let res = await fetch(url,{
+            headers: {
+                "Authorization": 'Bearer '+ getCookie("accessToken")
+            }
+        });
+        return await res.json();
+    } catch (error) {
+        console.log(error);
+        alert("Request Error!");
+    }
+}
+
