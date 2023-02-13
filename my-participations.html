@@ -74,14 +74,19 @@ https://templatemo.com/tm-561-purple-buzz
                     <!--tab panes-->
                     <div class="section-block">
                         <div class="tab-content">
-                            <div role="tabpanel" class="tab-pane active" id="gatherings">
+                            <div role="tabpanel" class="tab-pane active" id="participations">
                                 <div class="update-information">
-                                    <h1 class="section-title text-secondary">GATHERINGS</h1>
-                                    <!--gatherings-->
+                                    <h1 class="section-title text-secondary">PARTICIPATIONS</h1>
+                                    <!--participations-->
                                     <div class="my-participations">
                                         
                                     </div>
-                                    <!--gatherings-->
+                                    <!--participations-->
+                                    <!--pagination-->
+                                    <div class="my-participations-pagination">
+
+                                    </div>
+                                    <!--pagination-->
                                 </div>
                             </div>
                         </div>
@@ -130,10 +135,9 @@ https://templatemo.com/tm-561-purple-buzz
     <script src="assets/js/templatemo.js"></script>
     <!-- Custom -->
     <script src="assets/js/custom.js"></script>
-    <script src="assets/js/sidebar.js"></script>
     <script>
 		window.addEventListener('DOMContentLoaded', function () {
-            renderMyParticipations();
+            renderMyParticipations(0);
 		});
 	</script>
 </body>
