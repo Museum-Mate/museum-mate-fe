@@ -30,5 +30,3 @@ function get_cookie(name) {
 function delete_cookie(name) {
   document.cookie = encodeURIComponent(name) + '=; expires=Thu, 01 JAN 1999 00:00:10 GMT';
 }
-
-export { set_cookie, get_cookie, delete_cookie };

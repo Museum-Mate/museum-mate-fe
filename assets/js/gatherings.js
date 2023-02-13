@@ -116,32 +116,29 @@
 
 // 수정
 async function loadGatherings() {
-	let url = 'http://localhost:8080/api/v1/gatherings';
-	try {
-		let result = await fetch(url)
-			.then(response => response.json())
-			.then(response => response.result.content)
-			.then(data => {
-				obj = data;
-			});
-      return result;
-	} catch (error) {
-		console.log(error);
-	}
+  let url = `${BASE_URL}/api/v1/gatherings`;
+  try {
+    let result = await fetch(url)
+      .then((response) => response.json())
+      .then((response) => response.result.content)
+      .then((data) => {
+        obj = data;
+      });
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 // 렌더링
 async function displayGatherings() {
-	let gatherings = await loadGatherings();
-	let container = document.getElementById('this-is-card-container');
-	container.innerHTML = gatherings
-		.map((gathering) => createHTMLGatherings(gathering))
-		.join("");
+  let gatherings = await loadGatherings();
+  let container = document.getElementById('this-is-card-container');
+  container.innerHTML = gatherings.map((gathering) => createHTMLGatherings(gathering)).join('');
 }
 
 function createHTMLGatherings(gathering) {
-	
-	return `<div class="pricing-horizontal row col-10 m-auto d-flex shadow-sm rounded overflow-hidden bg-white">
+  return `<div class="pricing-horizontal row col-10 m-auto d-flex shadow-sm rounded overflow-hidden bg-white">
     <div class="pricing-horizontal-icon col-md-3 text-center bg-secondary text-light py-4">
         <i class="display-1 bx bx-package pt-4"></i>
         <img src = "${gathering.exhibitionMainUrl}" class = "exhibition_poster_image"/>
@@ -181,7 +178,7 @@ function createHTMLGatherings(gathering) {
 //     <div class="pricing-horizontal-icon col-md-3 text-center bg-secondary text-light py-4">
 //         <i class="display-1 bx bx-package pt-4"></i>
 //         <img src = "${gathering.exhibitionMainUrl}" class = "exhibition_poster_image"/>
-//         <h5 class="h5 semi-bold-600 pb-4 light-300"> ${gathering.exhibitionName}</h5> 
+//         <h5 class="h5 semi-bold-600 pb-4 light-300"> ${gathering.exhibitionName}</h5>
 //     </div>
 
 //     <!-- 파티 정보 넣기 -->
