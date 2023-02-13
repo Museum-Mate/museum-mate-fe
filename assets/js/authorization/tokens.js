@@ -6,20 +6,20 @@ import { getCookie } from '../utils/cookie.js';
 
 // security
 async function getSecurity() {
-    let url = 'http://localhost:8080/api/v1/example/security';
-    try {
-        let res = await fetch(url, {
-            headers: {
-                Authorization: 'Bearer ' + getCookie('accessToken'),
-            },
-        });
-        return await res.text();
-    } catch (error) {
-        console.log(error);
-        alert('Request Error!');
-    }
+  let url = 'http://localhost:8080/api/v1/example/security';
+  try {
+    let res = await fetch(url, {
+      headers: {
+        Authorization: 'Bearer ' + getCookie('accessToken'),
+      },
+    });
+    return await res.text();
+  } catch (error) {
+    console.log(error);
+    alert('Request Error!');
+  }
 }
 
 function getAccessToken() {
-    getCookie('accessToken');
+  getCookie('accessToken');
 }
