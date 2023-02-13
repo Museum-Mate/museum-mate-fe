@@ -2,35 +2,35 @@
 const header = document.querySelector('header');
 
 fetch('/header.html')
-.then(res => res.text())
-.then(data => header.innerHTML = data);
+  .then((res) => res.text())
+  .then((data) => (header.innerHTML = data));
 
 // footer
 const footer = document.querySelector('footer');
 
 fetch('/footer.html')
-.then(res => res.text())
-.then(data => footer.innerHTML = data);
+  .then((res) => res.text())
+  .then((data) => (footer.innerHTML = data));
 
 // exhibitions.html ---------------------------------------------------------------------------------------------------------
 
 async function getExhibitionsById() {
-    let url = 'http://localhost:8080/api/v1/exhibitions?size=10&sort=id';
-    try {
-        let res = await fetch(url);
-        return await res.json();
-    } catch (error) {
-        console.log(error);
-        alert("Request Error!");
-    }
+  let url = 'BASE/api/v1/exhibitions?size=10&sort=id';
+  try {
+    let res = await fetch(url);
+    return await res.json();
+  } catch (error) {
+    console.log(error);
+    alert('Request Error!');
+  }
 }
 
 async function renderExhibitionsById() {
-    let exhibitions = await getExhibitionsById();
-    let exhibition = exhibitions.result.content;
-    let html = '';
-    exhibition.forEach(element => {
-        let htmlSegment = `
+  let exhibitions = await getExhibitionsById();
+  let exhibition = exhibitions.result.content;
+  let html = '';
+  exhibition.forEach((element) => {
+    let htmlSegment = `
         <div class="swiper-slide">
             <a href="/work-single">
                 <div class="testimonial-item">
@@ -41,31 +41,30 @@ async function renderExhibitionsById() {
             </a>
         </div>`;
 
-        html += htmlSegment;
-    });
+    html += htmlSegment;
+  });
 
-    let container = document.querySelector('#swiper-wrapper1');
-    container.innerHTML = html;
+  let container = document.querySelector('#swiper-wrapper1');
+  container.innerHTML = html;
 }
 
 async function getExhibitionsByEndAt() {
-    let url = 'http://localhost:8080/api/v1/exhibitions?size=10&sort=endAt';
-    try {
-        let res = await fetch(url);
-        return await res.json();
-    } catch (error) {
-        console.log(error);
-        alert("Request Error!");
-    }
+  let url = `${BASE_URL}/api/v1/exhibitions?size=10&sort=endAt`;
+  try {
+    let res = await fetch(url);
+    return await res.json();
+  } catch (error) {
+    console.log(error);
+    alert('Request Error!');
+  }
 }
 
 async function renderExhibitionsByEndAt() {
-    let exhibitions = await getExhibitionsByEndAt();
-    let exhibition = exhibitions.result.content;
-    let html = '';
-    exhibition.forEach(element => {
-        let htmlSegment = 
-        `<div class="swiper-slide">
+  let exhibitions = await getExhibitionsByEndAt();
+  let exhibition = exhibitions.result.content;
+  let html = '';
+  exhibition.forEach((element) => {
+    let htmlSegment = `<div class="swiper-slide">
             <a href="/work-single">
                 <div class="testimonial-item">
                     <img src=${element.mainImgUrl} class="testimonial-img" alt="">
@@ -75,31 +74,30 @@ async function renderExhibitionsByEndAt() {
             </a>
         </div>`;
 
-        html += htmlSegment;
-    });
+    html += htmlSegment;
+  });
 
-    let container = document.querySelector('#swiper-wrapper2');
-    container.innerHTML = html;
+  let container = document.querySelector('#swiper-wrapper2');
+  container.innerHTML = html;
 }
 
 async function getGatheringsById() {
-    let url = 'http://localhost:8080/api/v1/gatherings?size=10';
-    try {
-        let res = await fetch(url);
-        return await res.json();
-    } catch (error) {
-        console.log(error);
-        alert("Request Error!");
-    }
+  let url = `${BASE_URL}/api/v1/gatherings?size=10`;
+  try {
+    let res = await fetch(url);
+    return await res.json();
+  } catch (error) {
+    console.log(error);
+    alert('Request Error!');
+  }
 }
 
 async function renderGatheringsById() {
-    let exhibitions = await getGatheringsById();
-    let exhibition = exhibitions.result.content;
-    let html = '';
-    exhibition.forEach(element => {
-        let htmlSegment = 
-        `<div class="swiper-slide">
+  let exhibitions = await getGatheringsById();
+  let exhibition = exhibitions.result.content;
+  let html = '';
+  exhibition.forEach((element) => {
+    let htmlSegment = `<div class="swiper-slide">
             <div class="pricing-horizontal row col-10 m-auto d-flex shadow-sm rounded overflow-hidden my-5 bg-white">
                 <div class="pricing-horizontal-icon col-md-3 text-center bg-secondary text-light py-4">
                     <img src = "${element.exhibitionMainUrl}" class = "exhibition_poster_image g-2 img-thumbnail"/>
@@ -134,27 +132,28 @@ async function renderGatheringsById() {
             </div> 
         </div>`;
 
-        html += htmlSegment;
-    });
+    html += htmlSegment;
+  });
 
-    let container = document.querySelector('#swiper-wrapper3');
-    container.innerHTML = html;
+  let container = document.querySelector('#swiper-wrapper3');
+  container.innerHTML = html;
 }
 
 // fetch header 토큰 부분 수정 필요 ---------------------------------------------------------------------------------------------------------
 function postGathering(payload) {
-    const data = {};
-    payload.forEach((value, key) => (data[key] = value));
-    console.log(data);
+  const data = {};
+  payload.forEach((value, key) => (data[key] = value));
+  console.log(data);
 
-    fetch("http://localhost:8080/api/v1/gatherings/posts", {
-        method: "POST",
-        headers: {
-            Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImRqbTA0MjEyQGdtYWlsLmNvbSIsImlhdCI6MTY3NTk1NzU5OCwiZXhwIjoxNjc1OTU3ODk4fQ.TbtnLwef3bMHPW98khLcuRPx0pdp4Mp-C07ulqcq2dU",
-            "Content-Type": "application/json; charset=utf-8",
-        },
-        body: JSON.stringify(data),
-    }).then((response) => console.log(response));
+  fetch(`${BASE_URL}/api/v1/gatherings/posts`, {
+    method: 'POST',
+    headers: {
+      Authorization:
+        'Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImRqbTA0MjEyQGdtYWlsLmNvbSIsImlhdCI6MTY3NTk1NzU5OCwiZXhwIjoxNjc1OTU3ODk4fQ.TbtnLwef3bMHPW98khLcuRPx0pdp4Mp-C07ulqcq2dU',
+      'Content-Type': 'application/json; charset=utf-8',
+    },
+    body: JSON.stringify(data),
+  }).then((response) => console.log(response));
 }
 
 // ---------------------------------------------------------------------------------------------------------
