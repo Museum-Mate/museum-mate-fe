@@ -29,6 +29,10 @@ app.get('/gathering', (req, res) => {
   res.sendFile(path.join(__dirname, 'gathering.html'));
 });
 
+app.get("/exhibitions", (req, res) => {
+  res.sendFile(__dirname + "/exhibition.html");
+});
+
 app.get('/gathering-new', (req, res) => {
   res.redirect(path.join(__dirname, '/work.html'));
 });

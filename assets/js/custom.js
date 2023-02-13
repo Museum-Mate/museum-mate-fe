@@ -158,3 +158,52 @@ function postGathering(payload) {
 }
 
 // ---------------------------------------------------------------------------------------------------------
+
+async function renderExhibisionForwork() {
+    let exhibitions = await getExhibitionsById();
+    let exhibition = exhibitions.result.content;
+    let html = '';
+  
+    exhibition.forEach(element => {
+      html += `
+      <a href="work-single.html" class="col-sm-6 col-lg-4 text-decoration-none exhibition freeExhibition">
+          <div class="service-work overflow-hidden card mx-5 mx-sm-0 mb-5">
+              <img class="card-img-top" src=${element.mainImgUrl} alt="...">
+              <div class="card-body">
+                  <h5 class="card-title light-300 text-dark">${element.title}</h5>
+                  <p class="card-text light-300 text-dark">
+                      ${element.description}
+                  </p>
+                  <span class="text-decoration-none text-primary light-300">
+                        Read more <i class='bx bxs-hand-right ms-1'></i>
+                    </span>
+              </div>
+          </div>
+      </a>
+      `;
+    });
+  
+    const div = document.getElementById('exhibision_container');
+    div.innerHTML = html;
+  }
+
+
+  // 전시회 검색 기능
+  function searchExhibition() {
+    if (searchInput.value !== "") {
+      newArr = exhitibionArray.filter((el) =>
+        el.name.toLowerCase().includes(searchInput.value.toLowerCase())
+      );
+  
+      searchResult.innerHTML = "";
+  
+      newArr.map((contents) => {
+        let result = document.createElement("div");
+        searchResult.appendChild(result);
+        result.innerHTML = `<div><img src="${contents.mainImgUrl}"/></div><div>${contents.name}<div>${contents.description}</div></div>`;
+      });
+    } else {
+      searchResult.innerHTML = "";
+    }
+  }
+
