@@ -35,9 +35,5 @@ jobs:
           username: ubuntu
           script: |
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/museum-mate-frontend:latest
-           
-       # 추후 적용
-       # docker stop frontend
-       # docker rm frontend
-       # docker-compose -f /home/ubuntu/docker/museum-mate/nginx/compose/docker-compose.yml up -d
-       # docker image prune -f
+            docker-compose -f /home/ubuntu/docker/museum-mate/nginx/compose/docker-compose.yml up -d
+            docker image prune -f
