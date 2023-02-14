@@ -851,7 +851,7 @@ function submitSinglePage(e, id) {
 
 // 
 async function getEnrolls(gatheringId) {
-    let url = `${BASE_URL}/api/v1/gatherings/%27+gatheringId+%27/enroll/list`;
+    let url = `${BASE_URL}/api/v1/gatherings/${gatheringId}/enroll/list`;
     try {
         let res = await fetch(url,{
             credentials:'include'
@@ -977,3 +977,34 @@ function deleteCookie(name) {
   alert("로그아웃 완료");
 }
 
+    // 신청자 승인
+    async function approveUser(gatheringId,pId) {
+        let url = `${BASE_URL}`+'/api/v1/gatherings/'+gatheringId+'/enroll/'+pId;
+        console.log("url입니다: "+url);
+
+        try {
+            let res = await fetch(url, {
+                credentials: 'include'
+            });
+            if(res.status == 401){
+                alert("로그인을 해주세요.")
+                window.location.href="/login";
+            }
+            return await res.json();
+        } catch (error) {
+            console.log(error);
+            alert("Request Error!");
+        }
+    }
+
+    async function renderApproveUser(gatheringId,pId) {
+        let approve = await approveUser(gatheringId,pId);
+
+        if(approve.resultCode=="ERROR"){
+            console.log(approve.result.message);
+            alert(approve.result.message);
+        }
+        alert("승인이 완료되었습니다")
+        location.reload(true);
+    }
+    // 신청자 승인 끝
