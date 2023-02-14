@@ -851,7 +851,7 @@ function submitSinglePage(e, id) {
 
 // 
 async function getEnrolls(gatheringId) {
-    let url = 'http://localhost:8080/api/v1/gatherings/%27+gatheringId+%27/enroll/list';
+    let url = `${BASE_URL}/api/v1/gatherings/%27+gatheringId+%27/enroll/list`;
     try {
         let res = await fetch(url,{
             credentials:'include'
@@ -915,7 +915,7 @@ async function renderExhibisionForwork() {
 
   //알람 기능
 async function getAlarms() {
-  let url = 'http://127.0.0.1:8080/api/v1/my/alarms';
+  let url = `${BASE_URL}/api/v1/my/alarms`;
   var cookie = getCookie("accessToken")
   if( !cookie ){
       console.log("쿠키가 비어 있음")
