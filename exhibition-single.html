@@ -16,9 +16,7 @@
     <link rel="stylesheet" href="assets/css/templatemo.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/css/custom.css">
-    <script defer src="assets/js/config.js"></script>
-
-
+    <script src="assets/js/config.js"></script>
 </head>
 
 <body>
@@ -128,7 +126,7 @@
         const queryString = window.location.href.split('?')[1]
         const id = queryString.split('=')[1]
         console.log(window.localStorage.getItem('token'))
-        fetch(`http://localhost:8080/api/v1/exhibitions/${id}`)
+        fetch(`${BASE_URL}/api/v1/exhibitions/${id}`)
             .then(res => res.json())
             .then(contents => {
                 console.log(contents.result)
@@ -149,6 +147,9 @@
                             <h6 class>가격&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${contents.result.price}<h6><br>
                             <div>
                                 <span style=''>&#128278;</span><button id="bookmarkBtn" style="margin-left:1rem; border:none;">북마크</button>
+                            </div><br>
+                            <div>
+                                <span style=''>&#128149;</span><button type="button" onclick="location.href='/gathering-new?id=${contents.result.id}';" style="margin-left:1rem; border:none;">함께 봐요!</button>
                             </div>
                         </div>
                     </div>
@@ -186,7 +187,7 @@
                 const btn = document.getElementById('bookmarkBtn')
                 // console.log(token)
                 btn.addEventListener('click', function() {
-                    fetch(`http://localhost:8080/api/v1/exhibitions/${id1}/bookmarks`, {
+                    fetch(`${BASE_URL}/api/v1/exhibitions/${id1}/bookmarks`, {
                         method: 'POST',
                         mode: 'cors',
                         headers: {
@@ -206,7 +207,7 @@
     function loadComments(){
         const queryString1 = window.location.href.split('?')[1]
         const id1 = queryString.split('=')[1]
-        fetch(`http://localhost:8080/api/v1/reviews/${id1}/reviews`)
+        fetch(`${BASE_URL}/api/v1/reviews/${id1}/reviews`)
             .then(res => res.json())
             .then(contents => {
                 let html = ''
@@ -246,9 +247,35 @@
             })
         }
         loadComments();
-    </script>
 
 
+    function deleteReview(id){
+        try {                
+            let res = fetch(`${BASE_URL}/api/v1/reviews/`+id, {
+                method: 'DELETE',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include'
+            })
+            .then((response) => response.text())
+            .then((response) => {
+                if(response.status == 401) {
+
+                } else {
+                    loadComments();
+
+                }
+                })
+            }
+        catch (error) {
+            console.log(error);
+            alert("올바르지 않은 접근입니다!");
+        }
+    }
+
+</script>
    
 <script>
     async function postWithAuth() {
@@ -264,7 +291,7 @@
     const textArea = document.getElementById('inputmessage')
     const selectedStar = document.getElementById('starValue')
     try {
-        let res = await fetch(`http://localhost:8080/api/v1/reviews/${id}`, {
+        let res = await fetch(`${BASE_URL}/api/v1/reviews/${id}`, {
             method: 'post',
             mode: 'cors',
             headers: {
