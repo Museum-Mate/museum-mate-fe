@@ -851,7 +851,7 @@ function submitSinglePage(e, id) {
 
 // 
 async function getEnrolls(gatheringId) {
-    let url = `${BASE_URL}/api/v1/gatherings/gatheringId/enroll/list`;
+    let url = `${BASE_URL}/api/v1/gatherings/${gatheringId}/enroll/list`;
     try {
         let res = await fetch(url,{
             credentials:'include'
