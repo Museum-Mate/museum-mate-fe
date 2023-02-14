@@ -913,67 +913,98 @@ async function renderExhibisionForwork() {
     }
   }
 
-  //알람 기능
-async function getAlarms() {
-  let url = `${BASE_URL}/api/v1/my/alarms`;
-  var cookie = getCookie("accessToken")
-  if( !cookie ){
-      console.log("쿠키가 비어 있음")
-  }
-  try {
-      let res = await fetch(url,{
-          credentials:'include'
-      });
-      return await res.json();
-  } catch (error) {
-      console.log(error);
-      alert("Request Error!");
-  }
-}
-async function renderAlarms() {
-  let alarms = await getAlarms();
-  let alarm = alarms.result.content;
+    //알람
+    async function getAlarms() {
+    let url = `${BASE_URL}/api/v1/my/alarms`;
+    var cookie = getCookie("Authorization")
+    
+    let jsonData = JSON.stringify({
+        resultCode: "SUCCESS",
+        result: {
+            content: "로그인이 필요합니다."
+        }
+        })
+    console.log(jsonData)
+    if( !cookie ){
+        return await jsonData;
+    }
+    try {
+        let res = await fetch(url,{
+            credentials:'include'
+        });
+        return await res.json();
+    } catch (error) {
+        console.log(error);
+        alert("Request Error!");
+    }
+    }
+    async function renderAlarms() {
+    let alarms = await getAlarms();
+    let alarm = alarms.result.content;
 
-  if(alarms.resultCode=="ERROR"){
-      console.log(alarms.result.message);
-      alert(alarms.result.message);
-  }
-  let html = '';
-  
-  Array.from(alarm).forEach(element => {
-      let htmlSegment = `
-      <li><a class="dropdown-item" ><b>
-      ${element.exhibitionName}<br>${element.alarmMessage}</b></a></li>`;
-      html += htmlSegment;
-  });
+    if(alarms.resultCode=="ERROR"){
+        console.log(alarms.result.message);
+        alert(alarms.result.message);
+    }
+    let html = '';
+    
+    Array.from(alarm).forEach(element => {
+        let htmlSegment = `
+        <li><a class="dropdown-item" ><b>
+        ${element.exhibitionName}<br>${element.alarmMessage}</b></a></li>`;
+        html += htmlSegment;
+    });
 
-  let container = document.querySelector('.alarmscontainer');
-  container.innerHTML = html;
-}
+    let container = document.querySelector('.alarmscontainer');
+    container.innerHTML = html;
+    }
+    //알람 끝
 
-function clickAlarm() {
-  let click = document.querySelector(".click");
-  click.addEventListener('click', function() {
-      renderAlarms();
-  })
-}
+    // 헤더 로그인 로그아웃 표시
+    function setCookie(name, value, exp) {
+        var date = new Date();
+        date.setTime(date.getTime() + exp*24*60*60*1000);
+        document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
+        location.reload(true);
+    };
 
-// 헤더 로그인 로그아웃
-function setCookie(name, value, exp) {
-  var date = new Date();
-  date.setTime(date.getTime() + exp*24*60*60*1000);
-  document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
-  location.reload(true);
-};
+    function getCookie(name) {
+        var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+        return value? value[2] : null;
+    };
 
-function getCookie(name) {
-  var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
-  return value? value[2] : null;
-};
+    function deleteCookie(name) {
+        document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
+        location.reload(true);
+        window.location.href = '/index.html';
+    }
 
-function deleteCookie(name) {
-  document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
-  location.reload(true);
-  alert("로그아웃 완료");
-}
+    async function renderinout() {
+
+        if(getCookie("Authorization")){
+            let html = '';
+                let htmlSegment = `<button value="Logout" onclick="renderLogout()" class="btn btn-primary">로그아웃</button>`;
+                html += htmlSegment;
+        
+            let container = document.querySelector('.lolocontainer');
+            container.innerHTML = html;
+        } else {
+            let html = '';
+            let htmlSegment = `<button onclick="location.href='login.html'" class="btn btn-primary">로그인</button>`;
+            html += htmlSegment;
+
+            let container = document.querySelector('.lolocontainer');
+            container.innerHTML = html;
+        }
+    }
+// 헤더 로그인 로그아웃 표시 끝
+
+// 로그아웃
+    async function renderLogout() {
+
+        deleteCookie("Authorization")
+        deleteCookie("Authorization-refresh")
+        alert("로그아웃 완료")
+        window.location.href = '#';
+    }
 
