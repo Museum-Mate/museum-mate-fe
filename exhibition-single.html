@@ -149,6 +149,9 @@
                             <h6 class>가격&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${contents.result.price}<h6><br>
                             <div>
                                 <span style=''>&#128278;</span><button id="bookmarkBtn" style="margin-left:1rem; border:none;">북마크</button>
+                            </div><br>
+                            <div>
+                                <span style=''>&#128149;</span><button type="button" onclick="location.href='http://localhost:3000/gathering-new/${contents.result.id}';" style="margin-left:1rem; border:none;">함께 봐요!</button>
                             </div>
                         </div>
                     </div>
@@ -246,9 +249,35 @@
             })
         }
         loadComments();
-    </script>
 
 
+    function deleteReview(id){
+        try {                
+            let res = fetch(`http://localhost:8080/api/v1/reviews/`+id, {
+                method: 'DELETE',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include'
+            })
+            .then((response) => response.text())
+            .then((response) => {
+                if(response.status == 401) {
+
+                } else {
+                    loadComments();
+
+                }
+                })
+            }
+        catch (error) {
+            console.log(error);
+            alert("올바르지 않은 접근입니다!");
+        }
+    }
+
+</script>
    
 <script>
     async function postWithAuth() {
