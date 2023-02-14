@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="assets/css/templatemo.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/css/custom.css">
-    <script defer src="assets/js/config.js"></script>
+    <script src="assets/js/config.js"></script>
 <!--
     
 TemplateMo 561 Purple Buzz
@@ -134,7 +134,7 @@ https://templatemo.com/tm-561-purple-buzz
             childWindow = window.open("enroll-list", "childWindow", strOption);
         }
 
-        let gatheringResponse = fetch(`http://localhost:8080/api/v1/gatherings/` + gatheringId, {
+        let gatheringResponse = fetch(`${BASE_URL}/api/v1/gatherings/` + gatheringId, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
