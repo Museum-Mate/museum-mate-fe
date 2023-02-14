@@ -131,19 +131,19 @@
     <!-- 파티 목록 끝 -->    
     <!-- Start Footer -->
     <!-- 일단 푸터 비활성화 -->
-    <!-- <footer></footer> -->
+    <footer></footer>
 
 
     <!-- Bootstrap -->
     <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <!-- Templatemo -->
-    <script src="assets/js/templatemo.js"></script>
     <!-- Custom -->
     <script src="assets/js/custom.js"></script>
     <!-- js code 추가 -->
     <script>
         function ajax() {
-            fetch("http://localhost:8080/api/v1/gatherings").then(function(response) {
+            fetch(`http://localhost:8080/api/v1/gatherings`, {
+                credentials:'include'
+            }).then(function(response) {
 
                 if (response.status != 200) { // 통신 안되면
                     alert("서버와 통신에 실패했습니다. ");
@@ -160,6 +160,7 @@
                 
                 var tag = "";
                 for(let i = 0; i < data.length; i++) {
+                    let id = data[i].id;
                     let postImgUrl = data[i].exhibitionMainUrl;
                     let exhibitionName = data[i].exhibitionName;
                     let dateAndTime = data[i].meetDateTime;
@@ -198,7 +199,7 @@
             <h6>  현재 참석자 수: ${gatheredPeopleNum} / 최대인원: ${maxGatheringNum}</h6>
             <!-- 버튼 -->
             <div class = "">
-                <a href="#" class="btn rounded-pill px-4 btn-outline-primary mb-3"> 더 알아보기 </a>
+                <a onclick="submitSinglePage(this, '${id}')" class="btn rounded-pill px-4 btn-outline-primary mb-3"> 더 알아보기 </a>
                 <a href="#" class="btn rounded-pill px-4 btn-outline-primary mb-3"> 신청하기!🎉 </a>
             </div>
         </div>
