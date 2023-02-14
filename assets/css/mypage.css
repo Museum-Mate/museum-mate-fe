@@ -613,3 +613,24 @@ a {
 	background-color: transparent;
 	border: none;
 }
+
+.participations-tab .btn-secondary{
+	color: #6266ea;
+	background-color: #efefef;
+
+}
+
+.participations-tab .btn-secondary.btn-active{
+	color: #ffffff;
+	background-color: #6266ea;
+}
+
+.participations-tab .btn-secondary:focus {
+	box-shadow: none;
+}
+
+.participations-tab #my-button {
+	border-radius: 14px;
+	background-color: #efefef;
+	border: 2px double #868686;
+}
