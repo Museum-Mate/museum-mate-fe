@@ -675,9 +675,7 @@ async function renderMyParticipations(page) {
 async function getExhibitionsById() {
   let url = `${BASE_URL}/api/v1/exhibitions?size=10&sort=id`;
   try {
-    let res = await fetch(url,{
-        credentials: 'include'
-    });
+    let res = await fetch(url);
     return await res.json();
   } catch (error) {
     console.log(error);
@@ -712,9 +710,7 @@ async function renderExhibitionsById() {
 async function getExhibitionsByEndAt() {
   let url = `${BASE_URL}/api/v1/exhibitions?size=10&sort=endAt`;
   try {
-    let res = await fetch(url,{
-        credentials: 'include'
-    });
+    let res = await fetch(url);
     return await res.json();
   } catch (error) {
     console.log(error);
