@@ -687,9 +687,7 @@ async function cancelEnroll(id){
 async function getExhibitionsById() {
   let url = `${BASE_URL}/api/v1/exhibitions?size=10&sort=id`;
   try {
-    let res = await fetch(url,{
-        credentials: 'include'
-    });
+    let res = await fetch(url);
     return await res.json();
   } catch (error) {
     console.log(error);
@@ -705,7 +703,7 @@ async function renderExhibitionsById() {
   exhibition.forEach((element) => {
     let htmlSegment = `
         <div class="swiper-slide">
-            <a href="/work-single">
+            <a href="/exhibition-single?id=${element.id}">
                 <div class="testimonial-item">
                     <img src=${element.mainImgUrl} class="testimonial-img" alt="">
                     <h3>${element.name}</h3>
@@ -724,9 +722,7 @@ async function renderExhibitionsById() {
 async function getExhibitionsByEndAt() {
   let url = `${BASE_URL}/api/v1/exhibitions?size=10&sort=endAt`;
   try {
-    let res = await fetch(url,{
-        credentials: 'include'
-    });
+    let res = await fetch(url);
     return await res.json();
   } catch (error) {
     console.log(error);
@@ -741,7 +737,7 @@ async function renderExhibitionsByEndAt() {
   let html = '';
   exhibition.forEach((element) => {
     let htmlSegment = `<div class="swiper-slide">
-            <a href="/work-single">
+            <a href="/exhibition-single?id=${element.id}">
                 <div class="testimonial-item">
                     <img src=${element.mainImgUrl} class="testimonial-img" alt="">
                     <h3>${element.name}</h3>
