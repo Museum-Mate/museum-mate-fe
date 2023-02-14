@@ -346,7 +346,10 @@ async function renderMyReviews(page) {
     review.forEach(element => {
 
         let createdAt = getDate(element.createdAt);
-        let vistedDate = getDate(element.visitedDate);
+        let visitedDate = "";
+        if(element.visitedDate){
+            visitedDate = getDate(element.visitedDate);
+        }
         let htmlSegment = 
         `
         <div class="update-post" id="review-${element.id}">
@@ -360,12 +363,11 @@ async function renderMyReviews(page) {
         for(let j=0; j < 5-rate; j++){
             htmlSegment+=`<i class='bx bx-star'></i>`
         }
-        console.log("OK");
         htmlSegment += `
                         <span class="ps-1 star-int" id="rate-number-${element.id}">${element.star}</span>
                     </div>
                     <span class="update-date">${element.exhibitionName}, <span
-                            id="review-visited-at-${element.id}">${vistedDate}</span> 방문</span>
+                            id="review-visited-at-${element.id}">${visitedDate}</span> 방문</span>
                     <h5 class="update-title" id="review-title-${element.id}">${element.title}</h5>
                     <p id="review-content-${element.id}">${element.content}</p>
                 </div>
@@ -493,7 +495,10 @@ async function renderAReview(id){
     review = review.result;
     
         let createdAt = getDate(review.createdAt);
-        let vistedDate = getDate(review.visitedDate);
+        let visitedDate = "";
+        if(review.visitedDate){
+            visitedDate = getDate(review.visitedDate);
+        }
         let htmlSegment = 
         `
             <div class="row">
@@ -510,7 +515,7 @@ async function renderAReview(id){
                         <span class="ps-1 star-int" id="rate-number-${review.id}">${review.star}</span>
                     </div>
                     <span class="update-date">${review.exhibitionName}, <span
-                            id="review-visited-at-${review.id}">${vistedDate}</span> 방문</span>
+                            id="review-visited-at-${review.id}">${visitedDate}</span> 방문</span>
                     <h5 class="update-title" id="review-title-${review.id}">${review.title}</h5>
                     <p id="review-content-${review.id}">${review.content}</p>
                 </div>
@@ -536,7 +541,7 @@ async function deleteAReview(id){
     if(confirm("리뷰를 삭제하시겠습니까?")){
         await deleteWithAuth(`/reviews/${id}`);
     }
-    renderMyReviews();
+    renderMyReviews(0);
 }
 
 /* ******************** MY-GATHERINGS ******************** */
@@ -556,14 +561,14 @@ async function renderMyGatherings(page) {
                     <span class="update-date">${element.exhibitionName}</span>
                     <h5 class="update-title"><i class="bx bx-group"></i>${element.title}</h5>
                     <p>${element.content}</p>
-                    <p><span style="color:#4346a2">모집 현황:</span> ${element.currentPeople}/${element.maxPeople}<button type="button" onclick="renderMyInfo()" class="btn btn-secondary px-1 py-1 ms-3 radius-0 text-light" style="font-size: 13px">신청자 보기</button></p>
+                    <p><span style="color:#4346a2">모집 현황:</span> ${element.currentPeople}/${element.maxPeople}<button type="button" onclick="newTabClick(${element.id})" class="btn btn-secondary px-1 py-1 ms-3 radius-0 text-light" style="font-size: 13px">신청자 보기</button></p>
                     <p><span style="color:#4346a2">만나는 날짜:</span> ${element.meetDateTime}</p>
                     <p><span style="color:#4346a2">만나는 장소:</span> ${element.meetLocation}</p>
                 </div>
                 <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 pt-2">
                     <p class="update-date text-end">작성일: ${createdAt}</p>
                     <div class="text-end simple-btn">
-                        <button type="button" onclick="" class="text-decoration-none text-primary">
+                        <button type="button" onclick="location.href='/gathering-single?id=${element.id}'" class="text-decoration-none text-primary">
                             더보기
                         </button>
                     </div>
@@ -626,13 +631,13 @@ async function renderMyParticipations(page) {
                 </div>
                 <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 pt-2">
                     <div class="text-end simple-btn">
-                        <button type="button" onclick="" class="text-decoration-none text-primary">
+                        <button type="button" onclick="location.href='/gathering-single?id=${element.id}'" class="text-decoration-none text-primary">
                             더보기
                         </button>
                     </div>
                 </div>
                 <div id="my-button" class="col-md-12 col-12 m-auto text-end">
-                    <button type="button" onclick=""
+                    <button type="button" onclick="cancelEnroll(${element.id})"
                         class="btn btn-secondary rounded-pill px-md-2 px-2 py-2 radius-0 text-light">신청 취소하기</button>
                 </div>
             </div>
@@ -668,6 +673,13 @@ async function renderMyParticipations(page) {
     </ul>
     `;
     pageContainer.innerHTML = pageHtml;
+}
+
+async function cancelEnroll(id){
+    if(confirm("신청을 취소하시겠습니까?")){
+        await deleteWithAuth(`/gatherings/${id}/cancel`);
+    }
+    renderMyParticipations(0);
 }
 
 // exhibitions.html ---------------------------------------------------------------------------------------------------------

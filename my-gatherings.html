@@ -140,6 +140,37 @@ https://templatemo.com/tm-561-purple-buzz
 		window.addEventListener('DOMContentLoaded', function () {
 			renderMyGatherings(0);
 		});
+
+        function newTabClick(gatheringId) {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", "test-id");
+            hiddenField.setAttribute("id", "test-id");
+            hiddenField.setAttribute("value", gatheringId);
+            document.body.appendChild(hiddenField);
+            
+            var nWidth = "900";
+            var nHeight = "768";
+
+            // 듀얼 모니터 고려한 윈도우 띄우기
+            var curX = window.screenLeft;
+            var curY = window.screenTop;
+            var curWidth = document.body.clientWidth;
+            var curHeight = document.body.clientHeight;
+
+            var nLeft = curX + (curWidth / 2) - (nWidth / 2);
+            var nTop = curY + (curHeight / 2) - (nHeight / 2);
+
+            var strOption = "";
+            strOption += "left=" + nLeft + "px,";
+            strOption += "top=" + nTop + "px,";
+            strOption += "width=" + nWidth + "px,";
+            strOption += "height=" + nHeight + "px,";
+            strOption += "toolbar=no,menubar=no,location=no,";
+            strOption += "resizable=yes,status=yes";
+
+            childWindow = window.open("enroll-list", "childWindow", strOption);
+        }
 	</script>
 </body>
 
