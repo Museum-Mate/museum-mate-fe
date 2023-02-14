@@ -39,6 +39,7 @@ app.get('/gathering-single', (req, res) => {
 
 app.get('/gathering-new', (req, res) => {
     res.sendFile(__dirname + '/gathering-new.html');
+});
 
 app.get("/exhibitions", (req, res) => {
   res.sendFile(__dirname + "/exhibition.html");

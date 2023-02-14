@@ -92,8 +92,10 @@ function login() {
             window.location.href = '/index.html';
           }
         });
-      } else if (res.resultCode === 'ERROR') {
-        console.log(res.json());
+      } else if (res === 401) {
+        // console.log(res.json());
+        Swal.fire('로그인 실패 😭', '이메일 또는 비밀번호를 다시 한 번 확인해주세요...ㅠ', 'error');
+      } else if (res === 404) {
         Swal.fire('로그인 실패 😭', '이메일 또는 비밀번호를 다시 한 번 확인해주세요...ㅠ', 'error');
       }
     });
