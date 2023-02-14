@@ -67,17 +67,22 @@ function birthdayCheck(birthday) {
   }
 }
 
-function join() {
+async function join() {
   // 변수 선언
-  const url = `${BASE_URL}/api/v1/users/join}`;
+  const url = `${BASE_URL}/api/v1/users/join`;
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
   const passwordCheck = document.getElementById('passwordCheck').value;
   const name = document.getElementById('name').value;
-  const nickname = document.getElementById('nickname').value;
+  const userName = document.getElementById('nickname').value;
   const birth = document.getElementById('birth').value;
+  const phoneNumber = document.getElementById('phoneNumber').value;
   const postcode = document.getElementById('sample6_postcode').value;
+  const extraAddress = document.getElementById('sample6_extraAddress').value;
+  const detailAddress = document.getElementById('sample6_detailAddress').value;
   const address = document.getElementById('sample6_address').value;
+
+  const fullAddress = "[" + postcode + "] " + `${address} ${extraAddress} ${detailAddress}`;
 
   if (email === '') {
     alert('이메일을 입력해주세요.');
@@ -89,32 +94,76 @@ function join() {
     return;
   }
 
-  if (passwordCheck === '') {
-    alert('비밀번호를 확인해주세요.');
-    return;
-  }
-
   if (document.getElementById('password').value.length < 8) {
     alert('비밀번호는 8자 이상이어야 합니다.');
     return;
   }
 
-  fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      email: email,
-      password: password,
-      passwordCheck: passwordCheck,
-      name: name,
-      nickname: nickname,
-      birth: birth,
-      postcode: postcode,
-      address: address,
-    }),
-  });
+  if (passwordCheck === '') {
+    alert('비밀번호를 확인해주세요.');
+    return;
+  }
+
+  if(birth.length!=6){
+    alert('생년월일 6자리를 입력해주세요.');
+    return;
+  }
+
+  try {
+    let res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+        name: name,
+        userName: userName,
+        birth: birth,
+        phoneNumber: phoneNumber,
+        address: fullAddress
+      }),
+    });
+    console.log(res.status);
+    if(res.status == 200){
+      Swal.fire({
+        title: 'MUMA에 오신 것을 환영합니다 🥳',
+        text: '가입하신 이메일로 로그인을 해주세요!',
+        icon: 'success',
+      }).then( result => {
+        if (result.isConfirmed) { 
+        window.location.href = "/login"
+        }
+      });
+    }
+    if(res.status == 409){
+        jsonResponse = await res.json();
+        if(jsonResponse.result.errorCode == "DUPLICATE_EMAIL"){
+          Swal.fire({
+            title: '회원가입 실패 😭',
+            text: '해당 이메일은 이미 회원가입 되어있습니다!',
+            icon: 'error',
+            confirmButtonText: '확인'
+          }).then(result => {
+            if (result.isConfirmed) { 
+            window.location.href = "/login"
+            }
+          });
+        }
+        else if(jsonResponse.result.errorCode == "DUPLICATE_USERNAME"){
+          Swal.fire({
+            title: '닉네임이 중복됩니다 😭',
+            text: '다른 닉네임을 입력해주세요',
+            icon: 'error',
+          });
+        }
+    }
+} catch (error) {
+    console.log(error);
+    alert("Request Error!");
+}
+
 }
 
 function sendEmail() {
