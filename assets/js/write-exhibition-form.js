@@ -19,6 +19,7 @@ function postExhibitionInfo() {
       const mainImgUrl = document.getElementById('MainImgframe').getAttribute('src');
       const detailInfoImgUrl = document.getElementById('DetailInfoImgframe').getAttribute('src');
       const noticeImgUrl = document.getElementById('NoticeImgframe').getAttribute('src');
+      let detailInfoUrl = document.getElementById('detail_info_url').value;
 
       fetch(`${BASE_URL}/api/v1/exhibitions/new`, {
         method: 'POST',
@@ -30,11 +31,12 @@ function postExhibitionInfo() {
           ageLimit: ageLimit,
           detailInfo: exhibitionDetailInfo,
           notice: exhibitionNotice,
-          gallerName: galleryName,
+          galleryName: galleryName,
           galleryLocation: galleryLocation,
           mainImgUrl: mainImgUrl,
           noticeImgUrl: noticeImgUrl,
           detailInfoImgUrl: detailInfoImgUrl,
+          detailInfoUrl: detailInfoUrl
         }),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8'
@@ -50,7 +52,7 @@ function postExhibitionInfo() {
           const resultCode = data.resultCode;
           if (resultCode === 'SUCCESS') {
             alert('등록 완료');
-            window.location.replace(`${BASE_URL}/write-exhibition`);
+            window.location.replace(`${FRONT_BASE_URL}/write-exhibition`);
           }
         });
 
