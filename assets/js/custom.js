@@ -691,7 +691,7 @@ async function renderExhibitionsById() {
   exhibition.forEach((element) => {
     let htmlSegment = `
         <div class="swiper-slide">
-            <a href="/work-single">
+            <a href="/exhibition-single?id=${element.id}">
                 <div class="testimonial-item">
                     <img src=${element.mainImgUrl} class="testimonial-img" alt="">
                     <h3>${element.name}</h3>
@@ -725,7 +725,7 @@ async function renderExhibitionsByEndAt() {
   let html = '';
   exhibition.forEach((element) => {
     let htmlSegment = `<div class="swiper-slide">
-            <a href="/work-single">
+            <a href="/exhibition-single?id=${element.id}">
                 <div class="testimonial-item">
                     <img src=${element.mainImgUrl} class="testimonial-img" alt="">
                     <h3>${element.name}</h3>
