@@ -21,6 +21,65 @@ function postExhibitionInfo() {
       const noticeImgUrl = document.getElementById('NoticeImgframe').getAttribute('src');
       let detailInfoUrl = document.getElementById('detail_info_url').value;
 
+      async function createFile() {
+        let response = await fetch (mainImgUrl);
+        let data = await response.blob();
+        let metadata = {type: 'image/jpeg'};
+        let file = new File([data], "mainImage.jpg", metadata);
+      }
+
+      let mainImgfile = createFile();
+      console.log(mainImgfile);
+
+      // fetch(mainImgUrl)
+      // .then(res => res.blob())
+      // .then(blob => fetch(`${BASE_URL}/api/v1/exhibitions/images/x/main/upload`, {
+      //     method: 'POST',
+      //     headers: {
+      //     },
+      //     body: {
+      //       blob  
+      //     },
+      //     credentials:'include',
+      //     redirect: 'follow',
+      //   })
+      //   .then(function (response) {
+      //       return response.json();
+      //     })
+      //   .then(function (data) {
+      //     console.log(data);
+      //     console.log("image 등록 완료 ");
+      //     const resultCode = data.resultCode;
+      //     console.log(resultCode);
+      //   }));
+
+      // const form = new FormData();
+      
+      // form.append("file", {name: "mainImg", type: "image/jpg", uri: mainImgUrl});
+
+      // // image to s3 
+      // fetch(`${BASE_URL}/api/v1/exhibitions/images/x/main/upload`, {
+      //   method: 'POST',
+      //   headers: {
+      //     "Content-Type": "multipart/form-data"
+      //   },
+      //   body: {
+      //     form  
+      //   },
+      //   credentials:'include',
+      //   redirect: 'follow',
+      // })
+      // .then(function (response) {
+      //     return response.json();
+      //   })
+      // .then(function (data) {
+      //   console.log(data);
+      //   console.log("image 등록 완료 ");
+      //   const resultCode = data.resultCode;
+      //   console.log(resultCode);
+      // });
+      
+      // string to db 
       fetch(`${BASE_URL}/api/v1/exhibitions/new`, {
         method: 'POST',
         body: JSON.stringify({
@@ -33,7 +92,7 @@ function postExhibitionInfo() {
           notice: exhibitionNotice,
           galleryName: galleryName,
           galleryLocation: galleryLocation,
-          mainImgUrl: mainImgUrl,
+          // mainImgUrl: mainImgUrl,
           noticeImgUrl: noticeImgUrl,
           detailInfoImgUrl: detailInfoImgUrl,
           detailInfoUrl: detailInfoUrl
@@ -55,7 +114,6 @@ function postExhibitionInfo() {
             window.location.replace(`/write-exhibition`);
           }
         });
-
       // .then(success => {
       // 	console.log(success)
       // 	window.location.reload;
