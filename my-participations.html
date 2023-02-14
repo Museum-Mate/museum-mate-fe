@@ -78,6 +78,16 @@ https://templatemo.com/tm-561-purple-buzz
                             <div role="tabpanel" class="tab-pane active" id="participations">
                                 <div class="update-information">
                                     <h1 class="section-title text-secondary">PARTICIPATIONS</h1>
+
+                                    <div class="participations-tab m-auto" style="width: 400px">
+                                        <div id="my-button" class="text-center p-1 mt-3 mb-4">
+                                            <button type="button" onclick="change_btn(event);renderMyParticipations(0);"
+                                                class="btn btn-secondary mx-3 px-md-2 px-2 py-2 radius-0 btn-active">승낙 대기</button>
+                                            <button type="button" onclick="change_btn(event);renderMyApprovedParticipations(0);"
+                                                class="btn btn-secondary mx-3 px-md-2 px-2 py-2 radius-0">승낙 완료</button>
+                                        </div>
+                                    </div>
+
                                     <!--participations-->
                                     <div class="my-participations">
                                         
@@ -140,6 +150,19 @@ https://templatemo.com/tm-561-purple-buzz
 		window.addEventListener('DOMContentLoaded', function () {
             renderMyParticipations(0);
 		});
+
+        function change_btn(e) {
+            var btns = document.querySelectorAll(".participations-tab .btn");
+            btns.forEach(function (btn, i) {
+              if (e.currentTarget == btn) {
+                btn.classList.add("btn-active");
+              } else {
+                btn.classList.remove("btn-active");
+              }
+            });
+            console.log(e.currentTarget);
+          }
+
 	</script>
 </body>
 

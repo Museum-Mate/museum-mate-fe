@@ -682,6 +682,72 @@ async function cancelEnroll(id){
     renderMyParticipations(0);
 }
 
+/* 마이 참여 승낙된 모집글 */
+async function renderMyApprovedParticipations(page) {
+    let approvedParticipations = await getWithAuthPage("/my/gatherings/approves",page);
+    let approvedParticipation = approvedParticipations.result.content;
+    let html = '';
+    approvedParticipation.forEach(element => {
+        let createdAt = getDate(element.createdAt);
+        let htmlSegment = 
+        `
+        <div class="update-post">
+            <div class="row">
+                <div class="col-lg-10 col-md-8 col-sm-12 col-xs-12 px-4">
+                    <span class="update-date">${element.exhibitionName}</span>
+                    <h5 class="update-title"><i class="bx bx-group"></i> ${element.title}</h5>
+                    <p>${element.content}</p>
+                    <p><span style="color:#4346a2">주최자:</span> ${element.userName}</p>
+                    <p><span style="color:#4346a2">모집 현황:</span> ${element.currentPeople}/${element.maxPeople}</p>
+                    <p><span style="color:#4346a2">만나는 날짜:</span> ${element.meetDateTime}</p>
+                    <p><span style="color:#4346a2">만나는 장소:</span> ${element.meetLocation}</p>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 pt-2">
+                    <div class="text-end simple-btn">
+                        <button type="button" onclick="location.href='/gathering-single?id=${element.id}'" class="text-decoration-none text-primary">
+                            더보기
+                        </button>
+                    </div>
+                </div>
+                <div id="my-button" class="col-md-12 col-12 m-auto text-end">
+                    <button type="button" onclick="cancelEnroll(${element.id})"
+                        class="btn btn-secondary rounded-pill px-md-2 px-2 py-2 radius-0 text-light">신청 취소하기</button>
+                </div>
+            </div>
+        </div>
+        `;
+
+        html += htmlSegment;
+    });
+
+    let container = document.querySelector('.my-participations');
+    container.innerHTML = html;
+
+    let previous = "";
+    if(approvedParticipations.result.pageable.pageNumber == 0){
+        previous = "disabled";
+    }
+    
+    let next = "";
+    if(approvedParticipations.result.last == true){
+        next = "disabled"
+    }
+
+    let pageContainer = document.querySelector('.my-participations-pagination')
+    let pageHtml = 
+    `
+    <ul class="pagination">
+        <li class="page-item ${previous}">
+        <a class="page-link" href="#" onclick="renderMyParticipations(${approvedParticipations.result.pageable.pageNumber - 1})">Previous</a>
+        </li>
+        <li class="page-item ${next}">
+        <a class="page-link" href="#" onclick="renderMyParticipations(${approvedParticipations.result.pageable.pageNumber + 1})">Next</a>
+        </li>
+    </ul>
+    `;
+    pageContainer.innerHTML = pageHtml;
+}
+
 // exhibitions.html ---------------------------------------------------------------------------------------------------------
 
 async function getExhibitionsById() {
