@@ -9,9 +9,7 @@ async function getSecurity() {
   let url = 'http://localhost:8080/api/v1/example/security';
   try {
     let res = await fetch(url, {
-      headers: {
-        Authorization: 'Bearer ' + getCookie('accessToken'),
-      },
+      credentials:'include'
     });
     return await res.text();
   } catch (error) {

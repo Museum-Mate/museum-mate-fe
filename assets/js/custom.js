@@ -12,24 +12,18 @@ fetch('/footer.html')
 .then((res) => res.text())
 .then((data) => (footer.innerHTML = data));
 
-
-const token = ""
-const base_url = ""
-
 /* ******************** FETCH ******************** */
 
 /* GET - 인증 필요*/
 async function getWithAuth(detail_url) {
-    let url = base_url + detail_url;
+    let url = `${BASE_URL}` + '/api/v1' + detail_url;
     try {
         let res = await fetch(url, {
-            headers: {
-                "Authorization": 'Bearer '+ token
-            }
+            credentials: 'include'
         });
         if(res.status == 401){
             alert("로그인을 해주세요.")
-            window.location.href="/myinfo";
+            window.location.href="/login";
         }
         return await res.json();
     } catch (error) {
@@ -39,16 +33,14 @@ async function getWithAuth(detail_url) {
 }
 
 async function getWithAuthPage(detail_url, page) {
-    let url = base_url + detail_url + `?page=${page}`;
+    let url = `${BASE_URL}` + '/api/v1' + detail_url + `?page=${page}`;
     try {
         let res = await fetch(url, {
-            headers: {
-                "Authorization": 'Bearer '+ token
-            }
+            credentials: 'include'
         });
         if(res.status == 401){
             alert("로그인을 해주세요.")
-            window.location.href="/myinfo";
+            window.location.href="/login";
         }
         return await res.json();
     } catch (error) {
@@ -60,7 +52,7 @@ async function getWithAuthPage(detail_url, page) {
 
 /* GET - 인증 불필요 */
 async function get(detail_url) {
-    let url = base_url + detail_url;
+    let url = `${BASE_URL}` + '/api/v1' + detail_url;
     try {
         let res = await fetch(url);
         if(res.status != 200){
@@ -76,14 +68,14 @@ async function get(detail_url) {
 
 /* POST - 인증 필요 */
 async function postWithAuth(detail_url, jsonData, alertMessage) {
-    let url = base_url + detail_url;
+    let url = `${BASE_URL}` + '/api/v1' + detail_url;
     try {
         let res = await fetch(url, {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json',
-                "Authorization": 'Bearer '+ token
             },
+            credentials: 'include',
             body: jsonData
         });
         if(res.status!=200){
@@ -98,14 +90,14 @@ async function postWithAuth(detail_url, jsonData, alertMessage) {
 
 /* PUT 인증 필요 */
 async function put(detail_url, jsonData) {
-    let url = base_url + detail_url;
+    let url = `${BASE_URL}` + '/api/v1' + detail_url;
     try {
         let res = await fetch(url, {
             method: 'put',
             headers: {
                 "Content-Type": 'application/json',
-                "Authorization": 'Bearer '+ token
             },
+            credentials: 'include',
             body: jsonData
         });
         if(res.status != 200){
@@ -119,13 +111,11 @@ async function put(detail_url, jsonData) {
 
 /* DELETE 인증 필요 */
 async function deleteWithAuth(detail_url) {
-    let url = base_url + detail_url;
+    let url = `${BASE_URL}` + '/api/v1' + detail_url;
     try {
         let res = await fetch(url, {
             method: 'delete',
-            headers: {
-                "Authorization": 'Bearer '+ token
-            }
+            credentials: 'include'
         });
         if(res.status != 200){
             alert("문제가 발생했습니다")
@@ -825,10 +815,9 @@ function postGathering(payload) {
   fetch(`${BASE_URL}/api/v1/gatherings/posts`, {
     method: 'POST',
     headers: {
-      Authorization:
-        'Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImRqbTA0MjEyQGdtYWlsLmNvbSIsImlhdCI6MTY3NTk1NzU5OCwiZXhwIjoxNjc1OTU3ODk4fQ.TbtnLwef3bMHPW98khLcuRPx0pdp4Mp-C07ulqcq2dU',
       'Content-Type': 'application/json; charset=utf-8',
     },
+    credentials: 'include',
     body: JSON.stringify(data),
   }).then((response) => console.log(response));
 }
@@ -857,9 +846,7 @@ async function getEnrolls(gatheringId) {
     let url = 'http://localhost:8080/api/v1/gatherings/%27+gatheringId+%27/enroll/list';
     try {
         let res = await fetch(url,{
-            headers: {
-                "Authorization": 'Bearer '+ getCookie("accessToken")
-            }
+            credentials:'include'
         });
         return await res.json();
     } catch (error) {
@@ -927,9 +914,7 @@ async function getAlarms() {
   }
   try {
       let res = await fetch(url,{
-          headers: {
-              "Authorization": 'Bearer '+ getCookie("accessToken")
-          }
+          credentials:'include'
       });
       return await res.json();
   } catch (error) {

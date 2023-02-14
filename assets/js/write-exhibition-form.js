@@ -37,9 +37,9 @@ function postExhibitionInfo() {
           detailInfoImgUrl: detailInfoImgUrl,
         }),
         headers: {
-          Authorization: 'Bearer ',
-          'Content-Type': 'application/json; charset=UTF-8',
+          'Content-Type': 'application/json; charset=UTF-8'
         },
+        credentials:'include',
         redirect: 'follow',
       })
         .then(function (response) {
