@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="assets/css/templatemo.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/css/custom.css">
-    <script defer src="assets/js/config.js"></script>
+    <script src="assets/js/config.js"></script>
 
 
 </head>
@@ -235,6 +235,11 @@
                                             </div>
                                             <div style = text-align:right>
                                             <p class="text-muted light-300">작성일 : ${content.createdAt}</p>
+                                            </div>
+                                            <div class="deleteBtn-container">
+                                                <div style="text-align: right;">
+                                                    <a href="#;" class="delete_button" onclick="deleteReview(${content.id})" id="${content.id}" type="button">삭제</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
