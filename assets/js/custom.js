@@ -541,7 +541,7 @@ async function deleteAReview(id){
     if(confirm("리뷰를 삭제하시겠습니까?")){
         await deleteWithAuth(`/reviews/${id}`);
     }
-    renderMyReviews();
+    renderMyReviews(0);
 }
 
 /* ******************** MY-GATHERINGS ******************** */
@@ -637,7 +637,7 @@ async function renderMyParticipations(page) {
                     </div>
                 </div>
                 <div id="my-button" class="col-md-12 col-12 m-auto text-end">
-                    <button type="button" onclick=""
+                    <button type="button" onclick="cancelEnroll(${element.id})"
                         class="btn btn-secondary rounded-pill px-md-2 px-2 py-2 radius-0 text-light">신청 취소하기</button>
                 </div>
             </div>
@@ -673,6 +673,13 @@ async function renderMyParticipations(page) {
     </ul>
     `;
     pageContainer.innerHTML = pageHtml;
+}
+
+async function cancelEnroll(id){
+    if(confirm("신청을 취소하시겠습니까?")){
+        await deleteWithAuth(`/gatherings/${id}/cancel`);
+    }
+    renderMyParticipations(0);
 }
 
 // exhibitions.html ---------------------------------------------------------------------------------------------------------
