@@ -52,7 +52,7 @@ function postExhibitionInfo() {
           const resultCode = data.resultCode;
           if (resultCode === 'SUCCESS') {
             alert('등록 완료');
-            window.location.replace(`${FRONT_BASE_URL}/write-exhibition`);
+            window.location.replace(`/write-exhibition`);
           }
         });
 
