@@ -210,7 +210,11 @@
 
                 <div class="worksingle-content col-lg-8 m-auto text-left justify-content-center">
                     <h4 class="worksingle-heading h4 pb-3 fw-bold light-300 typo-space-line">상세정보</h4>
-                <div><img src=${contents.result.detailInfoImgUrl.split(',')[0]} /></div>
+                <div>${
+                    contents.result.detailInfoImgUrl 
+                        ? '<img src="' + contents.result.detailInfoImgUrl.split(',')[0] + '" />'
+                        : '<div></div>'
+                }</div>
                 </div>
                            
                 <div class="worksingle-content col-lg-8 m-auto mt-3 text-left justify-content-center">
@@ -219,7 +223,7 @@
                         <div>${
                             contents.result.noticeImgUrl 
                                 ? '<img src="' + contents.result.noticeImgUrl.split(',')[0] + '" />'
-                                : '<div>no image</div>'
+                                : '<div></div>'
                         }</div>
                     </div>
                 </div>
