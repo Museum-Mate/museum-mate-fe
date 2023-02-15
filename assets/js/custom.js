@@ -319,7 +319,7 @@ async function parseMyCalendar() {
             title: `${element.name}`,
             start: calendarDateFormatter(`${element.startAt}`),
             end: calendarDateFormatter(`${element.endAt}`),
-            url: '/exhibitions?id='+ `${element.id}`,
+            url: '/exhibition-single?id='+ `${element.id}`,
             backgroundColor: '#dbddebb0',
             borderColor:'#dbddebb0',
             textColor:'black'
@@ -682,6 +682,72 @@ async function cancelEnroll(id){
     renderMyParticipations(0);
 }
 
+/* 마이 참여 승낙된 모집글 */
+async function renderMyApprovedParticipations(page) {
+    let approvedParticipations = await getWithAuthPage("/my/gatherings/approves",page);
+    let approvedParticipation = approvedParticipations.result.content;
+    let html = '';
+    approvedParticipation.forEach(element => {
+        let createdAt = getDate(element.createdAt);
+        let htmlSegment = 
+        `
+        <div class="update-post">
+            <div class="row">
+                <div class="col-lg-10 col-md-8 col-sm-12 col-xs-12 px-4">
+                    <span class="update-date">${element.exhibitionName}</span>
+                    <h5 class="update-title"><i class="bx bx-group"></i> ${element.title}</h5>
+                    <p>${element.content}</p>
+                    <p><span style="color:#4346a2">주최자:</span> ${element.userName}</p>
+                    <p><span style="color:#4346a2">모집 현황:</span> ${element.currentPeople}/${element.maxPeople}</p>
+                    <p><span style="color:#4346a2">만나는 날짜:</span> ${element.meetDateTime}</p>
+                    <p><span style="color:#4346a2">만나는 장소:</span> ${element.meetLocation}</p>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 pt-2">
+                    <div class="text-end simple-btn">
+                        <button type="button" onclick="location.href='/gathering-single?id=${element.id}'" class="text-decoration-none text-primary">
+                            더보기
+                        </button>
+                    </div>
+                </div>
+                <div id="my-button" class="col-md-12 col-12 m-auto text-end">
+                    <button type="button" onclick="cancelEnroll(${element.id})"
+                        class="btn btn-secondary rounded-pill px-md-2 px-2 py-2 radius-0 text-light">신청 취소하기</button>
+                </div>
+            </div>
+        </div>
+        `;
+
+        html += htmlSegment;
+    });
+
+    let container = document.querySelector('.my-participations');
+    container.innerHTML = html;
+
+    let previous = "";
+    if(approvedParticipations.result.pageable.pageNumber == 0){
+        previous = "disabled";
+    }
+    
+    let next = "";
+    if(approvedParticipations.result.last == true){
+        next = "disabled"
+    }
+
+    let pageContainer = document.querySelector('.my-participations-pagination')
+    let pageHtml = 
+    `
+    <ul class="pagination">
+        <li class="page-item ${previous}">
+        <a class="page-link" href="#" onclick="renderMyParticipations(${approvedParticipations.result.pageable.pageNumber - 1})">Previous</a>
+        </li>
+        <li class="page-item ${next}">
+        <a class="page-link" href="#" onclick="renderMyParticipations(${approvedParticipations.result.pageable.pageNumber + 1})">Next</a>
+        </li>
+    </ul>
+    `;
+    pageContainer.innerHTML = pageHtml;
+}
+
 // exhibitions.html ---------------------------------------------------------------------------------------------------------
 
 async function getExhibitionsById() {
@@ -800,7 +866,6 @@ async function renderGatheringsById() {
                         <!-- 버튼 -->
                         <div class = "">
                             <a onclick="submitSinglePage(this, '${element.id}')" class="btn rounded-pill px-4 btn-outline-primary mb-3"> 더 알아보기 </a>
-                            <a href="#" class="btn rounded-pill px-4 btn-outline-primary mb-3"> 신청하기!🎉 </a>
                         </div>
                     </div>
                 </div>
@@ -851,7 +916,7 @@ function submitSinglePage(e, id) {
 
 // 
 async function getEnrolls(gatheringId) {
-    let url = `${BASE_URL}/api/v1/gatherings/%27+gatheringId+%27/enroll/list`;
+    let url = `${BASE_URL}/api/v1/gatherings/${gatheringId}/enroll/list`;
     try {
         let res = await fetch(url,{
             credentials:'include'
@@ -913,67 +978,129 @@ async function renderExhibisionForwork() {
     }
   }
 
-  //알람 기능
-async function getAlarms() {
-  let url = `${BASE_URL}/api/v1/my/alarms`;
-  var cookie = getCookie("accessToken")
-  if( !cookie ){
-      console.log("쿠키가 비어 있음")
-  }
-  try {
-      let res = await fetch(url,{
-          credentials:'include'
-      });
-      return await res.json();
-  } catch (error) {
-      console.log(error);
-      alert("Request Error!");
-  }
-}
-async function renderAlarms() {
-  let alarms = await getAlarms();
-  let alarm = alarms.result.content;
+    //알람
+    async function getAlarms() {
+    let url = `${BASE_URL}/api/v1/my/alarms`;
+    var cookie = getCookie("Authorization")
+    
+    let jsonData = JSON.stringify({
+        resultCode: "SUCCESS",
+        result: {
+            content: "로그인이 필요합니다."
+        }
+        })
+    console.log(jsonData)
+    if( !cookie ){
+        return await jsonData;
+    }
+    try {
+        let res = await fetch(url,{
+            credentials:'include'
+        });
+        return await res.json();
+    } catch (error) {
+        console.log(error);
+        alert("Request Error!");
+    }
+    }
+    async function renderAlarms() {
+    let alarms = await getAlarms();
+    let alarm = alarms.result.content;
 
-  if(alarms.resultCode=="ERROR"){
-      console.log(alarms.result.message);
-      alert(alarms.result.message);
-  }
-  let html = '';
-  
-  Array.from(alarm).forEach(element => {
-      let htmlSegment = `
-      <li><a class="dropdown-item" ><b>
-      ${element.exhibitionName}<br>${element.alarmMessage}</b></a></li>`;
-      html += htmlSegment;
-  });
+    if(alarms.resultCode=="ERROR"){
+        console.log(alarms.result.message);
+        alert(alarms.result.message);
+    }
+    let html = '';
+    
+    Array.from(alarm).forEach(element => {
+        let htmlSegment = `
+        <li><a class="dropdown-item" ><b>
+        ${element.exhibitionName}<br>${element.alarmMessage}</b></a></li>`;
+        html += htmlSegment;
+    });
 
-  let container = document.querySelector('.alarmscontainer');
-  container.innerHTML = html;
-}
+    let container = document.querySelector('.alarmscontainer');
+    container.innerHTML = html;
+    }
+    //알람 끝
 
-function clickAlarm() {
-  let click = document.querySelector(".click");
-  click.addEventListener('click', function() {
-      renderAlarms();
-  })
-}
+    // 헤더 로그인 로그아웃 표시
+    function setCookie(name, value, exp) {
+        var date = new Date();
+        date.setTime(date.getTime() + exp*24*60*60*1000);
+        document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
+        location.reload(true);
+    };
 
-// 헤더 로그인 로그아웃
-function setCookie(name, value, exp) {
-  var date = new Date();
-  date.setTime(date.getTime() + exp*24*60*60*1000);
-  document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
-  location.reload(true);
-};
+    function getCookie(name) {
+        var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+        return value? value[2] : null;
+    };
 
-function getCookie(name) {
-  var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
-  return value? value[2] : null;
-};
+    function deleteCookie(name) {
+        document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
+        location.reload(true);
+        window.location.href = '/index.html';
+    }
 
-function deleteCookie(name) {
-  document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
-  location.reload(true);
-  alert("로그아웃 완료");
-}
+    async function renderinout() {
 
+        if(getCookie("Authorization")){
+            let html = '';
+                let htmlSegment = `<button value="Logout" onclick="renderLogout()" class="btn btn-primary">로그아웃</button>`;
+                html += htmlSegment;
+        
+            let container = document.querySelector('.lolocontainer');
+            container.innerHTML = html;
+        } else {
+            let html = '';
+            let htmlSegment = `<button onclick="location.href='login.html'" class="btn btn-primary">로그인</button>`;
+            html += htmlSegment;
+
+            let container = document.querySelector('.lolocontainer');
+            container.innerHTML = html;
+        }
+    }
+// 헤더 로그인 로그아웃 표시 끝
+
+// 로그아웃
+    async function renderLogout() {
+
+        deleteCookie("Authorization")
+        deleteCookie("Authorization-refresh")
+        alert("로그아웃 완료")
+        window.location.href = '#';
+    }
+
+    // 신청자 승인
+    async function approveUser(gatheringId,pId) {
+        let url = `${BASE_URL}`+'/api/v1/gatherings/'+gatheringId+'/enroll/'+pId;
+        console.log("url입니다: "+url);
+
+        try {
+            let res = await fetch(url, {
+                credentials: 'include'
+            });
+            if(res.status == 401){
+                alert("로그인을 해주세요.")
+                window.location.href="/login";
+            }
+            return await res.json();
+        } catch (error) {
+            console.log(error);
+            alert("Request Error!");
+        }
+    }
+
+    async function renderApproveUser(gatheringId,pId) {
+        let approve = await approveUser(gatheringId,pId);
+
+        if(approve.resultCode=="ERROR"){
+            console.log(approve.result.message);
+            alert(approve.result.message);
+        }
+        alert("승인이 완료되었습니다")
+        location.reload(true);
+    }
+    // 신청자 승인 끝

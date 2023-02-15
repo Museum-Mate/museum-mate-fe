@@ -10,7 +10,6 @@
 
 body {
 	background-color:#ffffff; /* 배경 색*/
-	font-family: 'Open Sans', sans-serif;
 }
 p {
 	color:#A7A7A7;
@@ -612,4 +611,25 @@ a {
 .simple-btn button{
 	background-color: transparent;
 	border: none;
+}
+
+.participations-tab .btn-secondary{
+	color: #6266ea;
+	background-color: #efefef;
+
+}
+
+.participations-tab .btn-secondary.btn-active{
+	color: #ffffff;
+	background-color: #6266ea;
+}
+
+.participations-tab .btn-secondary:focus {
+	box-shadow: none;
+}
+
+.participations-tab #my-button {
+	border-radius: 14px;
+	background-color: #efefef;
+	border: 3px double rgb(191, 191, 192);
 }

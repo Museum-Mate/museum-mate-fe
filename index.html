@@ -28,7 +28,50 @@
 
   <body>
     <!-- Header -->
-    <header></header>
+    <nav id="main_nav" class="navbar navbar-expand-lg navbar-light bg-white shadow">
+      <div class="container d-flex justify-content-between align-items-center">
+          <a class="navbar-brand h1" href="index.html">
+              <i class='bx bx-palette bx-sm text-dark'></i>
+              <span class="text-dark h4">MUMA</span> <span class="text-primary h5">Museum Mate</span>
+          </a>
+          <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+              data-bs-target="#navbar-toggler-success" aria-controls="navbarSupportedContent" aria-expanded="false"
+              aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+  
+          <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between"
+              id="navbar-toggler-success">
+              <div class="flex-fill mx-xl-5 mb-2">
+                  <ul class="nav navbar-nav d-flex justify-content-start mx-xl-5 text-center text-dark">
+                      <li class="nav-item">
+                          <a class="nav-link btn-outline-primary rounded-pill px-3" href="/">홈</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link btn-outline-primary rounded-pill px-3" href="/exhibition">전시</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link btn-outline-primary rounded-pill px-3" href="/gathering">함께 보러 가요</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link btn-outline-primary rounded-pill px-3" href="/myinfo">마이 페이지</a>
+                      </li>
+                  </ul>
+              </div>
+              <div class="navbar align-self-center d-flex">
+                      <div class="lolocontainer"></div>
+                      <div class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          <i class='bx bx-bell bx-sm bx-tada-hover text-primary'></i>
+                      </div>
+                      <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <div class = "alarmscontainer"></div>
+                      </ul>
+                  </div>
+                  
+              </div>
+          </div>
+      </div>
+  </nav>
 
     <!-- Start Banner Hero -->
     <div class="banner-wrapper bg-light">
@@ -145,6 +188,12 @@
           return false;
         });
       });
+        window.addEventListener('DOMContentLoaded', function () {
+        renderinout();
+      });
+          window.addEventListener('DOMContentLoaded', function () {
+        renderAlarms();
+      });
     </script>
     <!-- Templatemo -->
     <script src="assets/js/templatemo.js"></script>
@@ -160,7 +209,26 @@
         renderExhibitionsById();
         renderExhibitionsByEndAt();
         renderGatheringsById();
+        renderinout();
+        renderAlarms();
       });
     </script>
+
+<script>
+  (function(){var w=window;if(w.ChannelIO){return w.console.error("ChannelIO script included twice.")}var ch=function(){ch.c(arguments)};ch.q=[];ch.c=function(args){ch.q.push(args)};w.ChannelIO=ch;function l(){if(w.ChannelIOInitialized){return}w.ChannelIOInitialized=true;var s=document.createElement("script");s.type="text/javascript";s.async=true;s.src="https://cdn.channel.io/plugin/ch-plugin-web.js";var x=document.getElementsByTagName("script")[0];if(x.parentNode){x.parentNode.insertBefore(s,x)}}if(document.readyState==="complete"){l()}else{w.addEventListener("DOMContentLoaded",l);w.addEventListener("load",l)}})();
+
+  ChannelIO('boot', {
+    "pluginKey": "4392a721-e9c7-4694-8de4-3159ffa65e7e",
+    "memberId": "USER_MEMBER_ID", // fill user's member id
+    "profile": { // fill user's profile
+      "name": "USER_NAME", // fill user's name
+      "mobileNumber": "USER_MOBILE_NUMBER", // fill user's mobile number
+      "CUSTOM_VALUE_1": "VALUE_1", // custom property
+      "CUSTOM_VALUE_2": "VALUE_2" // custom property
+    }
+  });
+</script>
+
   </body>
+
 </html>
