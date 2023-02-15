@@ -76,7 +76,7 @@ https://templatemo.com/tm-561-purple-buzz
                 <a href="/gathering" class="btn rounded-pill px-3 btn-outline-primary mb-3">더 둘러볼래요 👀</a>
             </div>
             <div style="width:150px; height:100px; float:right; text-align: right; padding: 0;" class="enroll">
-                <a href="#" class="btn rounded-pill px-3 btn-outline-primary mb-3">신청하기!🎉</a>
+                <a href="javascript:void(0);" onclick="enrollGathering()" class="btn rounded-pill px-3 btn-outline-primary mb-3">신청하기!🎉</a>
             </div>
         </div>
 
@@ -158,6 +158,33 @@ https://templatemo.com/tm-561-purple-buzz
             document.getElementById('progress-percent').style.width = (data.result.currentPeople/data.result.maxPeople)*100 + '%';
             // console.log(data.result.currentPeople/data.result.maxPeople*100);
         });
+
+        async function enrollGathering(){
+            let url = `${BASE_URL}/api/v1/gatherings/${gatheringId}/enroll`
+            try {
+                let res = await fetch(url, {
+                    method: 'post',
+                    credentials: 'include'
+                });
+                if(res.status == 200){
+                    alert("신청이 완료되었습니다!");
+                    return;
+                }
+                if(res.status == 401){
+                    alert("로그인을 해주세요.")
+                    window.location.href="/login";
+                    return;
+                }
+                res = await res.json()
+                if(res.result.errorCode == "DUPLICATED_ENROLL"){
+                    alert("이미 신청된 모집글입니다!")
+                    return;
+                }
+            } catch (error) {
+                console.log(error);
+                alert("Request Error!");
+            }
+        }
 
     </script>
 
