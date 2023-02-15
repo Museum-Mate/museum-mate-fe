@@ -17,41 +17,27 @@ function postExhibitionInfo() {
       let exhibitionDetailInfo = document.getElementById('exhibitionDetailInfo').value;
       let exhibitionNotice = document.getElementById('exhibitionNotice').value;
       let detailInfoUrl = document.getElementById('detail_info_url').value;
-      // const mainImgUrl = document.getElementById('MainImgframe').getAttribute('src');
-      // const detailInfoImgUrl = document.getElementById('DetailInfoImgframe').getAttribute('src');
-      // const noticeImgUrl = document.getElementById('NoticeImgframe').getAttribute('src');
       
       const mainImg = document.getElementById('MainImgformFile').files[0]; //mainImg
       const detailInfoImg = document.getElementById('DetailInfoImgformFile').files[0]; //mainImg
       const noticeImg = document.getElementById('NoticeImgformFile').files[0]; //mainImg
 
-      
-      console.log(mainImg);
-      console.log(detailInfoImg);
-      console.log(noticeImg);
+      // console.log(mainImg);
+      // console.log(detailInfoImg);
+      // console.log(noticeImg);
 
 
       
       
 
       const images = new FormData();
-      // formData.append("name",exhibitionName);
-      // formData.append("startAt", startDate);
-      // formData.append("endAt",endDate);
-      // formData.append("price",price);
-      // formData.append("ageLimit",ageLimit);
-      // formData.append("detailInfo",exhibitionDetailInfo);
-      // formData.append("notice",exhibitionNotice);
-      // formData.append("galleryName",galleryName);
-      // formData.append("galleryLocation",galleryLocation);
       images.append("mainImg",mainImg);
       images.append("noticeImg",noticeImg);
       images.append("detailInfoImg",detailInfoImg);
-      // formData.append("detailInfoUrl",detailInfoUrl);
 
-      for (let key of images.keys()) {
-        console.log(`${key}: ${images.get(key)}`);
-      }
+      // for (let key of images.keys()) {
+      //   console.log(`${key}: ${images.get(key)}`);
+      // }
 
 // ============================================================================================
 // Nested Fetch
@@ -67,9 +53,6 @@ function postExhibitionInfo() {
           notice: exhibitionNotice,
           galleryName: galleryName,
           galleryLocation: galleryLocation,
-          // mainImgUrl: mainImgUrl,
-          // noticeImgUrl: noticeImgUrl,
-          // detailInfoImgUrl: detailInfoImgUrl,
           detailInfoUrl: detailInfoUrl
         }),
         headers: {
@@ -80,24 +63,11 @@ function postExhibitionInfo() {
       }
 
       ).then(
-
         function (response) {
           return response.json();
         }
-
       ).then(
-        
-        // function (data) {
-        //   console.log(data);
-        //   const resultCode = data.resultCode;
-        //   if (resultCode === 'SUCCESS') {
-        //     alert('등록 완료');
-        //     window.location.replace(`/write-exhibition`);
-        //   }
-        // }
-
         data => {
-
           const exhibitionId = data.result.id;
           console.log('전시 Id: ',exhibitionId);
           return fetch(`${BASE_URL}/api/v1/exhibitions/images/${exhibitionId}/main/upload`, {
@@ -110,87 +80,24 @@ function postExhibitionInfo() {
             redirect: 'follow',
           })
         }
-
       )
       .then(
-
         function (response) {
           return response.json();
         }
-
-
-
       )
       .then (
-
         function (data) {
           console.log(data);
           const resultCode = data.resultCode;
           if (resultCode === 'SUCCESS') {
             alert('등록 완료');
             window.location.replace(`/write-exhibition`);
+          } else {
+            alert('모든 정보를 입력했는지 확인해주세요!');
           }
         }
-
       );
-
-
-// ============================================================================================
-      // ExhibitionController로 전송되는 json 데이터
-      // fetch(`${BASE_URL}/api/v1/exhibitions/new`, {
-      //   method: 'POST',
-      //   body: JSON.stringify({
-      //     name: exhibitionName,
-      //     startAt: startDate,
-      //     endAt: endDate,
-      //     price: price,
-      //     ageLimit: ageLimit,
-      //     detailInfo: exhibitionDetailInfo,
-      //     notice: exhibitionNotice,
-      //     galleryName: galleryName,
-      //     galleryLocation: galleryLocation,
-
-      //     detailInfoUrl: detailInfoUrl
-      //   }),
-      //   headers: {
-      //     'Content-Type': 'application/json; charset=UTF-8'
-      //   },
-      //   credentials:'include',
-      //   redirect: 'follow',
-      // })
-      //   .then(function (response) {
-      //     return response.json();
-      //   })
-      //   .then(function (data) {
-      //     console.log(data);
-      //     const resultCode = data.resultCode;
-      //     if (resultCode === 'SUCCESS') {
-      //       alert('등록 완료');
-      //       window.location.replace(`/write-exhibition`);
-      //     }
-      //   });
-// ============================================================================================
-        // ExhibitionFileController로 전송되는 MultiPart 데이터
-        // fetch(`${BASE_URL}/api/v1/exhibitions/images/`+exhibitionId`+/main/upload`, {
-        //   method: 'POST',
-        //   body: formData,
-        //   headers: {
-        //     'Content-Type': 'multipart/form-data'
-        //   },
-        //   credentials:'include',
-        //   redirect: 'follow',
-        // })
-        //   .then(function (response) {
-        //     return response.json();
-        //   })
-        //   .then(function (data) {
-        //     console.log(data);
-        //     const resultCode = data.resultCode;
-        //     if (resultCode === 'SUCCESS') {
-        //       alert('등록 완료');
-        //       window.location.replace(`/write-exhibition`);
-        //     }
-        //   });
     },
     true,
   );
