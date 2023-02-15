@@ -123,7 +123,7 @@ async function postExhibitionInfo() {
         let url = `${BASE_URL}/api/v1/exhibitions/new`;
         try {
 
-          let result = await fetch (url, {
+          let response = await fetch(url, {
             method: 'POST',
             body: JSON.stringify({
               name: exhibitionName,
@@ -146,7 +146,24 @@ async function postExhibitionInfo() {
             credentials:'include',
             redirect: 'follow',
           });
-          return await result.json();
+
+          console.log(response)
+          if(response.status == 200){
+            let res = await response.json()
+            Swal.fire({
+              title: '전시 등록이 완료되었습니다 🎉',
+              icon: 'success',
+            }).then(confirm => {
+              if (confirm.isConfirmed) { 
+                window.location.href = `/exhibition-single?id=${res.result.id}`;
+              }
+            });
+          } else {
+            Swal.fire ({
+              title: '전시 등록에 실패하였습니다 🥲',
+              icon: 'error',
+            })
+          }
 
         } catch(error) {
 
