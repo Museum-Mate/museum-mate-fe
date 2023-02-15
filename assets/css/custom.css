@@ -207,3 +207,7 @@ img, figure {
   display : flex;
   flex-direction: row;
 }
+
+#floatingexhibition {
+  text-indent: -9999px;
+}
