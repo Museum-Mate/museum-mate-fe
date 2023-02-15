@@ -1,10 +1,3 @@
-/* header */
-var header = document.querySelector('header');
-
-fetch('/header.html')
-  .then((res) => res.text())
-  .then((data) => (header.innerHTML = data));
-
 // footer
 var footer = document.querySelector('footer');
 
@@ -987,9 +980,8 @@ async function renderExhibisionForwork() {
         resultCode: "SUCCESS",
         result: {
             content: "로그인이 필요합니다."
-        }
+         }
         })
-    console.log(jsonData)
     if( !cookie ){
         return await jsonData;
     }
@@ -1008,7 +1000,6 @@ async function renderExhibisionForwork() {
     let alarm = alarms.result.content;
 
     if(alarms.resultCode=="ERROR"){
-        console.log(alarms.result.message);
         alert(alarms.result.message);
     }
     let html = '';
@@ -1046,7 +1037,11 @@ async function renderExhibisionForwork() {
 
     async function renderinout() {
 
+        console.log("렌더 인아웃 함수 들어옴")
+
         if(getCookie("Authorization")){
+            var token = getCookie("Authorization");
+            console.log("token: "+token);
             let html = '';
                 let htmlSegment = `<button value="Logout" onclick="renderLogout()" class="btn btn-primary">로그아웃</button>`;
                 html += htmlSegment;
@@ -1054,6 +1049,7 @@ async function renderExhibisionForwork() {
             let container = document.querySelector('.lolocontainer');
             container.innerHTML = html;
         } else {
+            console.log("토큰 없음");
             let html = '';
             let htmlSegment = `<button onclick="location.href='login.html'" class="btn btn-primary">로그인</button>`;
             html += htmlSegment;
@@ -1066,6 +1062,7 @@ async function renderExhibisionForwork() {
 
 // 로그아웃
     async function renderLogout() {
+        console.log("로그아웃 함수 들어옴")
 
         deleteCookie("Authorization")
         deleteCookie("Authorization-refresh")
