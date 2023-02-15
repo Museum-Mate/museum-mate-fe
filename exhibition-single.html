@@ -276,6 +276,7 @@
             .then(contents => {
                 let html = ''
                 for (const content of contents.result.content) {
+                    let date = getDate(content.createdAt);
                     html += `
                         <div class="row pb-4">
                         <div class="worksingle-comment-body col-md-8 m-auto">
@@ -297,7 +298,7 @@
                                                 <div class= m-auto mt-4>${content.content}</div>
                                             </div>
                                             <div style = text-align:right>
-                                            <p class="text-muted light-300">작성일 : ${content.createdAt}</p>
+                                            <p class="text-muted light-300">작성일 : ${date}</p>
                                             </div>
                                             <div class="deleteBtn-container">
                                                 <div style="text-align: right;">
