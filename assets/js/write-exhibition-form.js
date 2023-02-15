@@ -18,7 +18,10 @@ async function postExhibitionInfo() {
       let exhibitionNotice = document.getElementById('exhibitionNotice').value;
       let detailInfoUrl = document.getElementById('detail_info_url').value;
       
-      const mainImg = document.getElementById('hiddenMainImgUrl').value; //mainImg
+      let mainImg = document.getElementById('hiddenMainImgUrl').value; //mainImg
+      if(mainImg == ""){
+        mainImg = "https://images-ext-1.discordapp.net/external/Nt6WLvwYiRCg4mp_guhm0Ns6nR-tQdellZJmIfIG6MA/https/museummate-s3-bucket.s3.ap-northeast-2.amazonaws.com/NotPost.jpeg?width=789&height=1116";
+      }
       const detailInfoImg = document.getElementById('hiddenDetailInfoImgUrl').value; //detailInfoImg
       const noticeImg = document.getElementById('hiddenNoticeImgUrl').value; //noticeImg
 
