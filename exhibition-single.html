@@ -330,12 +330,8 @@
     async function postWithAuth() {
     // let url = base_url + detail_url;
     const queryStrings = window.location.href.split('?')[1];
-    let id = 1;
-    for (const query of queryStrings.split('&')) {
-        if (query[0] === 'id') {
-            id = query[1]
-        }
-    }
+    const id = queryString.split('=')[1]
+
     const textArea1 = document.getElementById('inputtitle')
     const textArea = document.getElementById('inputmessage')
     const selectedStar = document.getElementById('starValue')
