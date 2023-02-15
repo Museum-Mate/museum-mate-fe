@@ -115,6 +115,7 @@
                 <!-- <form class="col-md-12 m-auto" method="POST" action="#" role="form"> -->
 
                 <div class="form-group mt-3">
+                    <label for="inputdate">방문 날짜: </label><input class="form-control form-control-lg light-300 mb-2" type="date" id="inputdate" name="inputdate" style="width: 200px; font-size: 14px; height:20px; display:inline; padding:0px 3px; margin-left: 5px;">
                     <textarea class="form-control form-control-lg light-300" id="inputtitle" name="inputtitle" placeholder="제목을 입력하세요" rows="1"></textarea>
                     <textarea class="form-control form-control-lg light-300" id="inputmessage" name="inputmessage" placeholder="내용을 입력하세요" rows="5"></textarea>
                 </div>
@@ -291,6 +292,7 @@
                                         </div>
                                         <div class="footer" style="width: 53rem;">
                                             <div class="card-body border ms-3 light-300">
+                                                <div class="mb-2" style="color: #A7A7A7;font-size: 12px;">${content.visitedDate} 방문</div>
                                                 <div class= "card-title fw-bold">${content.title}</div>
                                                 <div class= m-auto mt-4>${content.content}</div>
                                             </div>
@@ -356,6 +358,7 @@
     const queryStrings = window.location.href.split('?')[1];
     const id = queryString.split('=')[1]
 
+    const dateArea = document.getElementById('inputdate')
     const textArea1 = document.getElementById('inputtitle')
     const textArea = document.getElementById('inputmessage')
     const selectedStar = document.getElementById('starValue')
@@ -371,7 +374,7 @@
                 title: textArea1.value,
                 content: textArea.value,
                 star: selectedStar.value,
-                createdDate: new Date()
+                visitedDate: dateArea.value
             })
         });
         if(res.status!=200){
