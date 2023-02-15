@@ -319,7 +319,7 @@ async function parseMyCalendar() {
             title: `${element.name}`,
             start: calendarDateFormatter(`${element.startAt}`),
             end: calendarDateFormatter(`${element.endAt}`),
-            url: '/exhibitions?id='+ `${element.id}`,
+            url: '/exhibition-single?id='+ `${element.id}`,
             backgroundColor: '#dbddebb0',
             borderColor:'#dbddebb0',
             textColor:'black'
