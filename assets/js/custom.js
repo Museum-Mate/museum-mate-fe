@@ -319,7 +319,7 @@ async function parseMyCalendar() {
             title: `${element.name}`,
             start: calendarDateFormatter(`${element.startAt}`),
             end: calendarDateFormatter(`${element.endAt}`),
-            url: '/exhibitions?id='+ `${element.id}`,
+            url: '/exhibition-single?id='+ `${element.id}`,
             backgroundColor: '#dbddebb0',
             borderColor:'#dbddebb0',
             textColor:'black'
@@ -866,7 +866,6 @@ async function renderGatheringsById() {
                         <!-- 버튼 -->
                         <div class = "">
                             <a onclick="submitSinglePage(this, '${element.id}')" class="btn rounded-pill px-4 btn-outline-primary mb-3"> 더 알아보기 </a>
-                            <a href="#" class="btn rounded-pill px-4 btn-outline-primary mb-3"> 신청하기!🎉 </a>
                         </div>
                     </div>
                 </div>

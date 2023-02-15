@@ -59,7 +59,7 @@ async function ajax() {
   <!-- 버튼 -->
   <div class = "">
       <a onclick="submitSinglePage(this, '${id}')" class="btn rounded-pill px-4 btn-outline-primary mb-3"> 더 알아보기 </a>
-      <a href="#" class="btn rounded-pill px-4 btn-outline-primary mb-3"> 신청하기!🎉 </a>
+      <a href="javascript:void(0);" onclick="enrollGathering(${id})" class="btn rounded-pill px-4 btn-outline-primary mb-3"> 신청하기!🎉 </a>
   </div>
 </div>
 </div>

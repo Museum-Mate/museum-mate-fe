@@ -10,7 +10,6 @@
 
 body {
 	background-color:#ffffff; /* 배경 색*/
-	font-family: 'Open Sans', sans-serif;
 }
 p {
 	color:#A7A7A7;
@@ -632,5 +631,5 @@ a {
 .participations-tab #my-button {
 	border-radius: 14px;
 	background-color: #efefef;
-	border: 2px double #868686;
+	border: 3px double rgb(191, 191, 192);
 }
