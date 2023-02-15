@@ -1,9 +1,9 @@
-function postExhibitionInfo() {
+async function postExhibitionInfo() {
   var form = document.getElementById('write-exhibition');
   form.addEventListener(
     'submit',
     function (e) {
-      // auto submission of te form
+      // auto submission of the form
       e.preventDefault();
 
       let exhibitionName = document.getElementById('exhibitionName').value;
@@ -18,154 +18,165 @@ function postExhibitionInfo() {
       let exhibitionNotice = document.getElementById('exhibitionNotice').value;
       let detailInfoUrl = document.getElementById('detail_info_url').value;
       
-      const mainImg = document.getElementById('MainImgformFile').files[0]; //mainImg
-      const detailInfoImg = document.getElementById('DetailInfoImgformFile').files[0]; //detailInfoImg
-      const noticeImg = document.getElementById('NoticeImgformFile').files[0]; //noticeImg
+      const mainImg = document.getElementById('hiddenMainImgUrl').value; //mainImg
+      const detailInfoImg = document.getElementById('hiddenDetailInfoImgUrl').value; //detailInfoImg
+      const noticeImg = document.getElementById('hiddenNoticeImgUrl').value; //noticeImg
 
-      console.log(mainImg);
-      console.log(detailInfoImg);
-      console.log(noticeImg);
-
-      const images = new FormData();
-      images.append("mainImg",mainImg);
-      images.append("noticeImg",noticeImg);
-      images.append("detailInfoImg",detailInfoImg);
-
-      let exhibitionId = 0;
-      // for (let key of images.keys()) {
-      //   console.log(`${key}: ${images.get(key)}`);
+      postExhibitionTextInfo();
+      // - 1. 메인이미지 -------------------------------------------------
+      // let S3MainImgUrlString = 
+      // async function getS3MainImgUrl() {
+      //   const mainImageInput = await document.getElementById('MainImgformFile');
+      //     let selectedMainImg = mainImageInput.files[0];
+      //     console.log("메인 이미지: ", selectedMainImg);
+      //     let url = `${BASE_URL}/api/v1/exhibitions/images/main`; // url 확인
+      //     let mainImage = new FormData();
+      //     mainImage.append("mainImg", selectedMainImg);
+      //     let result = await fetch (url, {
+      //       method: 'POST',
+      //       body: mainImage,
+      //       headers: {
+      //         // 'Content-Type': 'multipart/form-data'
+      //       },
+      //       credentials:'include',
+      //       // redirect: 'follow',
+      //     }).then (
+      //       (response) => {
+      //         return response.json();
+      //       }
+      //     ).then (
+      //       (data) => {
+      //       console.log(data);
+      //       const url = data.result; //url
+      //       console.log(url);
+      //     });
       // }
 
-// ============================================================================================
-// Nested Fetch
-      fetch(`${BASE_URL}/api/v1/exhibitions/new`, {
-        method: 'POST',
-        body: JSON.stringify({
-          name: exhibitionName,
-          startAt: startDate,
-          endAt: endDate,
-          price: price,
-          ageLimit: ageLimit,
-          detailInfo: exhibitionDetailInfo,
-          notice: exhibitionNotice,
-          galleryName: galleryName,
-          galleryLocation: galleryLocation,
-          detailInfoUrl: detailInfoUrl
-        }),
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8'
-        },
-        credentials:'include',
-        redirect: 'follow',
-      })
-      .then(
-        function (response) {
-          return response.json();
-        }
-      )
-      .then(
-        data => {
-          exhibitionId = data.result.id;
-          console.log('전시 Id: ',exhibitionId);
-          return fetch(`${BASE_URL}/api/v1/exhibitions/images/${exhibitionId}/main/upload`, {
+      // - 2. 상세정보 이미지 -------------------------------------------------
+      // let S3detailInfoImgUrlString = 
+      // async function getS3detailInfoImgUrl() {
+      //   const detailInfoImgInput = await document.getElementById('DetailInfoImgformFile');
+        
+      //     let selectedDetailInfoImg = detailInfoImgInput.files[0];
+      //     let url = `${BASE_URL}/api/v1/exhibitions/images/detailInfo` // url 확인 
+      //     console.log("메인 이미지: ", selectedDetailInfoImg);
+
+      //     let detailInfoImage = new FormData();
+      //     detailInfoImage.append("detailInfoImg", selectedDetailInfoImg);
+
+      //       let result = await fetch (url, {
+      //         method: 'POST',
+      //         body: detailInfoImage,
+      //         headers: {
+      //           // 'Content-Type': 'multipart/form-data'
+      //         },
+      //         credentials:'include',
+      //         // redirect: 'follow',
+      //       }).then(
+      //         (response) => {
+      //           return response.json();
+      //         }  
+      //       ).then(
+      //         (data) => {
+      //           console.log(data);
+      //           const url = data.result; //url
+      //           console.log(url);
+      //         });
+      // }
+
+      // - 3. 안내사항 이미지 (notice image) -------------------------------------------------
+      // let S3noticeImgUrlString = 
+      // async function getS3noticeImgUrl() {
+      //   const noticeImageInput = await document.getElementById('NoticeImgformFile');
+        
+      //   let selectedNoticeImg = noticeImageInput.files[0];
+      //   let url = `${BASE_URL}/api/v1/exhibitions/images/notice`
+      //   console.log("메인 이미지: ", selectedNoticeImg);
+      //   let noticeImage = new FormData();
+      //   noticeImage.append("noticeImg", selectedNoticeImg);
+
+      //   let result = await fetch (url, {
+      //     method: 'POST',
+      //     body: noticeImage,
+      //     headers: {
+      //       // 'Content-Type': 'multipart/form-data'
+      //     },
+      //     credentials:'include',
+      //     // redirect: 'follow',
+      //   }).then(
+      //     (response) => {
+      //       return response.json();
+      //     }
+      //   ).then(
+      //     (data) => {
+      //       console.log(data);
+      //       const url = data.result; //url
+      //       console.log(url);
+      //     }
+      //   );
+      // }      
+
+
+      // ============================================================================================
+      // Nested Fetch
+      async function postExhibitionTextInfo() {
+        let url = `${BASE_URL}/api/v1/exhibitions/new`;
+        try {
+
+          let result = await fetch (url, {
             method: 'POST',
-            body: images,
+            body: JSON.stringify({
+              name: exhibitionName,
+              startAt: startDate,
+              endAt: endDate,
+              price: price,
+              ageLimit: ageLimit,
+              detailInfo: exhibitionDetailInfo,
+              notice: exhibitionNotice,
+              galleryName: galleryName,
+              galleryLocation: galleryLocation,
+              mainImgUrl: mainImg,
+              detailInfoImgUrl: detailInfoImg,
+              noticeImgUrl: noticeImg,
+              detailInfoUrl: detailInfoUrl
+            }),
             headers: {
-              // 'Content-Type': 'multipart/form-data'
+              'Content-Type': 'application/json; charset=UTF-8'
             },
             credentials:'include',
             redirect: 'follow',
-          })
-        //   .then(
-        //       data => {
-        //         const exhibitionId = data.result.id;
-        //         console.log('전시 Id: ',exhibitionId);
-        //         return fetch(`${BASE_URL}/api/v1/exhibitions/images/${exhibitionId}/notice/upload`, {
-        //           method: 'POST',
-        //           body: images,
-        //           headers: {
-        //             // 'Content-Type': 'multipart/form-data'
-        //           },
-        //           credentials:'include',
-        //           redirect: 'follow',
-        //         })
-        //         .then(
-        //           data => {
-        //             const exhibitionId = data.result.id;
-        //             console.log('전시 Id: ',exhibitionId);
-        //             return fetch(`${BASE_URL}/api/v1/exhibitions/images/${exhibitionId}/detailInfo/upload`, {
-        //               method: 'POST',
-        //               body: images,
-        //               headers: {
-        //                 // 'Content-Type': 'multipart/form-data'
-        //               },
-        //               credentials:'include',
-        //               redirect: 'follow',
-        //             })
-        //       })
-        })
-      .then(
-        function (response) {
-          return response.json();
+          });
+          return await result.json();
+
+        } catch(error) {
+
+          console.log(error);
+
         }
-      )
-      .then(
-        data => {
-          exhibitionId = data.result.id;
-          // console.log('전시 Id: ',exhibitionId);
-          return fetch(`${BASE_URL}/api/v1/exhibitions/images/${exhibitionId}/notice/upload`, {
-            method: 'POST',
-            body: images,
-            headers: {
-              // 'Content-Type': 'multipart/form-data'
-            },
-            credentials:'include',
-            redirect: 'follow',
-          })
-        }
-      )
-      .then(
-        function (response) {
-          return response.json();
-        }
-      )
-      .then(
-        data => {
-          exhibitionId = data.result.id;
-          console.log('전시 Id: ',exhibitionId);
-          return fetch(`${BASE_URL}/api/v1/exhibitions/images/${exhibitionId}/detailInfo/upload`, {
-            method: 'POST',
-            body: images,
-            headers: {
-              // 'Content-Type': 'multipart/form-data'
-            },
-            credentials:'include',
-            redirect: 'follow',
-          })
-        }
-      )
-      .then(
-        function (response) {
-          return response.json();
-        }
-      )
+      }
+    
+      // let mainImgResult = postExhibitionMainImage();
+      // let noticeImgResult = postExhibitionNoticeImage();
+      // let detailInfoImgResult = postExhibitionDetailInfoImage();
       
-      .then (
-        function (data) {
-          console.log(data);
-          const resultCode = data.resultCode;
-          if (resultCode === 'SUCCESS') {
-            alert('등록 완료');
-            window.location.replace(`/write-exhibition`);
-          } else {
-            alert('모든 정보를 입력했는지 확인해주세요!');
-          }
-        }
-      );
-    },
-    true,
-  );
-}
+      // const resultCode = data.resultCode;
+      // const mainImgResultCode = mainImgResult.resultCode;
+      // const noticeImgResultCode = noticeImgResult.resultCode;
+      // const detailInfoImgResultCode = detailInfoImgResult.resultCode;
+      
+      // if (resultCode === 'SUCCESS' &&
+      // mainImgResultCode === 'SUCCESS' &&
+      // noticeImgResultCode === 'SUCCESS' &&
+      // detailInfoImgResultCode === 'SUCCESS') {
+      //   alert('등록 완료');
+      //   window.location.replace(`/write-exhibition`);
+      // } else {
+      //   alert('모든 정보를 입력했는지 확인해주세요!');
+      // }
+    }
+  )
+};
+
 
 // <!-- 카카오 주소 찾기 API -->
 
@@ -234,3 +245,97 @@ var today = year + '-' + month + '-' + day;
 
 document.getElementById('current-date').value = today;
 document.getElementById('end-date').value = today;
+
+// 이미지 onchange 함수
+// - 1. 메인이미지 -------------------------------------------------
+async function getS3MainImgUrl() {
+  const mainImageInput = await document.getElementById('MainImgformFile');
+    let selectedMainImg = mainImageInput.files[0];
+    console.log("메인 이미지: ", selectedMainImg);
+    let url = `${BASE_URL}/api/v1/exhibitions/images/main`; // url 확인
+    let mainImage = new FormData();
+    mainImage.append("mainImg", selectedMainImg);
+    let result = await fetch (url, {
+      method: 'POST',
+      body: mainImage,
+      headers: {
+        // 'Content-Type': 'multipart/form-data'
+      },
+      credentials:'include',
+      // redirect: 'follow',
+    }).then (
+      (response) => {
+        return response.json();
+      }
+    ).then (
+      (data) => {
+      console.log(data);
+      const url = data.result; //url
+      console.log(url);
+      document.getElementById('hiddenMainImgUrl').value = url;
+    });
+}
+
+// - 2. 상세정보 이미지 -------------------------------------------------
+async function getS3detailInfoImgUrl() {
+  const detailInfoImgInput = await document.getElementById('DetailInfoImgformFile');
+  
+    let selectedDetailInfoImg = detailInfoImgInput.files[0];
+    let url = `${BASE_URL}/api/v1/exhibitions/images/detailInfo` // url 확인 
+    console.log("메인 이미지: ", selectedDetailInfoImg);
+
+    let detailInfoImage = new FormData();
+    detailInfoImage.append("detailInfoImg", selectedDetailInfoImg);
+
+      let result = await fetch (url, {
+        method: 'POST',
+        body: detailInfoImage,
+        headers: {
+          // 'Content-Type': 'multipart/form-data'
+        },
+        credentials:'include',
+        // redirect: 'follow',
+      }).then(
+        (response) => {
+          return response.json();
+        }  
+      ).then(
+        (data) => {
+          console.log(data);
+          const url = data.result; //url
+          console.log(url);
+          document.getElementById('hiddenDetailInfoImgUrl').value = url;
+        });
+}
+
+// - 3. 안내사항 이미지 (notice image) -------------------------------------------------
+async function getS3noticeImgUrl() {
+  const noticeImageInput = await document.getElementById('NoticeImgformFile');
+  
+  let selectedNoticeImg = noticeImageInput.files[0];
+  let url = `${BASE_URL}/api/v1/exhibitions/images/notice`
+  console.log("메인 이미지: ", selectedNoticeImg);
+  let noticeImage = new FormData();
+  noticeImage.append("noticeImg", selectedNoticeImg);
+
+  let result = await fetch (url, {
+    method: 'POST',
+    body: noticeImage,
+    headers: {
+      // 'Content-Type': 'multipart/form-data'
+    },
+    credentials:'include',
+    // redirect: 'follow',
+  }).then(
+    (response) => {
+      return response.json();
+    }
+  ).then(
+    (data) => {
+      console.log(data);
+      const url = data.result; //url
+      console.log(url);
+      document.getElementById('hiddenNoticeImgUrl').value = url;
+    }
+  );
+}

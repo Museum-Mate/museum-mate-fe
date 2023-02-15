@@ -79,7 +79,8 @@
             <div class="mb-5">
               <p class="p-heading--4">대표 이미지</p>
               <label for="Image" class="form-label">📎 파일 첨부</label>
-              <input class="form-control" type="file" id="MainImgformFile" name="imgFile" onchange="previewMainImg()" />
+              <input class="form-control" type="file" id="MainImgformFile" name="imgFile" onchange="previewMainImg()" oninput="getS3MainImgUrl()" />
+              <input type="hidden" id="hiddenMainImgUrl" value="">
               <button onclick="clearMainImage()" class="btn btn-primary mt-3" type="button">delete</button>
             </div>
             <img id="MainImgframe" src="" class="img-fluid" />
@@ -222,7 +223,9 @@
                 id="DetailInfoImgformFile"
                 name="imgFile"
                 onchange="previewDetailInfoImg()"
+                oninput="getS3detailInfoImgUrl()"
               />
+              <input type="hidden" id="hiddenDetailInfoImgUrl" value="">
               <button onclick="clearDetailInfoImage()" class="btn btn-primary mt-3" type="button">delete</button>
             </div>
             <img id="DetailInfoImgframe" src="" class="img-fluid" />
@@ -251,7 +254,9 @@
                 id="NoticeImgformFile"
                 name="imgFile"
                 onchange="previewNoticeImg()"
+                oninput="getS3noticeImgUrl()"
               />
+              <input type="hidden" id="hiddenNoticeImgUrl" value="">
               <button onclick="clearNoticeImage()" class="btn btn-primary mt-3" type="button">delete</button>
             </div>
             <img id="NoticeImgframe" src="" class="img-fluid" />
@@ -290,6 +295,7 @@
     <script>
       window.addEventListener('DOMContentLoaded', function () {
         postExhibitionInfo();
+        
       });
     </script>
   </body>
