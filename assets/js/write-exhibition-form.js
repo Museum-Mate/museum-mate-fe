@@ -19,22 +19,19 @@ function postExhibitionInfo() {
       let detailInfoUrl = document.getElementById('detail_info_url').value;
       
       const mainImg = document.getElementById('MainImgformFile').files[0]; //mainImg
-      const detailInfoImg = document.getElementById('DetailInfoImgformFile').files[0]; //mainImg
-      const noticeImg = document.getElementById('NoticeImgformFile').files[0]; //mainImg
+      const detailInfoImg = document.getElementById('DetailInfoImgformFile').files[0]; //detailInfoImg
+      const noticeImg = document.getElementById('NoticeImgformFile').files[0]; //noticeImg
 
-      // console.log(mainImg);
-      // console.log(detailInfoImg);
-      // console.log(noticeImg);
-
-
-      
-      
+      console.log(mainImg);
+      console.log(detailInfoImg);
+      console.log(noticeImg);
 
       const images = new FormData();
       images.append("mainImg",mainImg);
       images.append("noticeImg",noticeImg);
       images.append("detailInfoImg",detailInfoImg);
 
+      let exhibitionId = 0;
       // for (let key of images.keys()) {
       //   console.log(`${key}: ${images.get(key)}`);
       // }
@@ -60,17 +57,63 @@ function postExhibitionInfo() {
         },
         credentials:'include',
         redirect: 'follow',
-      }
-
-      ).then(
+      })
+      .then(
         function (response) {
           return response.json();
         }
-      ).then(
+      )
+      .then(
         data => {
-          const exhibitionId = data.result.id;
+          exhibitionId = data.result.id;
           console.log('전시 Id: ',exhibitionId);
           return fetch(`${BASE_URL}/api/v1/exhibitions/images/${exhibitionId}/main/upload`, {
+            method: 'POST',
+            body: images,
+            headers: {
+              // 'Content-Type': 'multipart/form-data'
+            },
+            credentials:'include',
+            redirect: 'follow',
+          })
+        //   .then(
+        //       data => {
+        //         const exhibitionId = data.result.id;
+        //         console.log('전시 Id: ',exhibitionId);
+        //         return fetch(`${BASE_URL}/api/v1/exhibitions/images/${exhibitionId}/notice/upload`, {
+        //           method: 'POST',
+        //           body: images,
+        //           headers: {
+        //             // 'Content-Type': 'multipart/form-data'
+        //           },
+        //           credentials:'include',
+        //           redirect: 'follow',
+        //         })
+        //         .then(
+        //           data => {
+        //             const exhibitionId = data.result.id;
+        //             console.log('전시 Id: ',exhibitionId);
+        //             return fetch(`${BASE_URL}/api/v1/exhibitions/images/${exhibitionId}/detailInfo/upload`, {
+        //               method: 'POST',
+        //               body: images,
+        //               headers: {
+        //                 // 'Content-Type': 'multipart/form-data'
+        //               },
+        //               credentials:'include',
+        //               redirect: 'follow',
+        //             })
+        //       })
+        })
+      .then(
+        function (response) {
+          return response.json();
+        }
+      )
+      .then(
+        data => {
+          exhibitionId = data.result.id;
+          // console.log('전시 Id: ',exhibitionId);
+          return fetch(`${BASE_URL}/api/v1/exhibitions/images/${exhibitionId}/notice/upload`, {
             method: 'POST',
             body: images,
             headers: {
@@ -86,6 +129,27 @@ function postExhibitionInfo() {
           return response.json();
         }
       )
+      .then(
+        data => {
+          exhibitionId = data.result.id;
+          console.log('전시 Id: ',exhibitionId);
+          return fetch(`${BASE_URL}/api/v1/exhibitions/images/${exhibitionId}/detailInfo/upload`, {
+            method: 'POST',
+            body: images,
+            headers: {
+              // 'Content-Type': 'multipart/form-data'
+            },
+            credentials:'include',
+            redirect: 'follow',
+          })
+        }
+      )
+      .then(
+        function (response) {
+          return response.json();
+        }
+      )
+      
       .then (
         function (data) {
           console.log(data);
