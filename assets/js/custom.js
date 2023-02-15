@@ -336,6 +336,7 @@ async function renderMyReviews(page) {
     
     let html = '';
 
+
     review.forEach(element => {
 
         let createdAt = getDate(element.createdAt);
@@ -539,6 +540,25 @@ async function deleteAReview(id){
 
 /* ******************** MY-GATHERINGS ******************** */
 
+function parseDateTime(dateTime){
+    let parsed = dateTime.split("T");
+    if(parsed.length == 2){
+        return parsed[0] + ', ' + parsed[1];
+    }
+    else{
+        return parsed[0];
+    }
+}
+
+function combineDateTime(dateTime){
+    let parsed = dateTime.split(', ');
+    if(parsed.length == 2){
+        return parsed[0] + 'T' + parsed[1];
+    }else{
+        return parsed[0];
+    }
+}
+
 /* 마이 모집글 */
 async function renderMyGatherings(page) {
     let gatherings = await getWithAuthPage("/my/gatherings",page);
@@ -546,29 +566,31 @@ async function renderMyGatherings(page) {
     let html = '';
     gathering.forEach(element => {
         let createdAt = getDate(element.createdAt);
+        let dateTime = parseDateTime(element.meetDateTime)
+        
         let htmlSegment = 
         `
-        <div class="update-post">
+        <div class="update-post" id="gathering-${element.id}">
             <div class="row">
                 <div class="col-lg-10 col-md-8 col-sm-12 col-xs-12 px-4">
                     <span class="update-date">${element.exhibitionName}</span>
-                    <h5 class="update-title"><i class="bx bx-group"></i>${element.title}</h5>
-                    <p>${element.content}</p>
-                    <p><span style="color:#4346a2">모집 현황:</span> ${element.currentPeople}/${element.maxPeople}<button type="button" onclick="newTabClick(${element.id})" class="btn btn-secondary px-1 py-1 ms-3 radius-0 text-light" style="font-size: 13px">신청자 보기</button></p>
-                    <p><span style="color:#4346a2">만나는 날짜:</span> ${element.meetDateTime}</p>
-                    <p><span style="color:#4346a2">만나는 장소:</span> ${element.meetLocation}</p>
+                    <h5 class="update-title"><i class="bx bx-group"></i><span id="gathering-title-${element.id}">${element.title}</span></h5>
+                    <p id="gathering-content-${element.id}">${element.content}</p>
+                    <p><span style="color:#4346a2">모집 현황:</span> <span id="gathering-current-${element.id}">${element.currentPeople}</span>/<span id="gathering-max-${element.id}">${element.maxPeople}</span><button type="button" onclick="newTabClick(${element.id})" class="btn btn-secondary px-1 py-1 ms-3 radius-0 text-light" style="font-size: 13px">신청자 보기</button></p>
+                    <p><span style="color:#4346a2">만나는 날짜/시간:</span> <span id="gathering-time-${element.id}">${dateTime}</span></p>
+                    <p><span style="color:#4346a2">만나는 장소:</span> <span id="gathering-location-${element.id}">${element.meetLocation}</span></p>
                 </div>
                 <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 pt-2">
                     <p class="update-date text-end">작성일: ${createdAt}</p>
-                    <div class="text-end simple-btn">
-                        <button type="button" onclick="location.href='/gathering-single?id=${element.id}'" class="text-decoration-none text-primary">
-                            더보기
-                        </button><br><br>
-                        <button type="button" onclick="location.href='/gathering-single-edit?id=${element.id}'" class="text-decoration-none text-primary ">
+                    <div class="text-end simple-btn" id="gathering-btns-${element.id}">
+                        <button type="button" onclick="renderGatheringModify(${element.id})" class="text-decoration-none text-primary ">
                             수정
                         </button>
                         <button type="button" onclick="deleteAGathering(${element.id})" class="text-decoration-none text-primary ">
                             삭제
+                        </button><br><br>
+                        <button type="button" onclick="location.href='/gathering-single?id=${element.id}'" class="text-decoration-none text-primary">
+                            더보기
                         </button>
                     </div>
                 </div>
@@ -605,6 +627,126 @@ async function renderMyGatherings(page) {
     </ul>
     `;
     pageContainer.innerHTML = pageHtml;
+}
+
+/* 리뷰 수정 페이지 렌더링 */
+async function renderGatheringModify(id){
+    /* 해당 칸에 있는 정보 불러오기 */
+    var gatheringTitle = document.getElementById(`gathering-title-${id}`).innerText;
+    var gatheringContent = document.getElementById(`gathering-content-${id}`).innerText;
+    var gatheringCurrent = document.getElementById(`gathering-current-${id}`).innerText;
+    var gatheringMax = document.getElementById(`gathering-max-${id}`).innerText;
+    var gatheringTime = document.getElementById(`gathering-time-${id}`).innerText;
+    var gatheringLocation = document.getElementById(`gathering-location-${id}`).innerText;
+
+    gatheringTime = combineDateTime(gatheringTime);
+
+     /* 해당 블록에 다음의 html로 바꿔서 뿌리기 */
+     let title = document.querySelector(`#gathering-title-${id}`)
+     title.innerHTML = `
+     <input class="review-form mt-1" type="text" id="gathering-title-value-${id}" 
+     style="width: 94%; height:30px" value="${gatheringTitle}">
+     `;
+
+    let content = document.querySelector(`#gathering-content-${id}`)
+    content.innerHTML = `
+    <input class="review-form mt-1" type="text" id="gathering-content-value-${id}" 
+    style="width: 100%; height:30px" value="${gatheringContent}">`;
+    
+    let max = document.querySelector(`#gathering-max-${id}`)
+    let min = gatheringCurrent > 2 ? gatheringContent : 2 ;
+    max.innerHTML = `
+    <input class="review-form mt-1 ms-1" type="number" min="${min}" max="10" id="gathering-max-value-${id}" 
+    style="width:60px; height:30px" value="${gatheringMax}">
+    `;
+
+    let time = document.querySelector(`#gathering-time-${id}`)
+    time.innerHTML = `
+    <input class="review-form mx-1" type="datetime-local"
+    style="width: 35%; font-size: 14px; height:30px" id="gathering-time-value-${id}" value="${gatheringTime}">
+    `;
+
+    let location = document.querySelector(`#gathering-location-${id}`);
+    location.innerHTML = `
+    <input class="review-form mt-1 ms-1" type="text" id="gathering-location-value-${id}" 
+    style="width: 40%; height:30px" value="${gatheringLocation}">`;
+
+    let btns = document.querySelector(`#gathering-btns-${id}`);
+    btns.innerHTML = 
+    `
+    <button type="button" onclick="renderAGathering(${id})" class="text-decoration-none text-primary ">
+        뒤로
+    </button>
+    <button type="button" onclick="modifyAGathering(${id})" class="text-decoration-none text-primary ">
+        저장
+    </button>
+    `;
+}
+
+/* 리뷰 수정 내용 PUT */
+async function modifyAGathering(id){
+    var modifiedTitle = document.getElementById(`gathering-title-value-${id}`).value;
+    var modifiedContent = document.getElementById(`gathering-content-value-${id}`).value;
+    var modifiedMax = document.getElementById(`gathering-max-value-${id}`).value;
+    var modifiedTime = document.getElementById(`gathering-time-value-${id}`).value;
+    var modifiedLocation = document.getElementById(`gathering-location-value-${id}`).value;
+
+
+    let jsonData = JSON.stringify({
+        exhibitionId: id,
+        meetDateTime: modifiedTime,
+        meetLocation: modifiedLocation,
+        maxPeople: modifiedMax,
+        title: modifiedTitle,
+        content: modifiedContent
+    })
+
+    /* 수정 요청 보내기*/
+    await put(`/gatherings/${id}`,jsonData);
+    
+    /*다시 렌더링*/
+    renderAGathering(id);
+}
+
+
+async function renderAGathering(id) {
+    let gatherings = await get(`/gatherings/${id}`)
+    gatherings = gatherings.result;
+
+    let createdAt = getDate(gatherings.createdAt);
+    let dateTime = parseDateTime(gatherings.meetDateTime)
+    
+    let htmlSegment = 
+    `
+        <div class="row">
+            <div class="col-lg-10 col-md-8 col-sm-12 col-xs-12 px-4">
+                <span class="update-date">${gatherings.exhibitionName}</span>
+                <h5 class="update-title"><i class="bx bx-group"></i><span id="gathering-title-${gatherings.id}">${gatherings.title}</span></h5>
+                <p id="gathering-content-${gatherings.id}">${gatherings.content}</p>
+                <p><span style="color:#4346a2">모집 현황:</span> <span id="gathering-current-${gatherings.id}">${gatherings.currentPeople}</span>/<span id="gathering-max-${gatherings.id}">${gatherings.maxPeople}</span><button type="button" onclick="newTabClick(${gatherings.id})" class="btn btn-secondary px-1 py-1 ms-3 radius-0 text-light" style="font-size: 13px">신청자 보기</button></p>
+                <p><span style="color:#4346a2">만나는 날짜:</span> <span id="gathering-time-${gatherings.id}">${dateTime}</span></p>
+                <p><span style="color:#4346a2">만나는 장소:</span> <span id="gathering-location-${gatherings.id}">${gatherings.meetLocation}</span></p>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 pt-2">
+                <p class="update-date text-end">작성일: ${createdAt}</p>
+                <div class="text-end simple-btn" id="gathering-btns-${gatherings.id}">
+                    <button type="button" onclick="renderGatheringModify(${gatherings.id})" class="text-decoration-none text-primary ">
+                        수정
+                    </button>
+                    <button type="button" onclick="deleteAGathering(${gatherings.id})" class="text-decoration-none text-primary ">
+                        삭제
+                    </button><br><br>
+                    <button type="button" onclick="location.href='/gathering-single?id=${gatherings.id}'" class="text-decoration-none text-primary">
+                        더보기
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+
+
+    let container = document.querySelector(`#gathering-${gatherings.id}`);
+    container.innerHTML = htmlSegment;
 }
 
 async function deleteAGathering(id){
