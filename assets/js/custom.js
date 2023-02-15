@@ -563,6 +563,12 @@ async function renderMyGatherings(page) {
                     <div class="text-end simple-btn">
                         <button type="button" onclick="location.href='/gathering-single?id=${element.id}'" class="text-decoration-none text-primary">
                             더보기
+                        </button><br><br>
+                        <button type="button" onclick="location.href='/gathering-single-edit?id=${element.id}'" class="text-decoration-none text-primary ">
+                            수정
+                        </button>
+                        <button type="button" onclick="deleteAGathering(${element.id})" class="text-decoration-none text-primary ">
+                            삭제
                         </button>
                     </div>
                 </div>
@@ -599,6 +605,13 @@ async function renderMyGatherings(page) {
     </ul>
     `;
     pageContainer.innerHTML = pageHtml;
+}
+
+async function deleteAGathering(id){
+    if(confirm("모집글을 삭제하시겠습니까?")){
+        await deleteWithAuth(`/gatherings/${id}`);
+    }
+    renderMyGatherings(0);
 }
 
 
