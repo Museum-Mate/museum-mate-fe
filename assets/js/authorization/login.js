@@ -204,6 +204,9 @@ function login() {
             document.getElementById('signup').click();
           }
         });
+      } else if (res.result.errorCode === "INVALID_MAIL") {
+        // console.log(res.json());
+        Swal.fire('로그인 실패 😭', '이메일 인증이 완료되지 않았습니다.', 'error');
       }
     });
 }
