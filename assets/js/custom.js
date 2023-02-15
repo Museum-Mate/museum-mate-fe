@@ -866,7 +866,6 @@ async function renderGatheringsById() {
                         <!-- 버튼 -->
                         <div class = "">
                             <a onclick="submitSinglePage(this, '${element.id}')" class="btn rounded-pill px-4 btn-outline-primary mb-3"> 더 알아보기 </a>
-                            <a href="#" class="btn rounded-pill px-4 btn-outline-primary mb-3"> 신청하기!🎉 </a>
                         </div>
                     </div>
                 </div>
