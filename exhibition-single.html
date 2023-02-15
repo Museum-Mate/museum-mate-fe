@@ -221,8 +221,17 @@
                                 ? '<img src="' + contents.result.noticeImgUrl.split(',')[0] + '" />'
                                 : '<div>no image</div>'
                         }</div>
+                    </div>
                 </div>
-                
+                <div class="worksingle-content col-lg-8 m-auto mt-3 text-left justify-content-center">
+                    <h4 class="worksingle-heading h4 pb-3 fw-bold light-300 typo-space-line">관람객 통계</h4>
+                    <p> &#128104; ${contents.result.statMale} &nbsp;&nbsp; &#128105; ${contents.result.statFemale}</p>
+                        <p> &#128202; 10대 : ${contents.result.statAge10}</p>
+                        <p> &#128202; 20대 : ${contents.result.statAge20}</p>
+                        <p> &#128202; 30대 : ${contents.result.statAge30}</p>
+                        <p> &#128202; 40대 : ${contents.result.statAge40}</p>
+                        <p> &#128202; 50대 : ${contents.result.statAge50}</p>
+                </div>
             </div>
             `
 
