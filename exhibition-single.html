@@ -17,7 +17,10 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/css/custom.css">
     <script src="assets/js/config.js"></script>
-
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet" /> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css" />
+    <!-- <script src="https://kit.fontawesome.com/6d10db4e8e.js" crossorigin="anonymous"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 </head>
 
 <body>
@@ -240,6 +243,15 @@
                         credentials: 'include'
                     }).then((res) => res.json())
                     .then((res) => {
+                        if (res.resultCode == "SUCCESS"){
+                            Swal.fire({
+                                title: `${res.result.message}`,
+                                icon: 'success'})
+                        } else if(res.result.errorCode == "TOKEN_NOT_FOUND"){
+                            Swal.fire({
+                                title: `북마크를 하려면 로그인을 해주세요!`,
+                                icon: 'error'});
+                        }
                         console.log(res.result)
                     })
                     .catch(err => {
@@ -280,7 +292,7 @@
                                             </div>
                                             <div class="deleteBtn-container">
                                                 <div style="text-align: right;">
-                                                    <a href="#;" class="delete_button" onclick="deleteReview(${content.id})" id="${content.id}" type="button">삭제</a>
+                                                    <a href="javascript:void(0);" class="delete_button" onclick="deleteReview(${content.id})" id="${content.id}" type="button">삭제</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -308,13 +320,18 @@
                 },
                 credentials: 'include'
             })
-            .then((response) => response.text())
             .then((response) => {
                 if(response.status == 401) {
-
+                    Swal.fire({
+                        title: '삭제 권한이 없습니다',
+                        icon:'error'});
                 } else {
-                    loadComments();
-
+                    Swal.fire({
+                        title: '삭제 완료하였습니다',
+                        icon:'success'})
+                        .then((result)=>{
+                            loadComments();
+                        });
                 }
                 })
             }
