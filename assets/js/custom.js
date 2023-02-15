@@ -795,8 +795,12 @@ async function renderExhibitionsByEndAt() {
   let exhibition = exhibitions.result.content;
   let html = '';
   exhibition.forEach((element) => {
+    let redirectUrl = `/exhibition-single?id=${element.id}`;
+    if(element.price=="무료"){
+        redirectUrl = element.detailInfoUrl;
+    } 
     let htmlSegment = `<div class="swiper-slide">
-            <a href="/exhibition-single?id=${element.id}">
+            <a href=${redirectUrl}>
                 <div class="testimonial-item">
                     <img src=${element.mainImgUrl} class="testimonial-img" alt="">
                     <h3>${element.name}</h3>
