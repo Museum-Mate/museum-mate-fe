@@ -2,11 +2,11 @@
 <html lang="en">
 
 <head>
-    <title>Museum Mate - 전시회 상세 조회</title>
+    <title>Museum Mate | Exhibition-single</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/palette.ico">
     <!-- Load Require CSS -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font CSS -->
@@ -17,7 +17,10 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/css/custom.css">
     <script src="assets/js/config.js"></script>
-
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet" /> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css" />
+    <!-- <script src="https://kit.fontawesome.com/6d10db4e8e.js" crossorigin="anonymous"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 </head>
 
 <body>
@@ -112,6 +115,7 @@
                 <!-- <form class="col-md-12 m-auto" method="POST" action="#" role="form"> -->
 
                 <div class="form-group mt-3">
+                    <label for="inputdate">방문 날짜: </label><input class="form-control form-control-lg light-300 mb-2" type="date" id="inputdate" name="inputdate" style="width: 200px; font-size: 14px; height:20px; display:inline; padding:0px 3px; margin-left: 5px;">
                     <textarea class="form-control form-control-lg light-300" id="inputtitle" name="inputtitle" placeholder="제목을 입력하세요" rows="1"></textarea>
                     <textarea class="form-control form-control-lg light-300" id="inputmessage" name="inputmessage" placeholder="내용을 입력하세요" rows="5"></textarea>
                 </div>
@@ -193,7 +197,7 @@
                                 <span style=''>&#128278;</span><button id="bookmarkBtn" style="margin-left:1rem; border:none;">북마크</button>
                             </div><br>
                             <div>
-                                <span style=''>&#128149;</span><button type="button" onclick="location.href='/gathering-new?id=${contents.result.id}';" style="margin-left:1rem; border:none;">함께 봐요!</button>
+                                <span id="exhibitionInfo" style=''>&#128149;</span><button type="button" onclick="submitExhibitionName(${contents.result.id}, '${contents.result.name}')" style="margin-left:1rem; border:none;">함께 봐요!</button>
                             </div>
                         </div>
                     </div>
@@ -206,7 +210,11 @@
 
                 <div class="worksingle-content col-lg-8 m-auto text-left justify-content-center">
                     <h4 class="worksingle-heading h4 pb-3 fw-bold light-300 typo-space-line">상세정보</h4>
-                <div><img src=${contents.result.detailInfoImgUrl.split(',')[0]} /></div>
+                <div>${
+                    contents.result.detailInfoImgUrl 
+                        ? '<img src="' + contents.result.detailInfoImgUrl.split(',')[0] + '" />'
+                        : '<div></div>'
+                }</div>
                 </div>
                            
                 <div class="worksingle-content col-lg-8 m-auto mt-3 text-left justify-content-center">
@@ -215,10 +223,19 @@
                         <div>${
                             contents.result.noticeImgUrl 
                                 ? '<img src="' + contents.result.noticeImgUrl.split(',')[0] + '" />'
-                                : '<div>no image</div>'
+                                : '<div></div>'
                         }</div>
+                    </div>
                 </div>
-                
+                <div class="worksingle-content col-lg-8 m-auto mt-3 text-left justify-content-center">
+                    <h4 class="worksingle-heading h4 pb-3 fw-bold light-300 typo-space-line">관람객 통계</h4>
+                    <p> &#128104; ${contents.result.statMale} &nbsp;&nbsp; &#128105; ${contents.result.statFemale}</p>
+                        <p> &#128202; 10대 : ${contents.result.statAge10}</p>
+                        <p> &#128202; 20대 : ${contents.result.statAge20}</p>
+                        <p> &#128202; 30대 : ${contents.result.statAge30}</p>
+                        <p> &#128202; 40대 : ${contents.result.statAge40}</p>
+                        <p> &#128202; 50대 : ${contents.result.statAge50}</p>
+                </div>
             </div>
             `
 
@@ -240,6 +257,15 @@
                         credentials: 'include'
                     }).then((res) => res.json())
                     .then((res) => {
+                        if (res.resultCode == "SUCCESS"){
+                            Swal.fire({
+                                title: `${res.result.message}`,
+                                icon: 'success'})
+                        } else if(res.result.errorCode == "TOKEN_NOT_FOUND"){
+                            Swal.fire({
+                                title: `북마크를 하려면 로그인을 해주세요!`,
+                                icon: 'error'});
+                        }
                         console.log(res.result)
                     })
                     .catch(err => {
@@ -247,6 +273,13 @@
                     }) 
                 })
             })
+
+    function submitExhibitionName(id, name) {
+        console.log(name);
+        localStorage.setItem('exhibitionId', id);
+        localStorage.setItem('exhibitionName',name);
+        window.location.href='/gathering-new?id=' + id;
+    }
 
     function loadComments(){
         const queryString1 = window.location.href.split('?')[1]
@@ -256,6 +289,7 @@
             .then(contents => {
                 let html = ''
                 for (const content of contents.result.content) {
+                    let date = getDate(content.createdAt);
                     html += `
                         <div class="row pb-4">
                         <div class="worksingle-comment-body col-md-8 m-auto">
@@ -272,15 +306,16 @@
                                         </div>
                                         <div class="footer" style="width: 53rem;">
                                             <div class="card-body border ms-3 light-300">
+                                                <div class="mb-2" style="color: #A7A7A7;font-size: 12px;">${content.visitedDate} 방문</div>
                                                 <div class= "card-title fw-bold">${content.title}</div>
                                                 <div class= m-auto mt-4>${content.content}</div>
                                             </div>
                                             <div style = text-align:right>
-                                            <p class="text-muted light-300">작성일 : ${content.createdAt}</p>
+                                            <p class="text-muted light-300">작성일 : ${date}</p>
                                             </div>
                                             <div class="deleteBtn-container">
                                                 <div style="text-align: right;">
-                                                    <a href="#;" class="delete_button" onclick="deleteReview(${content.id})" id="${content.id}" type="button">삭제</a>
+                                                    <a href="javascript:void(0);" class="delete_button" onclick="deleteReview(${content.id})" id="${content.id}" type="button">삭제</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -308,13 +343,18 @@
                 },
                 credentials: 'include'
             })
-            .then((response) => response.text())
             .then((response) => {
                 if(response.status == 401) {
-
+                    Swal.fire({
+                        title: '삭제 권한이 없습니다',
+                        icon:'error'});
                 } else {
-                    loadComments();
-
+                    Swal.fire({
+                        title: '삭제 완료하였습니다',
+                        icon:'success'})
+                        .then((result)=>{
+                            loadComments();
+                        });
                 }
                 })
             }
@@ -330,12 +370,9 @@
     async function postWithAuth() {
     // let url = base_url + detail_url;
     const queryStrings = window.location.href.split('?')[1];
-    let id = 1;
-    for (const query of queryStrings.split('&')) {
-        if (query[0] === 'id') {
-            id = query[1]
-        }
-    }
+    const id = queryString.split('=')[1]
+
+    const dateArea = document.getElementById('inputdate')
     const textArea1 = document.getElementById('inputtitle')
     const textArea = document.getElementById('inputmessage')
     const selectedStar = document.getElementById('starValue')
@@ -351,7 +388,7 @@
                 title: textArea1.value,
                 content: textArea.value,
                 star: selectedStar.value,
-                createdDate: new Date()
+                visitedDate: dateArea.value
             })
         });
         if(res.status!=200){

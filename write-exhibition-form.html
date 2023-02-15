@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="apple-touch-icon" href="assets/img/apple-icon.png" />
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/palette.ico" />
     <!-- Load Require CSS -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://assets.ubuntu.com/v1/vanilla-framework-version-3.11.0.min.css" />
@@ -18,6 +18,8 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/css/custom.css" />
     <script defer src="assets/js/config.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
   </head>
   <script src="/assets/js/authorization/cookieutils.js"></script>
   <script>
@@ -122,7 +124,8 @@
             <div class="mb-5">
               <p class="p-heading--4">대표 이미지</p>
               <label for="Image" class="form-label">📎 파일 첨부</label>
-              <input class="form-control" type="file" id="MainImgformFile" name="imgFile" onchange="previewMainImg()" />
+              <input class="form-control" type="file" id="MainImgformFile" name="imgFile" onchange="previewMainImg()" oninput="getS3MainImgUrl()" />
+              <input type="hidden" id="hiddenMainImgUrl" value="">
               <button onclick="clearMainImage()" class="btn btn-primary mt-3" type="button">delete</button>
             </div>
             <img id="MainImgframe" src="" class="img-fluid" />
@@ -217,7 +220,7 @@
             type="text"
             id="exhibitionTicketPrice"
             class="form-control form-control-lg light-300"
-            placeholder="무료 전시의 경우 0을 입력해주세요."
+            placeholder="무료 전시는 무료로 입력해주세요."
           />
           <p class="p-form-help-text" id="exampleInputHelpMessage">티켓은 성인 기준 가격으로 입력해주세요.</p>
         </div>
@@ -265,7 +268,9 @@
                 id="DetailInfoImgformFile"
                 name="imgFile"
                 onchange="previewDetailInfoImg()"
+                oninput="getS3detailInfoImgUrl()"
               />
+              <input type="hidden" id="hiddenDetailInfoImgUrl" value="">
               <button onclick="clearDetailInfoImage()" class="btn btn-primary mt-3" type="button">delete</button>
             </div>
             <img id="DetailInfoImgframe" src="" class="img-fluid" />
@@ -294,7 +299,9 @@
                 id="NoticeImgformFile"
                 name="imgFile"
                 onchange="previewNoticeImg()"
+                oninput="getS3noticeImgUrl()"
               />
+              <input type="hidden" id="hiddenNoticeImgUrl" value="">
               <button onclick="clearNoticeImage()" class="btn btn-primary mt-3" type="button">delete</button>
             </div>
             <img id="NoticeImgframe" src="" class="img-fluid" />
@@ -328,11 +335,12 @@
     <script src="assets/js/custom.js"></script>
     <!-- kakao map api -->
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <script src="assets/js/write-exhibition-form.js"></script>
 
+    <script src="assets/js/write-exhibition-form.js"></script>
     <script>
       window.addEventListener('DOMContentLoaded', function () {
         postExhibitionInfo();
+        
       });
     </script>
   </body>

@@ -2,11 +2,11 @@
 <html lang="ko">
 
 <head>
-    <title>Purple Buzz HTML Template with Bootstrap 5 Beta 1</title>
+    <title>Museum Mate | Enroll-list</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/palette.ico">
     <!-- Load Require CSS -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font CSS -->
@@ -47,8 +47,16 @@
       let enroll = enrolls.result;
       console.log(enrolls.resultCode)
       if(enrolls.resultCode=="ERROR"){
-          console.log(enrolls.result.message);
+        if(enrolls.result.errorCode=="INVALID_TOKEN"){
+            alert("로그인을 해주세요");
+        }
+        else if(enrolls.result.errorCode=="INVALID_REQUEST"){
           alert(enrolls.result.message);
+        }
+        else{
+            console.log(enrolls.result.message);
+            alert(enrolls.result.message);
+        }
       }
       let html = 
       `<div class="pricing-list shadow-sm rounded-top rounded-3 py-sm-0 py-5">

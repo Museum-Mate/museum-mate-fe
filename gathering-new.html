@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Purple Buzz HTML Template with Bootstrap 5 Beta 1</title>
+    <title>Museum Mate | Gathering-new</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="apple-touch-icon" href="assets/img/apple-icon.png" />
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/palette.ico" />
     <!-- Load Require CSS -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
     <!-- Font CSS -->
@@ -82,7 +82,7 @@
                     </p>
                 </div> -->
           <div class="contact-img col-lg-5 align-items-end col-md-4">
-            <img src="./assets/img/함께전시_배너이미지.jpeg" />
+            <img src="./assets/img/3561113.jpg" />
           </div>
         </div>
       </div>
@@ -97,21 +97,38 @@
         전시는 보고싶지만, 혼자 보기는 싫을 때. 전시를 함께 보러갈 나만의 전시메이트를 구해봐요.
       </p>
 
+      <h3>📤</h3>
+      <h3>
+        <script>
+          localStorage.getItem('exhibitionName');
+          document.write(localStorage.getItem('exhibitionName'));
+        </script>
+      </h3>
+      
+
       <div class="row pb-4">
         <!-- Start 게시물 등록 Form -->
         <div class="col-lg-8">
           <form class="contact-form row" id="postGathering" method="post" action="#" role="form">
             <div class="col-lg-6 mb-4">
               <div class="form-floating">
+                <script>
+                  const exhibitionId = localStorage.getItem('exhibitionId');
+                  console.log(exhibitionId);
+                </script>
+                <!-- id값 안 보이게도 해줘야함 -->
                 <input
                   type="text"
                   class="form-control form-control-lg light-300"
                   id="floatingexhibition"
                   name="exhibitionId"
                   placeholder="Name"
+                  value=""
+                  readonly="true"
                   required
                 />
-                <label for="floatingname light-300">전시 이름*</label>
+                
+                <label for="floatingname light-300">양식에 맞춰 입력해주세요 🙂</label>
               </div>
             </div>
             <!-- End Input 전시 -->
@@ -233,6 +250,10 @@
     <script src="assets/js/bootstrap.bundle.min.js"></script>
     <!-- Load jQuery require for isotope -->
     <script src="assets/js/jquery.min.js"></script>
+    <script>
+      var exhibitionIdValue = exhibitionId;
+      $('input[name=exhibitionId]').attr('value', exhibitionIdValue);
+    </script>
     <!-- Isotope -->
     <script src="assets/js/isotope.pkgd.js"></script>
     <!-- Page Script -->
