@@ -99,24 +99,65 @@
                 <div class="form_wrap_line">
                     <!-- email input -->
                     <div class="first-input input__block first-input__block">
-                        <input type="email" placeholder="Email" class="input" id="email" />
+                        <input type="email" placeholder="이메일" class="input" id="email" />
                     </div>
 
                     <!-- password input -->
                     <div class="input__block">
-                        <input type="password" placeholder="Password" class="input" id="password" />
+                        <input type="password" placeholder="비밀번호" class="input" id="password" />
                     </div>
                 </div>
                 <!-- repeat password input -->
                 <div class="input__block">
-                    <input type="password" placeholder="Repeat password" class="input repeat__password" id="repeat__password" />
+                    <input type="password" placeholder="비밀번호 확인" class="input repeat__password" id="repeat__password" />
+                </div>
+
+                <div class="input__block">
+                    <input type="text" placeholder="이름" class="input name-input" id="name" />
+                </div>
+
+                <div class="input__block">
+                    <input type="text" placeholder="닉네임" class="input userName-input" id="nickname" />
+                </div>
+
+                <div class="input__block">
+                    <input type="text" placeholder="우편번호" class="input address-input readonly" id="sample6_postcode" readonly/>
+                </div>
+
+                <div class="input__block">
+                    <input type="text" placeholder="주소" class="input address-input readonly" id="sample6_address" readonly/>
+                </div>
+
+                <div class="input__block">
+                    <input type="text" placeholder="참고항목" class="input address-input readonly" id="sample6_extraAddress" readonly/>
+                </div>
+
+                <div class="input__block">
+                    <input type="text" placeholder="상세주소" class="input address-input" id="sample6_detailAddress" />
+                </div>
+
+                <div class="input__block">
+                    <button class="address__btn" id="address__btn" onclick=checkPostParams()>
+                        <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                        주소 찾기
+                    </button>
+                </div>
+
+                <div class="input__block">
+                    <input type="text" placeholder="생년월일(6자리)" class="input birth-input" id="birth" />
+                </div>
+
+                <div class="input__block">
+                    <input type="text" placeholder="전화번호('-' 제외)" class="input phonenum-input" id="phoneNumber" />
                 </div>
 
                 <!-- sign in button -->
-                <button class="signin__btn" onclick=login()>
-                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
-                    Sign in
-                </button>
+                <div id="sign-btn">
+                    <button class="signin__btn" onclick=login()>
+                        <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                        Sign in
+                    </button>
+                </div>  
 
                 <!-- separator -->
                 <div class="separator">
@@ -141,6 +182,7 @@
         <!-- footer -->
         <footer></footer>
 
+        <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
         <!-- Bootstrap -->
         <script src="assets/js/bootstrap.bundle.min.js"></script>
         <!-- Load jQuery require for isotope -->
