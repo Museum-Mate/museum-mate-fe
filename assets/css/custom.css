@@ -211,3 +211,12 @@ img, figure {
 #floatingexhibition {
   text-indent: -9999px;
 }
+
+#write-exhibition-button {
+  position: absolute;
+  top: 660px;
+  right: 20px;
+  border: 3px solid;
+  color: #315fdbd8;
+  font-weight: bolder;
+}
