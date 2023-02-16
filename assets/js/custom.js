@@ -1133,7 +1133,6 @@ async function renderExhibisionForwork() {
     //알람
     async function getAlarms() {
     let url = `${BASE_URL}/api/v1/my/alarms`;
-    var cookie = getCookie("Authorization")
     
     let jsonData = JSON.stringify({
         resultCode: "SUCCESS",
@@ -1141,17 +1140,27 @@ async function renderExhibisionForwork() {
             content: "로그인이 필요합니다."
          }
         })
-    if( !cookie ){
-        return await jsonData;
-    }
     try {
         let res = await fetch(url,{
             credentials:'include'
         });
+        let html = '';
+        let htmlSegment = `<button value="Logout" onclick="renderLogout()" class="btn btn-primary">로그아웃</button>`;
+        html += htmlSegment;
+
+        let container = document.querySelector('.lolocontainer');
+        container.innerHTML = html;
+
         return await res.json();
     } catch (error) {
         console.log(error);
-        alert("Request Error!");
+                let html = '';
+        let htmlSegment = `<button onclick="location.href='login.html'" class="btn btn-primary">로그인</button>`;
+        html += htmlSegment;
+
+        let container = document.querySelector('.lolocontainer');
+        container.innerHTML = html;
+        
     }
     }
     async function renderAlarms() {
@@ -1194,29 +1203,6 @@ async function renderExhibisionForwork() {
         window.location.href = '/index.html';
     }
 
-    async function renderinout() {
-
-        console.log("렌더 인아웃 함수 들어옴")
-
-        if(getCookie("Authorization")){
-            var token = getCookie("Authorization");
-            console.log("token: "+token);
-            let html = '';
-                let htmlSegment = `<button value="Logout" onclick="renderLogout()" class="btn btn-primary">로그아웃</button>`;
-                html += htmlSegment;
-        
-            let container = document.querySelector('.lolocontainer');
-            container.innerHTML = html;
-        } else {
-            console.log("토큰 없음");
-            let html = '';
-            let htmlSegment = `<button onclick="location.href='login.html'" class="btn btn-primary">로그인</button>`;
-            html += htmlSegment;
-
-            let container = document.querySelector('.lolocontainer');
-            container.innerHTML = html;
-        }
-    }
 // 헤더 로그인 로그아웃 표시 끝
 
 // 로그아웃
