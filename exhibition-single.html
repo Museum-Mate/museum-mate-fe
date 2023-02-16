@@ -391,12 +391,20 @@
                 visitedDate: dateArea.value
             })
         });
-        if(res.status!=200){
-            alert(await res.json())
-        }else{
-            loadComments();
+        if(res.status == 401) {
+            Swal.fire({
+                title: '로그인을 해주세요!',
+                icon:'error'});
+        } else if(res.status == 200){
+            Swal.fire({
+                title: '리뷰를 등록하였습니다!',
+                icon:'success'})
+                .then((result)=>{
+                    loadComments();
+                });
+        } else{
+            alert(res.status);
         }
-        return await res.status;
     } catch (error) {
         console.log(error);
         alert("Request Error!");
